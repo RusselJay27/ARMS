@@ -5,6 +5,13 @@ if(!isset($_SESSION["user_type"]))
 {
   header("location:../../login.php");
 }
+else
+{
+  if($_SESSION["user_type"] != 'Admin')
+  {
+    header("location:../index.php");
+  }
+}
 
 ?>
 <!DOCTYPE html>
