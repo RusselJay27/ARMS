@@ -40,6 +40,7 @@ include('header.php');
                     <p>Dashboard</p>
                 </a>
             </li>
+            <?php if ($_SESSION['user_type'] == 'Admin'){?>
             <li class="nav-item">
                 <a href="./schools/" class="nav-link">
                     <i class="far fa-building nav-icon"></i>
@@ -64,6 +65,7 @@ include('header.php');
                     <p>Tournaments</p>
                 </a>
             </li>
+            <?php }?>
             <li class="nav-item">
                 <a href="./coaches/" class="nav-link">
                     <i class="far fa-user nav-icon"></i>
@@ -82,12 +84,14 @@ include('header.php');
                     <p>Report</p>
                 </a>
             </li>
+            <?php if ($_SESSION['user_type'] == 'Admin'){?>
             <li class="nav-item">
                 <a href="./users/" class="nav-link">
                     <i class="fas fa-users nav-icon"></i>
                     <p>Users</p>
                 </a>
             </li>
+            <?php }?>
             <li class="nav-item">
                 <a href="./../logout.php" class="nav-link">
                     <i class="fas fa-sign-out-alt nav-icon"></i>
