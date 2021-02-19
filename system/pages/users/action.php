@@ -61,7 +61,7 @@ if(isset($_POST['btn_action']))
 			VALUES (:user_name, :user_password, :user_last, :user_first, :user_mi)
 			";	
 			$statement = $connect->prepare($query);
-			$statement->execute(
+			$result = $statement->execute(
 				array(
 					':user_name'		=>	trim($_POST["user_name"]),
 					':user_password'	=>	password_hash(trim($_POST["user_password"]), PASSWORD_DEFAULT),
@@ -70,7 +70,7 @@ if(isset($_POST['btn_action']))
 					':user_mi'			=>	trim($_POST["user_mi"])
 				)
 			);
-			$result = $statement->fetchAll();
+			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo 'User Added.';
@@ -152,8 +152,8 @@ if(isset($_POST['btn_action']))
 				";
 			}
 			$statement = $connect->prepare($query);
-			$statement->execute();
-			$result = $statement->fetchAll();
+			$result = $statement->execute();
+			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "User Edited.";
@@ -167,12 +167,12 @@ if(isset($_POST['btn_action']))
 		WHERE user_id = :user_id
 		";
 		$statement = $connect->prepare($query);
-		$statement->execute(
+		$result = $statement->execute(
 			array(
 				':user_id'		=>	$_POST["user_id"]
 			)
 		);
-		$result = $statement->fetchAll();
+		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo 'User Deleted.';
@@ -191,13 +191,13 @@ if(isset($_POST['btn_action']))
 		WHERE user_id = :user_id
 		";
 		$statement = $connect->prepare($query);
-		$statement->execute(
+		$result = $statement->execute(
 			array(
 				':user_status'	=>	$status,
 				':user_id'		=>	$_POST["user_id"]
 			)
 		);
-		$result = $statement->fetchAll();
+		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo "User Status change to " . $status .".";

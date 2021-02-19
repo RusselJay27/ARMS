@@ -44,12 +44,12 @@ if(isset($_POST['btn_action']))
 			VALUES (:level_name)
 			";
 			$statement = $connect->prepare($query);
-			$statement->execute(
+			$result = $statement->execute(
 				array(
 					':level_name'	=>	trim($_POST["level_name"])
 				)
 			);
-			$result = $statement->fetchAll();
+			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "Grade Level Added.";
@@ -101,13 +101,13 @@ if(isset($_POST['btn_action']))
 			WHERE level_id = :level_id
 			";
 			$statement = $connect->prepare($query);
-			$statement->execute(
+			$result = $statement->execute(
 				array(
 					':level_name'		=>	$_POST["level_name"],
 					':level_id'		=>	$_POST["level_id"]
 				)
 			);
-			$result = $statement->fetchAll();
+			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "Grade Level Edited.";
@@ -121,12 +121,12 @@ if(isset($_POST['btn_action']))
 		WHERE level_id = :level_id
 		";
 		$statement = $connect->prepare($query);
-		$statement->execute(
+		$result = $statement->execute(
 			array(
 				':level_id'		=>	$_POST["level_id"]
 			)
 		);
-		$result = $statement->fetchAll();
+		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo 'Grade Level Deleted.';
@@ -145,13 +145,13 @@ if(isset($_POST['btn_action']))
 		WHERE level_id = :level_id
 		";
 		$statement = $connect->prepare($query);
-		$statement->execute(
+		$result = $statement->execute(
 			array(
 				':level_status'	=>	$status,
 				':level_id'		=>	$_POST["level_id"]
 			)
 		);
-		$result = $statement->fetchAll();
+		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo "Grade Level Status change to " . $status . ".";

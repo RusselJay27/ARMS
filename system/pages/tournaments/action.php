@@ -44,7 +44,7 @@ if(isset($_POST['btn_action']))
 			VALUES (:tournaments_name, :details, :type, :date)
 			";
 			$statement = $connect->prepare($query);
-			$statement->execute(
+			$result = $statement->execute(
 				array(
 					':tournaments_name'	=>	trim($_POST["tournaments_name"]),
 					':details'	=>	trim($_POST["details"]),
@@ -52,7 +52,7 @@ if(isset($_POST['btn_action']))
 					':date'		=>	trim($_POST["date"])
 				)
 			);
-			$result = $statement->fetchAll();
+			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "Tournament Added.";
@@ -107,7 +107,7 @@ if(isset($_POST['btn_action']))
 			WHERE tournaments_id = :tournaments_id
 			";
 			$statement = $connect->prepare($query);
-			$statement->execute(
+			$result = $statement->execute(
 				array(
 					':tournaments_name'		=>	$_POST["tournaments_name"],
 					':details'				=>	$_POST["details"],
@@ -116,7 +116,7 @@ if(isset($_POST['btn_action']))
 					':tournaments_id'		=>	$_POST["tournaments_id"]
 				)
 			);
-			$result = $statement->fetchAll();
+			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "Tournament Edited.";
@@ -130,12 +130,12 @@ if(isset($_POST['btn_action']))
 		WHERE tournaments_id = :tournaments_id
 		";
 		$statement = $connect->prepare($query);
-		$statement->execute(
+		$result = $statement->execute(
 			array(
 				':tournaments_id'		=>	$_POST["tournaments_id"]
 			)
 		);
-		$result = $statement->fetchAll();
+		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo 'Tournament Deleted.';
@@ -154,13 +154,13 @@ if(isset($_POST['btn_action']))
 		WHERE tournaments_id = :tournaments_id
 		";
 		$statement = $connect->prepare($query);
-		$statement->execute(
+		$result = $statement->execute(
 			array(
 				':tournaments_status'	=>	$status,
 				':tournaments_id'		=>	$_POST["tournaments_id"]
 			)
 		);
-		$result = $statement->fetchAll();
+		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo "Tournament Status change to " . $status .".";

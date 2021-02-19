@@ -49,7 +49,7 @@ if(isset($_POST['btn_action']))
 			:address,:coaches_id, :level_id, :school_id,:scholar, :varsity, :class_a)
 			";	
 			$statement = $connect->prepare($query);
-			$statement->execute(
+			$result = $statement->execute(
 				array(
 					':athletes_last'	=>	trim($_POST["athletes_last"]),
 					':athletes_first'	=>	trim($_POST["athletes_first"]),
@@ -69,7 +69,7 @@ if(isset($_POST['btn_action']))
 					':class_a'			=>	trim($_POST["class_a"])
 				)
 			);
-			$result = $statement->fetchAll();
+			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo 'Athlete Added.';
@@ -152,8 +152,8 @@ if(isset($_POST['btn_action']))
 				WHERE athletes_id = '".$_POST["athletes_id"]."'
 			";
 			$statement = $connect->prepare($query);
-			$statement->execute();
-			$result = $statement->fetchAll();
+			$result = $statement->execute();
+			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "Athlete Edited.";
@@ -167,12 +167,12 @@ if(isset($_POST['btn_action']))
 		WHERE athletes_id = :athletes_id
 		";
 		$statement = $connect->prepare($query);
-		$statement->execute(
+		$result = $statement->execute(
 			array(
 				':athletes_id'		=>	$_POST["athletes_id"]
 			)
 		);
-		$result = $statement->fetchAll();
+		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo 'Athlete Deleted.';
@@ -191,13 +191,13 @@ if(isset($_POST['btn_action']))
 		WHERE athletes_id = :athletes_id
 		";
 		$statement = $connect->prepare($query);
-		$statement->execute(
+		$result = $statement->execute(
 			array(
 				':athletes_status'	=>	$status,
 				':athletes_id'		=>	$_POST["athletes_id"]
 			)
 		);
-		$result = $statement->fetchAll();
+		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo "Athlete Status change to " . $status .".";

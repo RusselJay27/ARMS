@@ -47,7 +47,7 @@ if(isset($_POST['btn_action']))
 			VALUES (:coaches_last, :coaches_first, :coaches_mi,:sports_id, :birthdate, :address,:gender, :contact, :email)
 			";	
 			$statement = $connect->prepare($query);
-			$statement->execute(
+			$result = $statement->execute(
 				array(
 					':coaches_last'		=>	trim($_POST["coaches_last"]),
 					':coaches_first'	=>	trim($_POST["coaches_first"]),
@@ -60,7 +60,7 @@ if(isset($_POST['btn_action']))
 					':email'			=>	trim($_POST["email"])
 				)
 			);
-			$result = $statement->fetchAll();
+			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo 'Coach Added.';
@@ -129,8 +129,8 @@ if(isset($_POST['btn_action']))
 				WHERE coaches_id = '".$_POST["coaches_id"]."'
 			";
 			$statement = $connect->prepare($query);
-			$statement->execute();
-			$result = $statement->fetchAll();
+			$result = $statement->execute();
+			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "Coach Edited.";
@@ -144,12 +144,12 @@ if(isset($_POST['btn_action']))
 		WHERE coaches_id = :coaches_id
 		";
 		$statement = $connect->prepare($query);
-		$statement->execute(
+		$result = $statement->execute(
 			array(
 				':coaches_id'		=>	$_POST["coaches_id"]
 			)
 		);
-		$result = $statement->fetchAll();
+		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo 'Coach Deleted.';
@@ -168,13 +168,13 @@ if(isset($_POST['btn_action']))
 		WHERE coaches_id = :coaches_id
 		";
 		$statement = $connect->prepare($query);
-		$statement->execute(
+		$result = $statement->execute(
 			array(
 				':coaches_status'	=>	$status,
 				':coaches_id'		=>	$_POST["coaches_id"]
 			)
 		);
-		$result = $statement->fetchAll();
+		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo "Coach Status change to " . $status .".";

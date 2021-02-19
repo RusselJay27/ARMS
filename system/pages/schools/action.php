@@ -44,14 +44,14 @@ if(isset($_POST['btn_action']))
 			VALUES (:school_name, :details, :address)
 			";
 			$statement = $connect->prepare($query);
-			$statement->execute(
+			$result = $statement->execute(
 				array(
 					':school_name'	=>	trim($_POST["school_name"]),
 					':details'		=>	trim($_POST["details"]),
 					':address'	    =>	trim($_POST["address"])
 				)
 			);
-			$result = $statement->fetchAll();
+			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "School Added.";
@@ -105,7 +105,7 @@ if(isset($_POST['btn_action']))
 			WHERE school_id = :school_id
 			";
 			$statement = $connect->prepare($query);
-			$statement->execute(
+			$result = $statement->execute(
 				array(
 					':school_name'		=>	$_POST["school_name"],
 					':details'			=>	trim($_POST["details"]),
@@ -113,7 +113,7 @@ if(isset($_POST['btn_action']))
 					':school_id'		=>	$_POST["school_id"]
 				)
 			);
-			$result = $statement->fetchAll();
+			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "School Edited.";
@@ -127,12 +127,12 @@ if(isset($_POST['btn_action']))
 		WHERE school_id = :school_id
 		";
 		$statement = $connect->prepare($query);
-		$statement->execute(
+		$result = $statement->execute(
 			array(
 				':school_id'		=>	$_POST["school_id"]
 			)
 		);
-		$result = $statement->fetchAll();
+		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo 'School Deleted.';
@@ -151,13 +151,13 @@ if(isset($_POST['btn_action']))
 		WHERE school_id = :school_id
 		";
 		$statement = $connect->prepare($query);
-		$statement->execute(
+		$result = $statement->execute(
 			array(
 				':school_status'	=>	$status,
 				':school_id'		=>	$_POST["school_id"]
 			)
 		);
-		$result = $statement->fetchAll();
+		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo "School Status change to " . $status . ".";

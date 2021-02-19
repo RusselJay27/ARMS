@@ -44,13 +44,13 @@ if(isset($_POST['btn_action']))
 			VALUES (:sports_name, :details)
 			";
 			$statement = $connect->prepare($query);
-			$statement->execute(
+			$result = $statement->execute(
 				array(
 					':sports_name'	=>	trim($_POST["sports_name"]),
 					':details'	=>	trim($_POST["details"])
 				)
 			);
-			$result = $statement->fetchAll();
+			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "Sport Added.";
@@ -103,14 +103,14 @@ if(isset($_POST['btn_action']))
 			WHERE sports_id = :sports_id
 			";
 			$statement = $connect->prepare($query);
-			$statement->execute(
+			$result = $statement->execute(
 				array(
 					':sports_name'		=>	$_POST["sports_name"],
 					':details'			=>	$_POST["details"],
 					':sports_id'		=>	$_POST["sports_id"]
 				)
 			);
-			$result = $statement->fetchAll();
+			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "Sport Edited.";
@@ -124,12 +124,12 @@ if(isset($_POST['btn_action']))
 		WHERE sports_id = :sports_id
 		";
 		$statement = $connect->prepare($query);
-		$statement->execute(
+		$result = $statement->execute(
 			array(
 				':sports_id'		=>	$_POST["sports_id"]
 			)
 		);
-		$result = $statement->fetchAll();
+		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo 'Sport Deleted.';
@@ -148,13 +148,13 @@ if(isset($_POST['btn_action']))
 		WHERE sports_id = :sports_id
 		";
 		$statement = $connect->prepare($query);
-		$statement->execute(
+		$result = $statement->execute(
 			array(
 				':sports_status'	=>	$status,
 				':sports_id'		=>	$_POST["sports_id"]
 			)
 		);
-		$result = $statement->fetchAll();
+		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo "Sport Status change to " . $status .".";

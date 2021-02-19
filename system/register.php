@@ -8,14 +8,9 @@ if (count_users($connect) != 0){
 }
 if(isset($_POST["btn-create"]))
 {
+  $message = '';
   if ($_POST["user_password"] != $_POST["retype_password"]){
-    ?>
-    <script>
-      { 
-        alert("Password does not match!"); 
-      }
-    </script> 
-    <?php
+    $message = '<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i>Password does not match!</div>';
   }
   else{
     $query = "
@@ -23,13 +18,13 @@ if(isset($_POST["btn-create"]))
     VALUES (:user_name, :user_password)
     ";	
     $statement = $connect->prepare($query);
-    $statement->execute(
+    $result = $statement->execute(
       array(
         ':user_name'		=>	trim($_POST["user_name"]),
         ':user_password'	=>	password_hash(trim($_POST["user_password"]), PASSWORD_DEFAULT)
       )
     );
-    $result = $statement->fetchAll();
+    //$result = $statement->fetchAll();
     if(isset($result))
     {
       header("location:login.php");
@@ -58,6 +53,8 @@ if(isset($_POST["btn-create"]))
 <body class="hold-transition login-page">
 <div class="login-box">
   <!-- /.login-logo -->
+
+  <span id="alert_action"><?php echo $message?></span>
   <div class="card card-outline">
     <div class="card-body card-primary">
 
