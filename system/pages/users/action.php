@@ -11,17 +11,17 @@ if(isset($_POST['btn_action']))
 {
 	if($_POST['btn_action'] == 'Add')
 	{
-		$un = '';
+		$user_name = '';
 		$fn = '';
 		$user_status = '';
 		$query2 = "SELECT * FROM user_account WHERE user_name = :user_name or user_last = :user_last and user_first = :user_first and user_mi = :user_mi";
 		$statement2 = $connect->prepare($query2);
 		$statement2->execute(
 			array(
-				':user_name'	=>	$_POST["user_name"],
-				':user_last'	=>	$_POST["user_last"],
-				':user_first'	=>	$_POST["user_first"],
-				':user_mi'		=>	$_POST["user_mi"]
+				':user_name'	=>	trim($_POST["user_name"]),
+				':user_last'	=>	trim($_POST["user_last"]),
+				':user_first'	=>	trim($_POST["user_first"]),
+				':user_mi'		=>	trim($_POST["user_mi"])
 			)
 		);
 		$result2 = $statement2->fetchAll();
@@ -106,10 +106,10 @@ if(isset($_POST['btn_action']))
 		$statement2 = $connect->prepare($query2);
 		$statement2->execute(
 			array(
-				':user_name'	=>	$_POST["user_name"],
-				':user_last'	=>	$_POST["user_last"],
-				':user_first'	=>	$_POST["user_first"],
-				':user_mi'		=>	$_POST["user_mi"]
+				':user_name'	=>	trim($_POST["user_name"]),
+				':user_last'	=>	trim($_POST["user_last"]),
+				':user_first'	=>	trim($_POST["user_first"]),
+				':user_mi'		=>	trim($_POST["user_mi"])
 			)
 		);
 		$result2 = $statement2->fetchAll();
@@ -128,10 +128,10 @@ if(isset($_POST['btn_action']))
 		}
 		else
 		{
-			if($_POST['user_account'] != '')
+			if($_POST['user_password'] != '')
 			{
 				$query = "
-				UPDATE user_details SET 
+				UPDATE user_account SET 
 					user_name = '".trim($_POST["user_name"])."', 
 					user_last = '".trim($_POST["user_last"])."',
 					user_first = '".trim($_POST["user_first"])."',
