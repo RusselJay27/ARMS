@@ -91,7 +91,7 @@ else{
 
        <div class="text-center">
             <img class="profile-user-img img-fluid img-circle"
-                src="dist/img/AdminLTELogo.png"
+                src="dist/img/login_user.png"
                 alt="User profile picture"> 
         </div>
         <br/>

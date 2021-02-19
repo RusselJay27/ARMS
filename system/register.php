@@ -14,14 +14,15 @@ if(isset($_POST["btn-create"]))
   }
   else{
     $query = "
-    INSERT INTO user_account (user_name, user_password) 
-    VALUES (:user_name, :user_password)
+    INSERT INTO user_account (user_name, user_password, user_type) 
+    VALUES (:user_name, :user_password, :user_type)
     ";	
     $statement = $connect->prepare($query);
     $result = $statement->execute(
       array(
-        ':user_name'		=>	trim($_POST["user_name"]),
-        ':user_password'	=>	password_hash(trim($_POST["user_password"]), PASSWORD_DEFAULT)
+        ':user_name'		  =>	trim($_POST["user_name"]),
+        ':user_password'	=>	password_hash(trim($_POST["user_password"]), PASSWORD_DEFAULT),
+        ':user_type'		  =>	'Admin'
       )
     );
     //$result = $statement->fetchAll();

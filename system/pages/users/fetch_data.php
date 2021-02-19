@@ -8,7 +8,7 @@ $query = '';
 
 $output = array();
 
-$query .= "SELECT * FROM user_account where";
+$query .= "SELECT * FROM user_account where user_id != '".$_SESSION['user_id']."' AND ";
 
 if(isset($_POST["search"]["value"]))
 {
@@ -83,7 +83,7 @@ $output = array(
 
 function get_total_all_records($connect)
 {
-	$statement = $connect->prepare("SELECT * FROM user_account");
+	$statement = $connect->prepare("SELECT * FROM user_account where user_id != '".$_SESSION['user_id']."'");
 	$statement->execute();
 	return $statement->rowCount();
 }
