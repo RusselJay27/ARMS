@@ -12,7 +12,7 @@ try{
         `type` enum('International','National','Local') DEFAULT NULL,
         `date` varchar(255) DEFAULT NULL,
         `tournaments_status` enum('Active','Inactive') DEFAULT 'Active',
-        `date_created` varchar(255) DEFAULT current_timestamp()
+        `date_created` varchar(255) DEFAULT null
     );";
     $connect->exec($tournaments);
 
@@ -21,7 +21,7 @@ try{
         `sports_name` varchar(255) DEFAULT NULL,
         `details` varchar(255) DEFAULT NULL,
         `sports_status` enum('Active','Inactive') DEFAULT 'Active',
-        `date_created` varchar(255) DEFAULT current_timestamp()
+        `date_created` varchar(255) DEFAULT null
     );";
     $connect->exec($sports);
 
@@ -31,7 +31,7 @@ try{
         `details` varchar(255) DEFAULT NULL,
         `address` varchar(255) DEFAULT NULL,
         `school_status` enum('Active','Inactive') DEFAULT 'Active',
-        `date_created` varchar(255) DEFAULT current_timestamp()
+        `date_created` varchar(255) DEFAULT null
     );";
     $connect->exec($schools);
 
@@ -39,7 +39,7 @@ try{
         `level_id` INT(11) AUTO_INCREMENT PRIMARY KEY,
         `level_name` varchar(255) DEFAULT NULL,
         `level_status` enum('Active','Inactive') DEFAULT 'Active',
-        `date_created` varchar(255) DEFAULT current_timestamp()
+        `date_created` varchar(255) DEFAULT null
     );";
     $connect->exec($grade_level);
 
@@ -55,7 +55,7 @@ try{
         `contact` varchar(255) DEFAULT NULL,
         `email` varchar(255) DEFAULT NULL,
         `coaches_status` enum('Active','Inactive') DEFAULT 'Active',
-        `date_created` varchar(255) DEFAULT current_timestamp()
+        `date_created` varchar(255) DEFAULT null
     );";
     $connect->exec($coaches);
 
@@ -78,7 +78,7 @@ try{
         `varsity` enum('Yes','No') DEFAULT 'No',
         `class_a` enum('Yes','No') DEFAULT 'No',
         `athletes_status` enum('Active','Inactive') DEFAULT 'Active',
-        `date_created` varchar(255) DEFAULT current_timestamp()
+        `date_created` varchar(255) DEFAULT null
     );";
     $connect->exec($athletes);
 
@@ -91,7 +91,7 @@ try{
         `user_mi` varchar(255) DEFAULT NULL,
         `user_status` enum('Active','Inactive') DEFAULT 'Active',
         `user_type` enum('Admin','Staff') DEFAULT 'Staff',
-        `date_created` varchar(255) DEFAULT current_timestamp()
+        `date_created` varchar(255) DEFAULT null
     );";
     $connect->exec($user_account);
 }

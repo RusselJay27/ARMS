@@ -57,8 +57,8 @@ if(isset($_POST['btn_action']))
 		else
 		{
 			$query = "
-			INSERT INTO user_account (user_name, user_password, user_last,user_first,user_mi) 
-			VALUES (:user_name, :user_password, :user_last, :user_first, :user_mi)
+			INSERT INTO user_account (user_name, user_password, user_last,user_first,user_mi,date_created) 
+			VALUES (:user_name, :user_password, :user_last, :user_first, :user_mi, :date_created)
 			";	
 			$statement = $connect->prepare($query);
 			$result = $statement->execute(
@@ -67,10 +67,10 @@ if(isset($_POST['btn_action']))
 					':user_password'	=>	password_hash(trim($_POST["user_password"]), PASSWORD_DEFAULT),
 					':user_last'		=>	trim($_POST["user_last"]),
 					':user_first'		=>	trim($_POST["user_first"]),
-					':user_mi'			=>	trim($_POST["user_mi"])
+					':user_mi'			=>	trim($_POST["user_mi"]),
+					':date_created'		=>	date("m-d-Y")
 				)
 			);
-			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo 'User Added.';
@@ -153,7 +153,6 @@ if(isset($_POST['btn_action']))
 			}
 			$statement = $connect->prepare($query);
 			$result = $statement->execute();
-			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "User Edited.";
@@ -172,7 +171,6 @@ if(isset($_POST['btn_action']))
 				':user_id'		=>	$_POST["user_id"]
 			)
 		);
-		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo 'User Deleted.';
@@ -197,7 +195,6 @@ if(isset($_POST['btn_action']))
 				':user_id'		=>	$_POST["user_id"]
 			)
 		);
-		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo "User Status change to " . $status .".";

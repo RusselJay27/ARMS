@@ -40,16 +40,16 @@ if(isset($_POST['btn_action']))
 		else
 		{
 			$query = "
-			INSERT INTO grade_level (level_name) 
-			VALUES (:level_name)
+			INSERT INTO grade_level (level_name, date_created) 
+			VALUES (:level_name, :date_created)
 			";
 			$statement = $connect->prepare($query);
 			$result = $statement->execute(
 				array(
-					':level_name'	=>	trim($_POST["level_name"])
+					':level_name'	=>	trim($_POST["level_name"]),
+					':date_created'	=>	date("m-d-Y")
 				)
 			);
-			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "Grade Level Added.";
@@ -107,7 +107,6 @@ if(isset($_POST['btn_action']))
 					':level_id'		=>	$_POST["level_id"]
 				)
 			);
-			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "Grade Level Edited.";
@@ -126,7 +125,6 @@ if(isset($_POST['btn_action']))
 				':level_id'		=>	$_POST["level_id"]
 			)
 		);
-		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo 'Grade Level Deleted.';
@@ -151,7 +149,6 @@ if(isset($_POST['btn_action']))
 				':level_id'		=>	$_POST["level_id"]
 			)
 		);
-		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo "Grade Level Status change to " . $status . ".";

@@ -44,9 +44,9 @@ if(isset($_POST['btn_action']))
 		{
 			$query = "
 			INSERT INTO athletes (athletes_last,athletes_first,athletes_mi,gender,birthdate,height,weight,contact,email,
-			address,coaches_id,level_id,school_id,scholar,varsity,class_a) 
+			address,coaches_id,level_id,school_id,scholar,varsity,class_a, date_created) 
 			VALUES (:athletes_last, :athletes_first, :athletes_mi,:gender, :birthdate, :height,:weight, :contact, :email, 
-			:address,:coaches_id, :level_id, :school_id,:scholar, :varsity, :class_a)
+			:address,:coaches_id, :level_id, :school_id,:scholar, :varsity, :class_a, :date_created)
 			";	
 			$statement = $connect->prepare($query);
 			$result = $statement->execute(
@@ -66,10 +66,10 @@ if(isset($_POST['btn_action']))
 					':school_id'		=>	trim($_POST["school_id"]),
 					':scholar'			=>	trim($_POST["scholar"]),
 					':varsity'			=>	trim($_POST["varsity"]),
-					':class_a'			=>	trim($_POST["class_a"])
+					':class_a'			=>	trim($_POST["class_a"]),
+					':date_created'		=>	date("m-d-Y")
 				)
 			);
-			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo 'Athlete Added.';
@@ -153,7 +153,6 @@ if(isset($_POST['btn_action']))
 			";
 			$statement = $connect->prepare($query);
 			$result = $statement->execute();
-			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "Athlete Edited.";
@@ -172,7 +171,6 @@ if(isset($_POST['btn_action']))
 				':athletes_id'		=>	$_POST["athletes_id"]
 			)
 		);
-		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo 'Athlete Deleted.';
@@ -197,7 +195,6 @@ if(isset($_POST['btn_action']))
 				':athletes_id'		=>	$_POST["athletes_id"]
 			)
 		);
-		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo "Athlete Status change to " . $status .".";

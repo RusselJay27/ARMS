@@ -40,17 +40,17 @@ if(isset($_POST['btn_action']))
 		else
 		{
 			$query = "
-			INSERT INTO sports (sports_name, details) 
-			VALUES (:sports_name, :details)
+			INSERT INTO sports (sports_name, details, date_created) 
+			VALUES (:sports_name, :details, :date_created)
 			";
 			$statement = $connect->prepare($query);
 			$result = $statement->execute(
 				array(
 					':sports_name'	=>	trim($_POST["sports_name"]),
-					':details'	=>	trim($_POST["details"])
+					':details'		=>	trim($_POST["details"]),
+					':date_created'	=>	date("m-d-Y")
 				)
 			);
-			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "Sport Added.";
@@ -110,7 +110,6 @@ if(isset($_POST['btn_action']))
 					':sports_id'		=>	$_POST["sports_id"]
 				)
 			);
-			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "Sport Edited.";
@@ -129,7 +128,6 @@ if(isset($_POST['btn_action']))
 				':sports_id'		=>	$_POST["sports_id"]
 			)
 		);
-		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo 'Sport Deleted.';
@@ -154,7 +152,6 @@ if(isset($_POST['btn_action']))
 				':sports_id'		=>	$_POST["sports_id"]
 			)
 		);
-		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo "Sport Status change to " . $status .".";

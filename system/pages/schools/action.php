@@ -40,18 +40,18 @@ if(isset($_POST['btn_action']))
 		else
 		{
 			$query = "
-			INSERT INTO schools (school_name,details, address) 
-			VALUES (:school_name, :details, :address)
+			INSERT INTO schools (school_name,details, address, date_created) 
+			VALUES (:school_name, :details, :address, :date_created)
 			";
 			$statement = $connect->prepare($query);
 			$result = $statement->execute(
 				array(
 					':school_name'	=>	trim($_POST["school_name"]),
 					':details'		=>	trim($_POST["details"]),
-					':address'	    =>	trim($_POST["address"])
+					':address'	    =>	trim($_POST["address"]),
+					':date_created'	=>	date("m-d-Y")
 				)
 			);
-			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "School Added.";
@@ -113,7 +113,6 @@ if(isset($_POST['btn_action']))
 					':school_id'		=>	$_POST["school_id"]
 				)
 			);
-			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "School Edited.";
@@ -132,7 +131,6 @@ if(isset($_POST['btn_action']))
 				':school_id'		=>	$_POST["school_id"]
 			)
 		);
-		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo 'School Deleted.';
@@ -157,7 +155,6 @@ if(isset($_POST['btn_action']))
 				':school_id'		=>	$_POST["school_id"]
 			)
 		);
-		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo "School Status change to " . $status . ".";

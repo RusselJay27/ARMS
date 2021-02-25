@@ -40,19 +40,19 @@ if(isset($_POST['btn_action']))
 		else
 		{
 			$query = "
-			INSERT INTO tournaments (tournaments_name, details, type, date) 
-			VALUES (:tournaments_name, :details, :type, :date)
+			INSERT INTO tournaments (tournaments_name, details, type, date, date_created) 
+			VALUES (:tournaments_name, :details, :type, :date, :date_created)
 			";
 			$statement = $connect->prepare($query);
 			$result = $statement->execute(
 				array(
 					':tournaments_name'	=>	trim($_POST["tournaments_name"]),
-					':details'	=>	trim($_POST["details"]),
-					':type'		=>	trim($_POST["type"]),
-					':date'		=>	trim($_POST["date"])
+					':details'			=>	trim($_POST["details"]),
+					':type'				=>	trim($_POST["type"]),
+					':date'				=>	trim($_POST["date"]),
+					':date_created'		=>	date("m-d-Y")
 				)
 			);
-			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "Tournament Added.";
@@ -116,7 +116,6 @@ if(isset($_POST['btn_action']))
 					':tournaments_id'		=>	$_POST["tournaments_id"]
 				)
 			);
-			//$result = $statement->fetchAll();
 			if(isset($result))
 			{
 				echo "Tournament Edited.";
@@ -135,7 +134,6 @@ if(isset($_POST['btn_action']))
 				':tournaments_id'		=>	$_POST["tournaments_id"]
 			)
 		);
-		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo 'Tournament Deleted.';
@@ -160,7 +158,6 @@ if(isset($_POST['btn_action']))
 				':tournaments_id'		=>	$_POST["tournaments_id"]
 			)
 		);
-		//$result = $statement->fetchAll();
 		if(isset($result))
 		{
 			echo "Tournament Status change to " . $status .".";
