@@ -5,10 +5,8 @@ include('pages/function.php');
 
 if (count_users($connect) == 0){
   header("location:register.php");
-  //echo 'No User';
 }
 else{
-  //echo 'Have User';
   $message = '';
   if(isset($_SESSION['user_type']))
   {

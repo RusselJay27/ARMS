@@ -3,12 +3,12 @@
 include('pages/database_connection.php');
 include('pages/function.php');
 
+$message = '';
 if (count_users($connect) != 0){
   header("location:login.php");
 }
 if(isset($_POST["btn-create"]))
 {
-  $message = '';
   if ($_POST["user_password"] != $_POST["retype_password"]){
     $message = '<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i>Password does not match!</div>';
   }
