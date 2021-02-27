@@ -94,6 +94,15 @@ try{
         `date_created` varchar(255) DEFAULT null
     );";
     $connect->exec($user_account);
+
+    $tournament_sports = "CREATE table tournament_sports(
+        `tournament_sports_id` INT(11) AUTO_INCREMENT PRIMARY KEY,
+        `tournaments_id` INT(11) DEFAULT 0,
+        `sports_id` INT(11) DEFAULT 0,
+        `tournament_sports_status` enum('Active','Inactive') DEFAULT 'Active',
+        `date_created` varchar(255) DEFAULT null
+    );";
+    $connect->exec($tournament_sports);
 }
 catch(PDOException $e){
     //echo $e->getMessage();

@@ -3,7 +3,7 @@
 function fill_sports_list($connect)
 {
 	$query = "
-	SELECT * from sports order by sports_name asc
+	SELECT * from sports where sports_status = 'Active' order by sports_name asc
 	";
 	$statement = $connect->prepare($query);
 	$statement->execute();
@@ -18,7 +18,7 @@ function fill_sports_list($connect)
 function fill_level_list($connect)
 {
 	$query = "
-	SELECT * from grade_level order by level_name asc
+	SELECT * from grade_level where level_status = 'Active' order by level_name asc
 	";
 	$statement = $connect->prepare($query);
 	$statement->execute();
@@ -33,7 +33,7 @@ function fill_level_list($connect)
 function fill_schools_list($connect)
 {
 	$query = "
-	SELECT * from schools order by school_name asc
+	SELECT * from schools where school_status = 'Active'  order by school_name asc
 	";
 	$statement = $connect->prepare($query);
 	$statement->execute();
@@ -48,7 +48,7 @@ function fill_schools_list($connect)
 function fill_coaches_list($connect)
 {
 	$query = "
-	SELECT * from coaches order by coaches_last asc
+	SELECT * from coaches where coaches_status = 'Active' order by coaches_last asc
 	";
 	$statement = $connect->prepare($query);
 	$statement->execute();

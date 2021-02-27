@@ -165,6 +165,7 @@ else
                     <th>Status</th>
                     <th>Update</th>
                     <th>Delete</th>
+                    <th>Sports</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -215,7 +216,7 @@ else
     					</div> -->
 
               <div class="form-group">
-                        <label>Birthdate</label>
+                        <label>Date Event</label>
                           <div class="input-group date" id="dates" data-target-input="nearest">
                               <input type="text" class="form-control datetimepicker-input" data-target="#dates" name="date" id="date" required/>
                               <div class="input-group-append" data-target="#dates" data-toggle="datetimepicker">
@@ -359,6 +360,20 @@ else
       })
     });
     
+    $(document).on('click', '.sports', function(){
+      var tournaments_id = $(this).attr("id");
+      var btn_action = 'fetch_sports';
+      $.ajax({
+        url:"action.php",
+        method:"POST",
+        data:{tournaments_id:tournaments_id, btn_action:btn_action},
+        success:function(data)
+        {
+          window.location.href = "./sports/";
+        }
+      })
+    });
+    
     var tournamentsdataTable = $('#example1').DataTable({
       "responsive": true, "lengthChange": true, "autoWidth": false,
       "processing":true,
@@ -370,7 +385,7 @@ else
       },
       "columnDefs":[
         {
-          "targets":[0,7,8],
+          "targets":[0,7,8,9],
           "orderable":false,
         },
       ],

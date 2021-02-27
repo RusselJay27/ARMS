@@ -4,8 +4,6 @@
 
 include('../database_connection.php');
 //include('function.php');
-$pos = '';
-$com = '';
 
 if(isset($_POST['btn_action']))
 {
@@ -79,6 +77,22 @@ if(isset($_POST['btn_action']))
 			$output['date'] = $row['date'];
 		}
 		echo json_encode($output);
+	}
+	if($_POST['btn_action'] == 'fetch_sports')
+	{
+		$query = "SELECT * FROM tournaments WHERE tournaments_id = :tournaments_id";
+		$statement = $connect->prepare($query);
+		$statement->execute(
+			array(
+				':tournaments_id'	=>	$_POST["tournaments_id"]
+			)
+		);
+		$result = $statement->fetchAll();
+		foreach($result as $row)
+		{	
+			$_SESSION['tournaments_id'] = $_POST["tournaments_id"];
+			$_SESSION['tournaments_name'] =  $row['tournaments_name'];
+		}
 	}
 	if($_POST['btn_action'] == 'Edit')
 	{

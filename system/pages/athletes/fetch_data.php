@@ -81,7 +81,7 @@ foreach($result as $row)
 
 	$sub_array[] = '<button type="button" name="delete" id="'.$row["athletes_id"].'" class="btn btn-danger  btn-flat btn-xs delete">Delete</button>';
 	$sub_array[] = '<button type="button" name="view" id="'.$row["athletes_id"].'" class="btn btn-primary  btn-flat btn-xs view">View</button>';
-	$sub_array[] = '<button type="button" name="view" id="'.$row["athletes_id"].'" class="btn btn-primary  btn-flat btn-xs view">View</button>';
+	$sub_array[] = '<button type="button" name="view" id="'.$row["athletes_id"].'" class="btn btn-info  btn-flat btn-xs view">View</button>';
 	$data[] = $sub_array;
 }
 
