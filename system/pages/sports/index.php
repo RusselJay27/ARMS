@@ -12,6 +12,8 @@ else
     header("location:../index.php");
   }
 }
+$_SESSION['tournaments_id'] ='';
+$_SESSION['tournaments_name'] ='';
 
 ?>
 <!DOCTYPE html>
@@ -99,7 +101,7 @@ else
                 </a>
             </li>
             <li class="nav-item">
-                <a href="./index.html" class="nav-link">
+                <a href="./../report/" class="nav-link">
                     <i class="fa fa-download nav-icon"></i>
                     <p>Report</p>
                 </a>

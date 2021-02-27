@@ -5,6 +5,8 @@ if(!isset($_SESSION["user_type"]))
 {
   header("location:../../login.php");
 }
+$_SESSION['tournaments_id'] ='';
+$_SESSION['tournaments_name'] ='';
 
 ?>
 <!DOCTYPE html>
@@ -96,7 +98,7 @@ if(!isset($_SESSION["user_type"]))
                 </a>
             </li>
             <li class="nav-item">
-                <a href="./index.html" class="nav-link">
+                <a href="./../report/" class="nav-link">
                     <i class="fa fa-download nav-icon"></i>
                     <p>Report</p>
                 </a>

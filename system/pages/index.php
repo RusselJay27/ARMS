@@ -5,6 +5,8 @@ if(!isset($_SESSION["user_type"]))
 {
   header("location:../login.php");
 }
+$_SESSION['tournaments_id'] ='';
+$_SESSION['tournaments_name'] ='';
 
 include('header.php');
 ?>

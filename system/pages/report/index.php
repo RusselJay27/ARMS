@@ -5,13 +5,6 @@ if(!isset($_SESSION["user_type"]))
 {
   header("location:../../login.php");
 }
-else
-{
-  if($_SESSION["user_type"] != 'Admin')
-  {
-    header("location:../index.php");
-  }
-}
 $_SESSION['tournaments_id'] ='';
 $_SESSION['tournaments_name'] ='';
 
@@ -21,7 +14,7 @@ $_SESSION['tournaments_name'] ='';
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin Portal | Grade Level</title>
+  <title>Admin Portal | Report</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -71,7 +64,7 @@ $_SESSION['tournaments_name'] ='';
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link active">
+                <a href="./../grade_level/" class="nav-link">
                     <i class="fa fa-book nav-icon"></i>
                     <p>Grade Level</p>
                 </a>
@@ -101,7 +94,7 @@ $_SESSION['tournaments_name'] ='';
                 </a>
             </li>
             <li class="nav-item">
-                <a href="./../report/" class="nav-link">
+                <a href="#" class="nav-link active">
                     <i class="fa fa-download nav-icon"></i>
                     <p>Report</p>
                 </a>
@@ -134,12 +127,7 @@ $_SESSION['tournaments_name'] ='';
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Grade Level</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <button type="button" name="add" id="add_button" data-toggle="modal" data-target="#levelModal" class="btn btn-warning">Add</button>   
-            </ol>
+            <h1>Report</h1>
           </div>
         </div>
       </div>
@@ -158,7 +146,9 @@ $_SESSION['tournaments_name'] ='';
                   <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Level</th>
+                    <th>Name</th>
+                    <th>Details</th>
+                    <th>Address</th>
                     <th>Date Created</th>
                     <th>Status</th>
                     <th>Update</th>
@@ -186,164 +176,14 @@ $_SESSION['tournaments_name'] ='';
 
 </div>
 
-  <div id="levelModal" class="modal fade">
-    	<div class="modal-dialog">
-    		<form method="post" id="level_form">
-    			<div class="modal-content">
-    				<div class="modal-header">
-						<h4 class="modal-title"><i class="fa fa-plus"></i></h4>
-    					<button type="button" class="close" data-dismiss="modal">&times;</button>
-    				</div>
-    				<div class="modal-body">
-    					<div class="form-group">
-							<label>Enter Grade Level</label>
-							<input type="text" name="level_name" id="level_name" class="form-control" required />
-    					</div>
-    				</div>
-    				<div class="modal-footer">
-    					<input type="hidden" name="level_id" id="level_id"/>
-    					<input type="hidden" name="btn_action" id="btn_action"/>
-    					<input type="submit" name="action" id="action" class="btn btn-warning" value="Add" />
-    					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    				</div>
-    			</div>
-    		</form>
-    	</div>
-  </div>
-
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables  & Plugins -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../../plugins/jszip/jszip.min.js"></script>
-<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <!-- Page specific script -->
-<script>
-  $(function () {
-    $('#add_button').click(function(){
-      $('#level_form')[0].reset();
-      $('.modal-title').html("<i class='fa fa-plus'></i> Add Grade Level");
-      $('#action').val('Add');
-      $('#btn_action').val('Add');
-    });
-    
-    $(document).on('submit','#level_form', function(event){
-      event.preventDefault();
-      $('#action').attr('disabled','disabled');
-      var form_data = $(this).serialize();
-      $.ajax({
-        url:"action.php",
-        method:"POST",
-        data:form_data,
-        success:function(data)
-        {
-          $('#level_form')[0].reset();
-          $('#levelModal').modal('hide');
-          $('#alert_action').fadeIn().html('<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i>'+data+'</div>');
-          $('#action').attr('disabled', false);
-          leveldataTable.ajax.reload();
-        }
-      })
-    });
-    
-    $(document).on('click', '.status', function(){
-      var level_id = $(this).attr('id');
-      var status = $(this).data("status");
-      var btn_action = 'status';
-      if(confirm("Are you sure you want to change status?"))
-      {
-        $.ajax({
-          url:"action.php",
-          method:"POST",
-          data:{level_id:level_id, status:status, btn_action:btn_action},
-          success:function(data)
-          {
-            $('#alert_action').fadeIn().html('<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i>'+data+'</div>');
-            leveldataTable.ajax.reload();
-          }
-        })
-      }
-      else
-      {
-        return false;
-      }
-    });
-
-    $(document).on('click', '.delete', function(){
-      var level_id = $(this).attr('id');
-      var btn_action = 'delete';
-      if(confirm("Are you sure you want to delete?"))
-      {
-        $.ajax({
-          url:"action.php",
-          method:"POST",
-          data:{level_id:level_id, btn_action:btn_action},
-          success:function(data)
-          {
-            $('#alert_action').fadeIn().html('<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i>'+data+'</div>');
-            leveldataTable.ajax.reload();
-          }
-        })
-      }
-      else
-      {
-        return false;
-      }
-    });
-
-    $(document).on('click', '.update', function(){
-      var level_id = $(this).attr("id");
-      var btn_action = 'fetch_single';
-      $.ajax({
-        url:"action.php",
-        method:"POST",
-        data:{level_id:level_id, btn_action:btn_action},
-        dataType:"json",
-        success:function(data)
-        {
-          $('#levelModal').modal('show');
-          $('#level_name').val(data.level_name);
-          $('.modal-title').html("<i class='fa fa-edit'></i> Edit Grade Level");
-          $('#level_id').val(level_id);
-          $('#action').val('Edit');
-          $('#btn_action').val("Edit");
-        }
-      })
-    });
-    
-    var leveldataTable = $('#example1').DataTable({
-      "responsive": true, "lengthChange": true, "autoWidth": false,
-      "processing":true,
-      "serverSide":true,
-      "order":[],
-      "ajax":{
-        url:"fetch_data.php",
-        type:"POST"
-      },
-      "columnDefs":[
-        {
-          "targets":[0,4,5],
-          "orderable":false,
-        },
-      ],
-      "pageLength": 10, 
-    });
-  });
-</script>
 </body>
 </html>
