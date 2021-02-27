@@ -10,7 +10,7 @@ $output = array();
 
 $query .= "SELECT tournament_sports.*, sports.sports_name FROM tournament_sports 
 INNER JOIN sports ON tournament_sports.sports_id = sports.sports_id 
-where tournament_sports.tournaments_id = '".$_SESSION['tournaments_id']."'AND ";
+where tournament_sports.tournaments_id = '".$_SESSION['tournaments_id']."' AND ";
 
 if(isset($_POST["search"]["value"]))
 {
@@ -64,7 +64,8 @@ $output = array(
 function get_total_all_records($connect)
 {
 	$statement = $connect->prepare("SELECT * FROM tournament_sports 
-	INNER JOIN sports ON tournament_sports.sports_id = sports.sports_id ");
+	INNER JOIN sports ON tournament_sports.sports_id = sports.sports_id 
+	where tournament_sports.tournaments_id = '".$_SESSION['tournaments_id']."' ");
 	$statement->execute();
 	return $statement->rowCount();
 }
