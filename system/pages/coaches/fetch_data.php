@@ -51,13 +51,23 @@ $filtered_rows = $statement->rowCount();
 
 foreach($result as $row)
 {
+	//date in mm/dd/yyyy format; or it can be in other formats as well
+	$birthDate = $row['birthdate'];
+	//explode the date to get month, day and year
+	$birthDate = explode("/", $birthDate);
+	//get age from date or birthdate
+	$age = (date("md", date("U", mktime(0, 0, 0, $birthDate[0], $birthDate[1], $birthDate[2]))) > date("md")
+	? ((date("Y") - $birthDate[2]) - 1)
+	: (date("Y") - $birthDate[2])); //$age
+
 	$status = '';
 	$sub_array = array();
 	$sub_array[] = $row['coaches_id'];
 	$sub_array[] = $row['coaches_last'].', '.$row['coaches_first'].' '.$row['coaches_mi'].'.';
 	$sub_array[] = $row['sports_name'];
 	$sub_array[] = $row['gender'];
-	$sub_array[] = $row['birthdate'];
+	$sub_array[] = $age;
+	$sub_array[] = $row['birthdate'];;
 	$sub_array[] = $row['address'];	
 	$sub_array[] = $row['contact'];	
 	$sub_array[] = $row['email'];	

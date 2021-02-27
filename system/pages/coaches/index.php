@@ -157,6 +157,7 @@ if(!isset($_SESSION["user_type"]))
                     <th>Fullname</th>
                     <th>Sport</th>
                     <th>Gender</th>
+                    <th>Age</th>
                     <th>Birthdate</th>
                     <th>Address</th>
                     <th>Contact</th>
@@ -416,7 +417,7 @@ if(!isset($_SESSION["user_type"]))
       },
       "columnDefs":[
         {
-          "targets":[0,10,11],
+          "targets":[0,11,12],
           "orderable":false,
         },
       ],
