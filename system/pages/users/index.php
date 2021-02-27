@@ -64,7 +64,7 @@ else
             </li>
             <li class="nav-item">
                 <a href="./../schools/" class="nav-link">
-                    <i class="far fa-user-circle nav-icon"></i>
+                    <i class="far fa-building nav-icon"></i>
                     <p>Schools</p>
                 </a>
             </li>
@@ -108,6 +108,12 @@ else
                 <a href="#" class="nav-link active">
                     <i class="fas fa-users nav-icon"></i>
                     <p>Users</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./../profile/" class="nav-link">
+                    <i class="fas fa-user nav-icon"></i>
+                    <p>Profile</p>
                 </a>
             </li>
             <li class="nav-item">

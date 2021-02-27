@@ -113,6 +113,12 @@ if(!isset($_SESSION["user_type"]))
             </li>
             <?php }?>
             <li class="nav-item">
+                <a href="./../profile/" class="nav-link">
+                    <i class="fas fa-user nav-icon"></i>
+                    <p>Profile</p>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="../../logout.php" class="nav-link">
                     <i class="fa fa-sign-out-alt nav-icon"></i>
                     <p>Logout</p>
