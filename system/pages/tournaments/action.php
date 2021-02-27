@@ -82,44 +82,23 @@ if(isset($_POST['btn_action']))
 	}
 	if($_POST['btn_action'] == 'Edit')
 	{
-		$tournaments_name = '';
-		$tournaments_status = 'Active';
-		$query2 = "SELECT * FROM tournaments WHERE tournaments_name = :tournaments_name";
-		$statement2 = $connect->prepare($query2);
-		$statement2->execute(
+		$query = "
+		UPDATE tournaments set tournaments_name = :tournaments_name, details = :details, type = :type, date = :date
+		WHERE tournaments_id = :tournaments_id
+		";
+		$statement = $connect->prepare($query);
+		$result = $statement->execute(
 			array(
-				':tournaments_name'	=>	trim($_POST["tournaments_name"])
+				':tournaments_name'		=>	$_POST["tournaments_name"],
+				':details'				=>	$_POST["details"],
+				':type'					=>	$_POST["type"],
+				':date'					=>	$_POST["date"],
+				':tournaments_id'		=>	$_POST["tournaments_id"]
 			)
 		);
-		$result2 = $statement2->fetchAll();
-		foreach($result2 as $row2)
+		if(isset($result))
 		{
-			$tournaments_name = $row2['tournaments_name'];
-		}
-		if($tournaments_name == trim($_POST["tournaments_name"]))
-		{
-			echo "This tournament is already exists in the database.";
-		}
-		else
-		{
-			$query = "
-			UPDATE tournaments set tournaments_name = :tournaments_name, details = :details, type = :type, date = :date
-			WHERE tournaments_id = :tournaments_id
-			";
-			$statement = $connect->prepare($query);
-			$result = $statement->execute(
-				array(
-					':tournaments_name'		=>	$_POST["tournaments_name"],
-					':details'				=>	$_POST["details"],
-					':type'					=>	$_POST["type"],
-					':date'					=>	$_POST["date"],
-					':tournaments_id'		=>	$_POST["tournaments_id"]
-				)
-			);
-			if(isset($result))
-			{
-				echo "Tournament Edited.";
-			}
+			echo "Tournament Edited.";
 		}
 	}
 	if($_POST['btn_action'] == 'delete')

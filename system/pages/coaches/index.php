@@ -18,6 +18,8 @@ if(!isset($_SESSION["user_type"]))
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="../../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- DataTables -->
@@ -226,10 +228,21 @@ if(!isset($_SESSION["user_type"]))
                   </div>  
                   <div class="row">
                     <div class="col-md-6">
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                         <label>Enter Birthdate</label>
                         <input type="text" name="birthdate" id="birthdate" class="form-control" required />
+                      </div> -->
+
+                      <div class="form-group">
+                        <label>Birthdate</label>
+                          <div class="input-group date" id="birthdates" data-target-input="nearest">
+                              <input type="text" class="form-control datetimepicker-input" data-target="#birthdates" name="birthdate" id="birthdate" required/>
+                              <div class="input-group-append" data-target="#birthdates" data-toggle="datetimepicker">
+                                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                              </div>
+                          </div>
                       </div>
+
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
@@ -262,6 +275,11 @@ if(!isset($_SESSION["user_type"]))
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- InputMask -->
+<script src="../../plugins/moment/moment.min.js"></script>
+<script src="../../plugins/inputmask/jquery.inputmask.min.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="../../plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <!-- DataTables  & Plugins -->
 <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -398,6 +416,12 @@ if(!isset($_SESSION["user_type"]))
       ],
       "pageLength": 10, 
     });
+
+    //Date range picker
+    $('#birthdates').datetimepicker({
+        format: 'L'
+    });
+
   });
 </script>
 </body>

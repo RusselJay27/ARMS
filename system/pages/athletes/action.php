@@ -110,53 +110,31 @@ if(isset($_POST['btn_action']))
 	}
 	if($_POST['btn_action'] == 'Edit')
 	{
-		$fn = '';
-		$query2 = "SELECT * FROM athletes WHERE athletes_last = :athletes_last and athletes_first = :athletes_first and athletes_mi = :athletes_mi";
-		$statement2 = $connect->prepare($query2);
-		$statement2->execute(
-			array(
-				':athletes_last'	=>	$_POST["athletes_last"],
-				':athletes_first'	=>	$_POST["athletes_first"],
-				':athletes_mi'		=>	$_POST["athletes_mi"]
-			)
-		);
-		$result2 = $statement2->fetchAll();
-		foreach($result2 as $row2)
+		$query = "
+		UPDATE athletes SET 
+			athletes_last = '".trim($_POST["athletes_last"])."',
+			athletes_first = '".trim($_POST["athletes_first"])."',
+			athletes_mi = '".trim($_POST["athletes_mi"])."',
+			gender = '".trim($_POST["gender"])."',
+			birthdate = '".trim($_POST["birthdate"])."',
+			height = '".trim($_POST["height"])."',
+			weight = '".trim($_POST["weight"])."',
+			contact = '".trim($_POST["contact"])."',
+			email = '".trim($_POST["email"])."',
+			address = '".trim($_POST["address"])."',
+			coaches_id = '".trim($_POST["coaches_id"])."',
+			level_id = '".trim($_POST["level_id"])."',
+			school_id = '".trim($_POST["school_id"])."',
+			scholar = '".trim($_POST["scholar"])."',
+			varsity = '".trim($_POST["varsity"])."',
+			class_a = '".trim($_POST["class_a"])."'
+			WHERE athletes_id = '".$_POST["athletes_id"]."'
+		";
+		$statement = $connect->prepare($query);
+		$result = $statement->execute();
+		if(isset($result))
 		{
-			$fn = $row2["athletes_last"].$row2["athletes_first"].$row2["athletes_mi"];
-		}
-		if(trim($_POST["athletes_last"]).trim($_POST["athletes_first"]).trim($_POST["athletes_mi"]) == $fn)
-		{
-			echo "This athlete is already exists in the database.";
-		}
-		else
-		{
-			$query = "
-			UPDATE athletes SET 
-				athletes_last = '".trim($_POST["athletes_last"])."',
-				athletes_first = '".trim($_POST["athletes_first"])."',
-				athletes_mi = '".trim($_POST["athletes_mi"])."',
-				gender = '".trim($_POST["gender"])."',
-				birthdate = '".trim($_POST["birthdate"])."',
-				height = '".trim($_POST["height"])."',
-				weight = '".trim($_POST["weight"])."',
-				contact = '".trim($_POST["contact"])."',
-				email = '".trim($_POST["email"])."',
-				address = '".trim($_POST["address"])."',
-				coaches_id = '".trim($_POST["coaches_id"])."',
-				level_id = '".trim($_POST["level_id"])."',
-				school_id = '".trim($_POST["school_id"])."',
-				scholar = '".trim($_POST["scholar"])."',
-				varsity = '".trim($_POST["varsity"])."',
-				class_a = '".trim($_POST["class_a"])."'
-				WHERE athletes_id = '".$_POST["athletes_id"]."'
-			";
-			$statement = $connect->prepare($query);
-			$result = $statement->execute();
-			if(isset($result))
-			{
-				echo "Athlete Edited.";
-			}
+			echo "Athlete Edited.";
 		}
 	}
 	if($_POST['btn_action'] == 'delete')

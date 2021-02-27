@@ -94,46 +94,24 @@ if(isset($_POST['btn_action']))
 	}
 	if($_POST['btn_action'] == 'Edit')
 	{
-		$fn = '';
-		$query2 = "SELECT * FROM coaches WHERE coaches_last = :coaches_last and coaches_first = :coaches_first and coaches_mi = :coaches_mi";
-		$statement2 = $connect->prepare($query2);
-		$statement2->execute(
-			array(
-				':coaches_last'	=>	$_POST["coaches_last"],
-				':coaches_first'	=>	$_POST["coaches_first"],
-				':coaches_mi'		=>	$_POST["coaches_mi"]
-			)
-		);
-		$result2 = $statement2->fetchAll();
-		foreach($result2 as $row2)
+		$query = "
+		UPDATE coaches SET 
+			coaches_last = '".trim($_POST["coaches_last"])."',
+			coaches_first = '".trim($_POST["coaches_first"])."',
+			coaches_mi = '".trim($_POST["coaches_mi"])."',
+			sports_id = '".trim($_POST["sports_id"])."',
+			birthdate = '".trim($_POST["birthdate"])."',
+			address = '".trim($_POST["address"])."',
+			gender = '".trim($_POST["gender"])."',
+			contact = '".trim($_POST["contact"])."',
+			email = '".trim($_POST["email"])."'
+			WHERE coaches_id = '".$_POST["coaches_id"]."'
+		";
+		$statement = $connect->prepare($query);
+		$result = $statement->execute();
+		if(isset($result))
 		{
-			$fn = $row2["coaches_last"].$row2["coaches_first"].$row2["coaches_mi"];
-		}
-		if(trim($_POST["coaches_last"]).trim($_POST["coaches_first"]).trim($_POST["coaches_mi"]) == $fn)
-		{
-			echo "This coach is already exists in the database.";
-		}
-		else
-		{
-			$query = "
-			UPDATE coaches SET 
-				coaches_last = '".trim($_POST["coaches_last"])."',
-				coaches_first = '".trim($_POST["coaches_first"])."',
-				coaches_mi = '".trim($_POST["coaches_mi"])."',
-				sports_id = '".trim($_POST["sports_id"])."',
-				birthdate = '".trim($_POST["birthdate"])."',
-				address = '".trim($_POST["address"])."',
-				gender = '".trim($_POST["gender"])."',
-				contact = '".trim($_POST["contact"])."',
-				email = '".trim($_POST["email"])."'
-				WHERE coaches_id = '".$_POST["coaches_id"]."'
-			";
-			$statement = $connect->prepare($query);
-			$result = $statement->execute();
-			if(isset($result))
-			{
-				echo "Coach Edited.";
-			}
+			echo "Coach Edited.";
 		}
 	}
 	if($_POST['btn_action'] == 'delete')

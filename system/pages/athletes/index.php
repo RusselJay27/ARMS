@@ -18,6 +18,8 @@ if(!isset($_SESSION["user_type"]))
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="../../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- DataTables -->
@@ -26,6 +28,9 @@ if(!isset($_SESSION["user_type"]))
   <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <!-- Croppie JS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.css" rel="stylesheet" type="text/css">
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed text-sm">
 <div class="wrapper">
@@ -151,11 +156,11 @@ if(!isset($_SESSION["user_type"]))
                     <th>Gender</th>
                     <th>Sport</th>
                     <th>School</th>
-                    <th>Date Created</th>
                     <th>Status</th>
                     <th>Update</th>
                     <th>Delete</th>
                     <th>More</th>
+                    <th>Achievements</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -185,19 +190,19 @@ if(!isset($_SESSION["user_type"]))
     				</div>
     				<div class="modal-body">
                   <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-6">
                       <div class="form-group">
                         <label>Last Name</label>
                         <input type="text" name="athletes_last" id="athletes_last" class="form-control" required />
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-4">
                       <div class="form-group">
                         <label>First Name</label>
                         <input type="text" name="athletes_first" id="athletes_first" class="form-control" required />
                       </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-2">
                       <div class="form-group">
                         <label>M.I.</label>
                         <input type="text" name="athletes_mi" id="athletes_mi" class="form-control" required/>
@@ -205,19 +210,30 @@ if(!isset($_SESSION["user_type"]))
                     </div>
                   </div> 
                   <div class="row">
-                    <div class="col-md-4">
-                      <div class="form-group">
+                    <div class="col-4">
+
+                      <!-- <div class="form-group">
                         <label>Birthdate</label>
                         <input type="text" name="birthdate" id="birthdate" class="form-control" required />
+                      </div> -->
+
+                      <div class="form-group">
+                        <label>Birthdate</label>
+                          <div class="input-group date" id="birthdates" data-target-input="nearest">
+                              <input type="text" class="form-control datetimepicker-input" data-target="#birthdates" name="birthdate" id="birthdate" required/>
+                              <div class="input-group-append" data-target="#birthdates" data-toggle="datetimepicker">
+                                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                              </div>
+                          </div>
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-4">
                       <div class="form-group">
                         <label>Height</label>
                         <input type="text" name="height" id="height" class="form-control" required/>
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-4">
                       <div class="form-group">
                         <label>Weight</label>
                         <input type="text" name="weight" id="weight" class="form-control" required/>
@@ -225,7 +241,7 @@ if(!isset($_SESSION["user_type"]))
                     </div>
                   </div> 
                   <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-6">
                       <div class="form-group">
                         <select name="level_id" id="level_id" class="form-control" required>
                             <option value="">Select Grade Level</option>
@@ -233,7 +249,7 @@ if(!isset($_SESSION["user_type"]))
                           </select>
                       </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-6">
                       <div class="form-group">
                         <select name="gender" id="gender" class="form-control" required>
                             <option value="">Select Gender</option>
@@ -244,13 +260,13 @@ if(!isset($_SESSION["user_type"]))
                     </div>
                   </div>  
                   <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-6">
                       <div class="form-group">
                         <label>Contact</label>
                         <input type="text" name="contact" id="contact" class="form-control" required />
                       </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-6">
                       <div class="form-group">
                         <label>Email</label>
                         <input type="email" name="email" id="email" class="form-control" required />
@@ -263,7 +279,7 @@ if(!isset($_SESSION["user_type"]))
                   </div> 
 
                   <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-6">
                       <div class="form-group">
                         <select name="coaches_id" id="coaches_id" class="form-control" required>
                             <option value="">Select Coach</option>
@@ -271,7 +287,7 @@ if(!isset($_SESSION["user_type"]))
                           </select>
                       </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-6">
                       <div class="form-group">
                         <select name="school_id" id="school_id" class="form-control" required>
                             <option value="">Select School</option>
@@ -282,7 +298,7 @@ if(!isset($_SESSION["user_type"]))
                   </div>  
 
                   <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-4">
                       <div class="form-group">
                         <select name="scholar" id="scholar" class="form-control" required>
                             <option value="">MSP Scholar</option>
@@ -291,7 +307,7 @@ if(!isset($_SESSION["user_type"]))
                           </select>
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-4">
                       <div class="form-group">
                         <select name="varsity" id="varsity" class="form-control" required>
                             <option value="">School Varsity</option>
@@ -300,7 +316,7 @@ if(!isset($_SESSION["user_type"]))
                           </select>
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-4">
                       <div class="form-group">
                         <select name="class_a" id="class_a" class="form-control" required>
                             <option value="">Class-A Athlete</option>
@@ -310,6 +326,12 @@ if(!isset($_SESSION["user_type"]))
                       </div>
                     </div>
                   </div>  
+
+                  <!-- <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="upload_image" required>
+                      <label class="custom-file-label" id="upload_image_name" name="upload_image_name" >Choose file</label>
+                      <input type="hidden" name="new_image" id="new_image">
+                  </div> -->
 
     				</div>
     				<div class="modal-footer">
@@ -343,10 +365,36 @@ if(!isset($_SESSION["user_type"]))
             </div>
         </div>
 
+<div id="uploadimageModal" class="modal" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title">Crop Athlete Image</h4>
+        		<button type="button" class="close" data-dismiss="modal">&times;</button>
+      		</div>
+      		<div class="modal-body">
+        		<div class="row">
+                    <div class="col-md-8 text-center">
+                        <div id="image_demo" style="width:350px; margin-top:30px"></div>
+                    </div>
+			    </div>
+      		</div>
+      		<div class="modal-footer">
+                <button class="btn btn-success crop_image">Crop Athlete Image</button>
+      		</div>
+    </div>
+  </div>
+</div>
+
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- InputMask -->
+<script src="../../plugins/moment/moment.min.js"></script>
+<script src="../../plugins/inputmask/jquery.inputmask.min.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="../../plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <!-- DataTables  & Plugins -->
 <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -364,9 +412,12 @@ if(!isset($_SESSION["user_type"]))
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.js"></script> 
 <!-- Page specific script -->
 <script>
+
   $(function () {
+
     $('#add_button').click(function(){
       $('#athletes_form')[0].reset();
       $('.modal-title').html("<i class='fa fa-plus'></i> Add Athlete");
@@ -499,12 +550,72 @@ if(!isset($_SESSION["user_type"]))
       },
       "columnDefs":[
         {
-          "targets":[0,8,9,10],
+          "targets":[0,7,8,9,10],
           "orderable":false,
         },
       ],
       "pageLength": 10, 
     });
+    //Date range picker
+    $('#birthdates').datetimepicker({
+        format: 'L'
+    });
+
+  });
+
+  $(document).ready(function(){
+    var filename = null;
+
+    $('#uploadimageModal').on('hidden.bs.modal', function (e) {
+            if ($('#new_image').val() == ''){
+                $('#upload_image').val("");
+                $("#upload_image_name").empty();
+                $("#upload_image_name").append("Choose file");
+            }
+            $('#athletesModal').modal('show');
+        });
+
+    $image_crop = $('#image_demo').croppie({
+            enableExif: true,
+            viewport: {
+            width:250,
+            height:250,
+            type:'square'
+            },
+            boundary:{
+            width:350,
+            height:350
+            }
+        });
+
+      $('#upload_image').on('change', function(){
+        var reader = new FileReader();
+        reader.onload = function (event) {
+            $image_crop.croppie('bind', {
+                url: event.target.result
+            }).then(function(){
+            });
+        }
+        reader.readAsDataURL(this.files[0]);
+        filename = this.files[0].name;
+        $('.modal-title').html("Crop Athlete Image");
+        $('#uploadimageModal').modal('toggle');
+        $('#athletesModal').modal('toggle');
+    });
+
+    $('.crop_image').click(function(event){
+            $image_crop.croppie('result', {
+            type: 'canvas',
+            size: 'viewport'
+            }).then(function(response){
+                //console.log(response);
+                $('#new_image').val(response);
+                $("#upload_image_name").empty();
+                $("#upload_image_name").append(filename);
+                $('#athletesModal').modal('toggle');
+                $('#uploadimageModal').modal('toggle');
+            })
+        });
   });
 </script>
 </body>
