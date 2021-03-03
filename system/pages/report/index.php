@@ -8,6 +8,16 @@ if(!isset($_SESSION["user_type"]))
 $_SESSION['tournaments_id'] ='';
 $_SESSION['tournaments_name'] ='';
 
+    $query = "SELECT athletes.*, sports.sports_name, coaches.coaches_last, coaches.coaches_first, coaches.coaches_mi
+    FROM athletes
+		INNER JOIN coaches ON athletes.coaches_id = coaches.coaches_id 
+		INNER JOIN sports ON coaches.sports_id = sports.sports_id ";
+		$statement = $connect->prepare($query);
+		$statement->execute(
+			array()
+		);
+		$result = $statement->fetchAll();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -139,29 +149,42 @@ $_SESSION['tournaments_name'] ='';
         <div class="row">
           <div class="col-12">
 
-            <div class="card">
+          <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Generate Report of Athletes per Tournament</h3>
+              </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Details</th>
-                    <th>Address</th>
-                    <th>Date Created</th>
-                    <th>Status</th>
-                    <th>Update</th>
-                    <th>Delete</th>
+                    <th>Athlete</th>
+                    <th>Sport</th>
+                    <th>Coach</th>
+                    <th>Award</th>
+                    <th>Date Event</th>
                   </tr>
                   </thead>
                   <tbody>
+                    <?php 
+
+                      foreach($result as $row)
+                      {
+                        echo '
+                        <tr>
+                          <td>'.$row["athletes_last"].', '.$row["athletes_first"].' '.$row["athletes_mi"].'.'.'</td>
+                          <td>'.$row['sports_name'].'</td>
+                          <td>'.$row['coaches_last'].', '.$row['coaches_first'].' '.$row['coaches_mi'].'.'.'</td>
+                          <td>No Award Yet.</td>
+                          <td>'.$row['birthdate'].'</td>
+                        </tr>';
+                      }
+                    ?>
                   </tbody>
                 </table>
               </div>
               <!-- /.card-body -->
             </div>
-            <!-- /.card -->
           </div>
           <!-- /.col -->
         </div>
@@ -180,10 +203,31 @@ $_SESSION['tournaments_name'] ='';
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../../plugins/jszip/jszip.min.js"></script>
+<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <!-- Page specific script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["csv", "excel", "pdf", "print"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+  });
+</script>
 </body>
 </html>

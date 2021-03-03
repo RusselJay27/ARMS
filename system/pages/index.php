@@ -81,7 +81,7 @@ include('header.php');
                 </a>
             </li>
             <li class="nav-item">
-                <a href="./index.html" class="nav-link">
+                <a href="./report/" class="nav-link">
                     <i class="fa fa-download nav-icon"></i>
                     <p>Report</p>
                 </a>
