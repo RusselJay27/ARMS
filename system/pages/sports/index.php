@@ -158,6 +158,7 @@ $_SESSION['tournaments_name'] ='';
                   <thead>
                   <tr>
                     <th>ID</th>
+                    <th>Category</th>
                     <th>Name</th>
                     <th>Details</th>
                     <th>Date Created</th>
@@ -195,7 +196,16 @@ $_SESSION['tournaments_name'] ='';
 						<h4 class="modal-title"><i class="fa fa-plus"></i></h4>
     					<button type="button" class="close" data-dismiss="modal">&times;</button>
     				</div>
+
     				<div class="modal-body">
+    					<div class="form-group">
+    						<select name="category" id="category" class="form-control" required>
+                  <option value="">Select Category</option>
+                  <option value="Individual / Dual">Individual / Dual</option>
+                  <option value="Team">Team</option>
+                  <option value="Combative">Combative</option>
+                </select>
+    					</div>
     					<div class="form-group">
                 <label>Enter Sport Name</label>
                 <input type="text" name="sports_name" id="sports_name" class="form-control" required />
@@ -205,6 +215,7 @@ $_SESSION['tournaments_name'] ='';
                 <textarea rows="3" name="details" id="details" class="form-control" required></textarea>
     					</div>
     				</div>
+
     				<div class="modal-footer">
     					<input type="hidden" name="sports_id" id="sports_id"/>
     					<input type="hidden" name="btn_action" id="btn_action"/>
@@ -324,6 +335,7 @@ $_SESSION['tournaments_name'] ='';
           $('#sportsModal').modal('show');
           $('#sports_name').val(data.sports_name);
           $('#details').val(data.details);
+          $('#category').val(data.category);
           $('.modal-title').html("<i class='fa fa-edit'></i> Edit Sport");
           $('#sports_id').val(sports_id);
           $('#action').val('Edit');
@@ -343,7 +355,7 @@ $_SESSION['tournaments_name'] ='';
       },
       "columnDefs":[
         {
-          "targets":[0,5,6],
+          "targets":[0,7,6],
           "orderable":false,
         },
       ],

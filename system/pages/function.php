@@ -69,7 +69,7 @@ function count_athletes($connect)
 }
 function count_users($connect)
 {
-	$query = "SELECT * from user_account";
+	$query = "SELECT * from user_account where user_id != '".$_SESSION['user_id']."'";
 	$statement = $connect->prepare($query);
 	$statement->execute();
 	return $statement->rowCount();

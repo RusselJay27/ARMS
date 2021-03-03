@@ -40,12 +40,13 @@ if(isset($_POST['btn_action']))
 		else
 		{
 			$query = "
-			INSERT INTO sports (sports_name, details, date_created) 
-			VALUES (:sports_name, :details, :date_created)
+			INSERT INTO sports (category, sports_name, details, date_created) 
+			VALUES (:category, :sports_name, :details, :date_created)
 			";
 			$statement = $connect->prepare($query);
 			$result = $statement->execute(
 				array(
+					':category'		=>	$_POST["category"],
 					':sports_name'	=>	trim($_POST["sports_name"]),
 					':details'		=>	trim($_POST["details"]),
 					':date_created'	=>	date("m-d-Y")
@@ -71,6 +72,7 @@ if(isset($_POST['btn_action']))
 		foreach($result as $row)
 		{
 			$output['sports_id'] = $row['sports_id'];
+			$output['category'] = $row['category'];
 			$output['sports_name'] = $row['sports_name'];
 			$output['details'] = $row['details'];
 		}
@@ -79,11 +81,12 @@ if(isset($_POST['btn_action']))
 	if($_POST['btn_action'] == 'Edit')
 	{
 		$sports_name = '';
-		$sports_status = 'Active';
-		$query2 = "SELECT * FROM sports WHERE sports_name = :sports_name";
+		$category = '';
+		$query2 = "SELECT * FROM sports WHERE sports_name = :sports_name AND category = :category";
 		$statement2 = $connect->prepare($query2);
 		$statement2->execute(
 			array(
+				':category'		=>	$_POST["category"],
 				':sports_name'	=>	trim($_POST["sports_name"])
 			)
 		);
@@ -91,22 +94,24 @@ if(isset($_POST['btn_action']))
 		foreach($result2 as $row2)
 		{
 			$sports_name = $row2['sports_name'];
+			$category = $row2['category'];
 		}
-		if($sports_name == trim($_POST["sports_name"]))
+		if($sports_name == trim($_POST["sports_name"]) && $category == trim($_POST["category"]))
 		{
 			echo "This sport is already exists in the database.";
 		}
 		else
 		{
 			$query = "
-			UPDATE sports set sports_name = :sports_name, details = :details
+			UPDATE sports set category = :category, sports_name = :sports_name, details = :details
 			WHERE sports_id = :sports_id
 			";
 			$statement = $connect->prepare($query);
 			$result = $statement->execute(
 				array(
-					':sports_name'		=>	$_POST["sports_name"],
-					':details'			=>	$_POST["details"],
+					':category'			=>	$_POST["category"],
+					':sports_name'		=>	trim($_POST["sports_name"]),
+					':details'			=>	trim($_POST["details"]),
 					':sports_id'		=>	$_POST["sports_id"]
 				)
 			);

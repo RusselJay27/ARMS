@@ -18,6 +18,7 @@ try{
 
     $sports = "CREATE table sports(
         `sports_id` INT(11) AUTO_INCREMENT PRIMARY KEY,
+        `category` varchar(255) DEFAULT NULL,
         `sports_name` varchar(255) DEFAULT NULL,
         `details` varchar(255) DEFAULT NULL,
         `sports_status` enum('Active','Inactive') DEFAULT 'Active',

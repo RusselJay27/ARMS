@@ -13,6 +13,7 @@ $query .= "SELECT * FROM sports where";
 if(isset($_POST["search"]["value"]))
 {
 	$query .= '(sports_name LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR category LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR sports_status LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR details LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR date_created LIKE "%'.$_POST["search"]["value"].'%" )';
@@ -47,6 +48,7 @@ foreach($result as $row)
 	$status = '';
 	$sub_array = array();
 	$sub_array[] = $row['sports_id'];
+	$sub_array[] = $row['category'];
 	$sub_array[] = $row['sports_name'];
 	$sub_array[] = $row['details'];
 	$sub_array[] = $row['date_created'];
