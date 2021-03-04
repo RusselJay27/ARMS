@@ -197,6 +197,35 @@ $_SESSION['tournaments_name'] ='';
     					<button type="button" class="close" data-dismiss="modal">&times;</button>
     				</div>
     				<div class="modal-body">
+
+                <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <img src="../../assets/img/default-placeholder.jpg" alt="Default Avatar" class="img-thumbnail" >
+                      </div>  
+                      <div class="form-group">
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" id="file" name="file" accept="image/x-png,image/jpeg" onchange="readURL(this);">
+                          <label class="custom-file-label" for="file" id="files" name="files">Choose file</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" name="athletes_last" id="athletes_last" class="form-control" required />
+                      </div>
+                      <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" name="athletes_first" id="athletes_first" class="form-control" required />
+                      </div>
+                      <div class="form-group">
+                        <label>M.I.</label>
+                        <input type="text" name="athletes_mi" id="athletes_mi" class="form-control" required/>
+                      </div>
+                    </div>
+                </div>
+
                   <!-- <div class="row">
                     <div class="col-6">
                       <div class="form-group">
@@ -216,7 +245,7 @@ $_SESSION['tournaments_name'] ='';
                         <input type="text" name="athletes_mi" id="athletes_mi" class="form-control" required/>
                       </div>
                     </div>
-                  </div> 
+                  </div>  -->
                   <div class="row">
                     <div class="col-4">
 
@@ -328,13 +357,6 @@ $_SESSION['tournaments_name'] ='';
                           </select>
                       </div>
                     </div>
-                  </div> -->
-
-                  <div class="form-group">
-                    <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="file" name="file" required>
-                      <label class="custom-file-label" for="file">Choose file</label>
-                    </div>
                   </div>
 
     				</div>
@@ -421,11 +443,23 @@ $_SESSION['tournaments_name'] ='';
 <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.js"></script> 
 <!-- Page specific script -->
 <script>
+  function readURL(input) {
+       if (input.files && input.files[0]) {
+           let reader = new FileReader();
+           reader.onload = function (e) {
+              $('.img-thumbnail')
+                .attr('src', e.target.result);
+           };
+           reader.readAsDataURL(input.files[0]);
+       }
+    }
 
   $(function () {
 
     $('#add_button').click(function(){
       $('#athletes_form')[0].reset();
+      $('.img-thumbnail')
+            .attr('src', '../../assets/img/default-placeholder.jpg');
       $('.modal-title').html("<i class='fa fa-plus'></i> Add Athlete");
       $('#action').val('Add');
       $('#btn_action').val('Add');
@@ -526,6 +560,8 @@ $_SESSION['tournaments_name'] ='';
           $('#scholar').val(data.scholar);
           $('#varsity').val(data.varsity);
           $('#class_a').val(data.class_a);
+          $('.img-thumbnail')
+                   .attr('src', data.image);
           $('.modal-title').html("<i class='fa fa-edit'></i> Edit Athlete");
           $('#athletes_id').val(athletes_id);
           $('#action').val('Edit');

@@ -78,6 +78,7 @@ try{
         `scholar` enum('Yes','No') DEFAULT 'No',
         `varsity` enum('Yes','No') DEFAULT 'No',
         `class_a` enum('Yes','No') DEFAULT 'No',
+        `image` varchar(255) DEFAULT NULL,
         `athletes_status` enum('Active','Inactive') DEFAULT 'Active',
         `date_created` varchar(255) DEFAULT null
     );";

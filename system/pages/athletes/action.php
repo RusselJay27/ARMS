@@ -11,94 +11,94 @@ if(isset($_POST['btn_action']))
 {
 	if($_POST['btn_action'] == 'Add')
 	{
-		//$filename = $_FILES['file']['name'];
-		//echo $filename.' - ';
-
-		$data = explode(".", $_FILES["file"]["name"]);
-		$extension = $data[1];
-		$allowed_extension = array("jpg", "png", "gif");
-		if(in_array($extension, $allowed_extension))
+		if(empty($_FILES['file']['tmp_name']))
 		{
-			$new_file_name = rand() . '.' . $extension;
-			$path = 'img/' . $new_file_name;
-			if(move_uploaded_file($_FILES["file"]["tmp_name"], $new_file_name))
-			{
-				echo 'Image Uploaded.';
-			}
-			else
-			{
-				echo 'There is some error. '.$new_file_name.' - '.$_FILES["file"]["tmp_name"];
-			}
+			$path = '../../assets/img/default-placeholder.jpg';
 		}
 		else
 		{
-			echo 'Invalid Image File. '.$extension.' - '.$allowed_extension ;
+			$data = explode(".", $_FILES["file"]["name"]);
+			$extension = $data[1];
+			$allowed_extension = array("jpg", "png");
+			if(in_array($extension, $allowed_extension))
+			{
+				$new_file_name = rand() . '.' . $extension;
+				$path = '../../assets/img/' . $new_file_name;
+				if(!move_uploaded_file($_FILES["file"]["tmp_name"], $path))
+				{
+					echo 'There is some error in uploading your image.';
+				}
+			}
+			else
+			{
+				echo 'Invalid Image File.';
+			}
 		}
-
-		// $fn = '';
-		// $athletes_status = '';
-		// $query2 = "SELECT * FROM athletes WHERE athletes_last = :athletes_last and athletes_first = :athletes_first and athletes_mi = :athletes_mi";
-		// $statement2 = $connect->prepare($query2);
-		// $statement2->execute(
-		// 	array(
-		// 		':athletes_last'		=>	$_POST["athletes_last"],
-		// 		':athletes_first'	=>	$_POST["athletes_first"],
-		// 		':athletes_mi'		=>	$_POST["athletes_mi"]
-		// 	)
-		// );
-		// $result2 = $statement2->fetchAll();
-		// foreach($result2 as $row)
-		// {
-		// 	$athletes_status = $row["athletes_status"];
-		// 	$fn = $row["athletes_last"].$row["athletes_first"].$row["athletes_mi"];
-		// }
-
-		// if(trim($_POST["athletes_last"]).trim($_POST["athletes_first"]).trim($_POST["athletes_mi"]) == $fn)
-		// {
-		// 	if($athletes_status == 'Active')
-		// 	{
-		// 		echo "This athlete is already exists in the database.";
-		// 	}
-		// 	else
-		// 	{
-		// 		echo "This athlete is already exists in the database but the status is Inactive.";
-		// 	}
-		// }
-		// else
-		// {
-		// 	$query = "
-		// 	INSERT INTO athletes (athletes_last,athletes_first,athletes_mi,gender,birthdate,height,weight,contact,email,
-		// 	address,coaches_id,level_id,school_id,scholar,varsity,class_a, date_created) 
-		// 	VALUES (:athletes_last, :athletes_first, :athletes_mi,:gender, :birthdate, :height,:weight, :contact, :email, 
-		// 	:address,:coaches_id, :level_id, :school_id,:scholar, :varsity, :class_a, :date_created)
-		// 	";	
-		// 	$statement = $connect->prepare($query);
-		// 	$result = $statement->execute(
-		// 		array(
-		// 			':athletes_last'	=>	trim($_POST["athletes_last"]),
-		// 			':athletes_first'	=>	trim($_POST["athletes_first"]),
-		// 			':athletes_mi'		=>	trim($_POST["athletes_mi"]),
-		// 			':gender'			=>	trim($_POST["gender"]),
-		// 			':birthdate'		=>	trim($_POST["birthdate"]),
-		// 			':height'			=>	trim($_POST["height"]),
-		// 			':weight'			=>	trim($_POST["weight"]),
-		// 			':contact'			=>	trim($_POST["contact"]),
-		// 			':email'			=>	trim($_POST["email"]),
-		// 			':address'			=>	trim($_POST["address"]),
-		// 			':coaches_id'		=>	trim($_POST["coaches_id"]),
-		// 			':level_id'			=>	trim($_POST["level_id"]),
-		// 			':school_id'		=>	trim($_POST["school_id"]),
-		// 			':scholar'			=>	trim($_POST["scholar"]),
-		// 			':varsity'			=>	trim($_POST["varsity"]),
-		// 			':class_a'			=>	trim($_POST["class_a"]),
-		// 			':date_created'		=>	date("m-d-Y")
-		// 		)
-		// 	);
-		// 	if(isset($result))
-		// 	{
-		// 		echo 'Athlete Added.';
-		// 	}
-		// }
+					$fn = '';
+					$athletes_status = '';
+					$query2 = "SELECT * FROM athletes WHERE athletes_last = :athletes_last and athletes_first = :athletes_first and athletes_mi = :athletes_mi";
+					$statement2 = $connect->prepare($query2);
+					$statement2->execute(
+						array(
+							':athletes_last'		=>	$_POST["athletes_last"],
+							':athletes_first'	=>	$_POST["athletes_first"],
+							':athletes_mi'		=>	$_POST["athletes_mi"]
+						)
+					);
+					$result2 = $statement2->fetchAll();
+					foreach($result2 as $row)
+					{
+						$athletes_status = $row["athletes_status"];
+						$fn = $row["athletes_last"].$row["athletes_first"].$row["athletes_mi"];
+					}
+	
+					if(trim($_POST["athletes_last"]).trim($_POST["athletes_first"]).trim($_POST["athletes_mi"]) == $fn)
+					{
+						if($athletes_status == 'Active')
+						{
+							echo "This athlete is already exists in the database.";
+						}
+						else
+						{
+							echo "This athlete is already exists in the database but the status is Inactive.";
+						}
+					}
+					else
+					{
+						$query = "
+						INSERT INTO athletes (athletes_last,athletes_first,athletes_mi,gender,birthdate,height,weight,contact,email,
+						address,coaches_id,level_id,school_id,scholar,varsity,class_a, image, date_created) 
+						VALUES (:athletes_last, :athletes_first, :athletes_mi,:gender, :birthdate, :height,:weight, :contact, :email, 
+						:address,:coaches_id, :level_id, :school_id,:scholar, :varsity, :class_a, :image, :date_created)
+						";	
+						$statement = $connect->prepare($query);
+						$result = $statement->execute(
+							array(
+								':athletes_last'	=>	trim($_POST["athletes_last"]),
+								':athletes_first'	=>	trim($_POST["athletes_first"]),
+								':athletes_mi'		=>	trim($_POST["athletes_mi"]),
+								':gender'			=>	trim($_POST["gender"]),
+								':birthdate'		=>	trim($_POST["birthdate"]),
+								':height'			=>	trim($_POST["height"]),
+								':weight'			=>	trim($_POST["weight"]),
+								':contact'			=>	trim($_POST["contact"]),
+								':email'			=>	trim($_POST["email"]),
+								':address'			=>	trim($_POST["address"]),
+								':coaches_id'		=>	trim($_POST["coaches_id"]),
+								':level_id'			=>	trim($_POST["level_id"]),
+								':school_id'		=>	trim($_POST["school_id"]),
+								':scholar'			=>	trim($_POST["scholar"]),
+								':varsity'			=>	trim($_POST["varsity"]),
+								':class_a'			=>	trim($_POST["class_a"]),
+								':image'			=>	$path,
+								':date_created'		=>	date("m-d-Y")
+							)
+						);
+						if(isset($result))
+						{
+							echo 'Athlete Added.';
+						}
+					}
 	}
 	
 	if($_POST['btn_action'] == 'fetch_single')
@@ -129,36 +129,89 @@ if(isset($_POST['btn_action']))
 			$output['email'] = $row['email'];
 			$output['height'] = $row['height'];
 			$output['weight'] = $row['weight'];
+			$output['image'] = $row['image'];
 		}
 		echo json_encode($output);
 	}
 	if($_POST['btn_action'] == 'Edit')
 	{
-		$query = "
-		UPDATE athletes SET 
-			athletes_last = '".trim($_POST["athletes_last"])."',
-			athletes_first = '".trim($_POST["athletes_first"])."',
-			athletes_mi = '".trim($_POST["athletes_mi"])."',
-			gender = '".trim($_POST["gender"])."',
-			birthdate = '".trim($_POST["birthdate"])."',
-			height = '".trim($_POST["height"])."',
-			weight = '".trim($_POST["weight"])."',
-			contact = '".trim($_POST["contact"])."',
-			email = '".trim($_POST["email"])."',
-			address = '".trim($_POST["address"])."',
-			coaches_id = '".trim($_POST["coaches_id"])."',
-			level_id = '".trim($_POST["level_id"])."',
-			school_id = '".trim($_POST["school_id"])."',
-			scholar = '".trim($_POST["scholar"])."',
-			varsity = '".trim($_POST["varsity"])."',
-			class_a = '".trim($_POST["class_a"])."'
-			WHERE athletes_id = '".$_POST["athletes_id"]."'
-		";
-		$statement = $connect->prepare($query);
-		$result = $statement->execute();
-		if(isset($result))
+		if(empty($_FILES['file']['tmp_name']))
 		{
-			echo "Athlete Edited.";
+			$query = "
+			UPDATE athletes SET 
+				athletes_last = '".trim($_POST["athletes_last"])."',
+				athletes_first = '".trim($_POST["athletes_first"])."',
+				athletes_mi = '".trim($_POST["athletes_mi"])."',
+				gender = '".trim($_POST["gender"])."',
+				birthdate = '".trim($_POST["birthdate"])."',
+				height = '".trim($_POST["height"])."',
+				weight = '".trim($_POST["weight"])."',
+				contact = '".trim($_POST["contact"])."',
+				email = '".trim($_POST["email"])."',
+				address = '".trim($_POST["address"])."',
+				coaches_id = '".trim($_POST["coaches_id"])."',
+				level_id = '".trim($_POST["level_id"])."',
+				school_id = '".trim($_POST["school_id"])."',
+				scholar = '".trim($_POST["scholar"])."',
+				varsity = '".trim($_POST["varsity"])."',
+				class_a = '".trim($_POST["class_a"])."'
+				WHERE athletes_id = '".$_POST["athletes_id"]."'
+			";
+			$statement = $connect->prepare($query);
+			$result = $statement->execute();
+			if(isset($result))
+			{
+				echo "Athlete Edited.";
+			}
+		}
+		else
+		{
+			$data = explode(".", $_FILES["file"]["name"]);
+			$extension = $data[1];
+			$allowed_extension = array("jpg", "png");
+			if(in_array($extension, $allowed_extension))
+			{
+				$new_file_name = rand() . '.' . $extension;
+				$path = '../../assets/img/' . $new_file_name;
+				if(move_uploaded_file($_FILES["file"]["tmp_name"], $path))
+				{
+					$query = "
+					UPDATE athletes SET 
+						athletes_last = '".trim($_POST["athletes_last"])."',
+						athletes_first = '".trim($_POST["athletes_first"])."',
+						athletes_mi = '".trim($_POST["athletes_mi"])."',
+						gender = '".trim($_POST["gender"])."',
+						birthdate = '".trim($_POST["birthdate"])."',
+						height = '".trim($_POST["height"])."',
+						weight = '".trim($_POST["weight"])."',
+						contact = '".trim($_POST["contact"])."',
+						email = '".trim($_POST["email"])."',
+						address = '".trim($_POST["address"])."',
+						coaches_id = '".trim($_POST["coaches_id"])."',
+						level_id = '".trim($_POST["level_id"])."',
+						school_id = '".trim($_POST["school_id"])."',
+						scholar = '".trim($_POST["scholar"])."',
+						varsity = '".trim($_POST["varsity"])."',
+						class_a = '".trim($_POST["class_a"])."',
+						image = '".$path."'
+						WHERE athletes_id = '".$_POST["athletes_id"]."'
+					";
+					$statement = $connect->prepare($query);
+					$result = $statement->execute();
+					if(isset($result))
+					{
+						echo "Athlete Edited.";
+					}
+				}
+				else
+				{
+					echo 'There is some error in uploading your image.';
+				}
+			}
+			else
+			{
+				echo 'Invalid Image File.';
+			}
 		}
 	}
 	if($_POST['btn_action'] == 'delete')
