@@ -11,6 +11,29 @@ if(isset($_POST['btn_action']))
 {
 	if($_POST['btn_action'] == 'Add')
 	{
+		if(empty($_FILES['file']['tmp_name']))
+		{
+			$path = '../../assets/img/default-placeholder.jpg';
+		}
+		else
+		{
+			$data = explode(".", $_FILES["file"]["name"]);
+			$extension = $data[1];
+			$allowed_extension = array("jpg", "png");
+			if(in_array($extension, $allowed_extension))
+			{
+				$new_file_name = rand() . '.' . $extension;
+				$path = '../../assets/img/' . $new_file_name;
+				if(!move_uploaded_file($_FILES["file"]["tmp_name"], $path))
+				{
+					echo 'There is some error in uploading your image.';
+				}
+			}
+			else
+			{
+				echo 'Invalid Image File.';
+			}
+		}
 		$fn = '';
 		$coaches_status = '';
 		$query2 = "SELECT * FROM coaches WHERE coaches_last = :coaches_last and coaches_first = :coaches_first and coaches_mi = :coaches_mi";
@@ -43,8 +66,8 @@ if(isset($_POST['btn_action']))
 		else
 		{
 			$query = "
-			INSERT INTO coaches (coaches_last,coaches_first,coaches_mi,sports_id,birthdate,address,gender,contact,email, date_created) 
-			VALUES (:coaches_last, :coaches_first, :coaches_mi,:sports_id, :birthdate, :address,:gender, :contact, :email, :date_created)
+			INSERT INTO coaches (coaches_last,coaches_first,coaches_mi,sports_id,birthdate,address,gender,contact,email, image, date_created) 
+			VALUES (:coaches_last, :coaches_first, :coaches_mi,:sports_id, :birthdate, :address,:gender, :contact, :email, :image, :date_created)
 			";	
 			$statement = $connect->prepare($query);
 			$result = $statement->execute(
@@ -58,6 +81,7 @@ if(isset($_POST['btn_action']))
 					':gender'			=>	trim($_POST["gender"]),
 					':contact'			=>	trim($_POST["contact"]),
 					':email'			=>	trim($_POST["email"]),
+					':image'			=>	$path,
 					':date_created'		=>	date("m-d-Y")
 				)
 			);
@@ -89,31 +113,80 @@ if(isset($_POST['btn_action']))
 			$output['gender'] = $row['gender'];
 			$output['contact'] = $row['contact'];
 			$output['email'] = $row['email'];
+			$output['image'] = $row['image'];
 		}
 		echo json_encode($output);
 	}
+
 	if($_POST['btn_action'] == 'Edit')
 	{
-		$query = "
-		UPDATE coaches SET 
-			coaches_last = '".trim($_POST["coaches_last"])."',
-			coaches_first = '".trim($_POST["coaches_first"])."',
-			coaches_mi = '".trim($_POST["coaches_mi"])."',
-			sports_id = '".trim($_POST["sports_id"])."',
-			birthdate = '".trim($_POST["birthdate"])."',
-			address = '".trim($_POST["address"])."',
-			gender = '".trim($_POST["gender"])."',
-			contact = '".trim($_POST["contact"])."',
-			email = '".trim($_POST["email"])."'
-			WHERE coaches_id = '".$_POST["coaches_id"]."'
-		";
-		$statement = $connect->prepare($query);
-		$result = $statement->execute();
-		if(isset($result))
+		
+		if(empty($_FILES['file']['tmp_name']))
 		{
-			echo "Coach Edited.";
+			$query = "
+			UPDATE coaches SET 
+				coaches_last = '".trim($_POST["coaches_last"])."',
+				coaches_first = '".trim($_POST["coaches_first"])."',
+				coaches_mi = '".trim($_POST["coaches_mi"])."',
+				sports_id = '".trim($_POST["sports_id"])."',
+				birthdate = '".trim($_POST["birthdate"])."',
+				address = '".trim($_POST["address"])."',
+				gender = '".trim($_POST["gender"])."',
+				contact = '".trim($_POST["contact"])."',
+				email = '".trim($_POST["email"])."'
+				WHERE coaches_id = '".$_POST["coaches_id"]."'
+			";
+			$statement = $connect->prepare($query);
+			$result = $statement->execute();
+			if(isset($result))
+			{
+				echo "Coach Edited.";
+			}
+		}
+		else
+		{
+			$data = explode(".", $_FILES["file"]["name"]);
+			$extension = $data[1];
+			$allowed_extension = array("jpg", "png");
+			if(in_array($extension, $allowed_extension))
+			{
+				$new_file_name = rand() . '.' . $extension;
+				$path = '../../assets/img/' . $new_file_name;
+				if(move_uploaded_file($_FILES["file"]["tmp_name"], $path))
+				{
+					$query = "
+					UPDATE coaches SET 
+						coaches_last = '".trim($_POST["coaches_last"])."',
+						coaches_first = '".trim($_POST["coaches_first"])."',
+						coaches_mi = '".trim($_POST["coaches_mi"])."',
+						sports_id = '".trim($_POST["sports_id"])."',
+						birthdate = '".trim($_POST["birthdate"])."',
+						address = '".trim($_POST["address"])."',
+						gender = '".trim($_POST["gender"])."',
+						contact = '".trim($_POST["contact"])."',
+						email = '".trim($_POST["email"])."',
+						image = '".$path."'
+						WHERE coaches_id = '".$_POST["coaches_id"]."'
+					";
+					$statement = $connect->prepare($query);
+					$result = $statement->execute();
+					if(isset($result))
+					{
+						echo "Coach Edited.";
+					}
+				}
+				else
+				{
+					echo 'There is some error in uploading your image.';
+				}
+			}
+			else
+			{
+				echo 'Invalid Image File.';
+			}
 		}
 	}
+
 	if($_POST['btn_action'] == 'delete')
 	{
 		$query = "
@@ -131,6 +204,7 @@ if(isset($_POST['btn_action']))
 			echo 'Coach Deleted.';
 		}
 	}
+
 	if($_POST['btn_action'] == 'status')
 	{
 		$status = 'Active';

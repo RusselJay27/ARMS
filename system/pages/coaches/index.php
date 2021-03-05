@@ -189,14 +189,15 @@ $_SESSION['tournaments_name'] ='';
 
   <div id="coachesModal" class="modal fade">
     	<div class="modal-dialog">
-    		<form method="post" id="coaches_form">
+    		<form method="post" id="coaches_form" enctype="multipart/form-data">
     			<div class="modal-content">
     				<div class="modal-header">
 						<h4 class="modal-title"><i class="fa fa-plus"></i></h4>
     					<button type="button" class="close" data-dismiss="modal">&times;</button>
     				</div>
     				<div class="modal-body">
-                  <div class="row">
+
+                  <!-- <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Last Name</label>
@@ -215,7 +216,36 @@ $_SESSION['tournaments_name'] ='';
                         <input type="text" name="coaches_mi" id="coaches_mi" class="form-control" required/>
                       </div>
                     </div>
-                  </div> 
+                  </div>  -->
+                  
+                <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <img src="../../assets/img/default-placeholder.jpg" alt="Default Avatar" class="img-thumbnail" >
+                      </div>  
+                      <div class="form-group">
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" id="file" name="file" accept="image/x-png,image/jpeg" onchange="readURL(this);">
+                          <label class="custom-file-label" for="file" id="files" name="files">Choose file</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" name="coaches_last" id="coaches_last" class="form-control" required />
+                      </div>
+                      <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" name="coaches_first" id="coaches_first" class="form-control" required />
+                      </div>
+                      <div class="form-group">
+                        <label>M.I.</label>
+                        <input type="text" name="coaches_mi" id="coaches_mi" class="form-control" required/>
+                      </div>
+                    </div>
+                </div>
+
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
@@ -302,15 +332,31 @@ $_SESSION['tournaments_name'] ='';
 <script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- bs-custom-file-input -->
+<script src="../../plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+        let reader = new FileReader();
+          reader.onload = function (e) {
+            $('.img-thumbnail')
+              .attr('src', e.target.result);
+        };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
   $(function () {
+
     $('#add_button').click(function(){
       $('#coaches_form')[0].reset();
+      $('.img-thumbnail')
+            .attr('src', '../../assets/img/default-placeholder.jpg');
       $('.modal-title').html("<i class='fa fa-plus'></i> Add Coach");
       $('#action').val('Add');
       $('#btn_action').val('Add');
@@ -319,11 +365,15 @@ $_SESSION['tournaments_name'] ='';
     $(document).on('submit','#coaches_form', function(event){
       event.preventDefault();
       $('#action').attr('disabled','disabled');
-      var form_data = $(this).serialize();
+      //var form_data = $(this).serialize();
       $.ajax({
         url:"action.php",
         method:"POST",
-        data:form_data,
+        //data:form_data,
+        data: new FormData(this),
+        contentType: false,
+        cache: false,
+        processData:false,
         success:function(data)
         {
           $('#coaches_form')[0].reset();
@@ -400,6 +450,8 @@ $_SESSION['tournaments_name'] ='';
           $('#gender').val(data.gender);
           $('#contact').val(data.contact);
           $('#email').val(data.email);
+          $('.img-thumbnail')
+                   .attr('src', data.image);
           $('.modal-title').html("<i class='fa fa-edit'></i> Edit Coach");
           $('#coaches_id').val(coaches_id);
           $('#action').val('Edit');
@@ -430,6 +482,8 @@ $_SESSION['tournaments_name'] ='';
     $('#birthdates').datetimepicker({
         format: 'L'
     });
+    
+    bsCustomFileInput.init();
 
   });
 </script>

@@ -606,6 +606,8 @@ $_SESSION['tournaments_name'] ='';
     $('#birthdates').datetimepicker({
         format: 'L'
     });
+    
+    bsCustomFileInput.init();
 
   });
 
@@ -664,11 +666,6 @@ $_SESSION['tournaments_name'] ='';
   });
 </script>
 
-<script>
-$(function () {
-  bsCustomFileInput.init();
-});
-</script>
 
 </body>
 </html>
