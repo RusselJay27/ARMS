@@ -11,70 +11,94 @@ if(isset($_POST['btn_action']))
 {
 	if($_POST['btn_action'] == 'Add')
 	{
-		$fn = '';
-		$athletes_status = '';
-		$query2 = "SELECT * FROM athletes WHERE athletes_last = :athletes_last and athletes_first = :athletes_first and athletes_mi = :athletes_mi";
-		$statement2 = $connect->prepare($query2);
-		$statement2->execute(
-			array(
-				':athletes_last'		=>	$_POST["athletes_last"],
-				':athletes_first'	=>	$_POST["athletes_first"],
-				':athletes_mi'		=>	$_POST["athletes_mi"]
-			)
-		);
-		$result2 = $statement2->fetchAll();
-		foreach($result2 as $row)
-		{
-			$athletes_status = $row["athletes_status"];
-			$fn = $row["athletes_last"].$row["athletes_first"].$row["athletes_mi"];
-		}
+		//$filename = $_FILES['file']['name'];
+		//echo $filename.' - ';
 
-		if(trim($_POST["athletes_last"]).trim($_POST["athletes_first"]).trim($_POST["athletes_mi"]) == $fn)
+		$data = explode(".", $_FILES["file"]["name"]);
+		$extension = $data[1];
+		$allowed_extension = array("jpg", "png", "gif");
+		if(in_array($extension, $allowed_extension))
 		{
-			if($athletes_status == 'Active')
+			$new_file_name = rand() . '.' . $extension;
+			$path = 'img/' . $new_file_name;
+			if(move_uploaded_file($_FILES["file"]["tmp_name"], $new_file_name))
 			{
-				echo "This athlete is already exists in the database.";
+				echo 'Image Uploaded.';
 			}
 			else
 			{
-				echo "This athlete is already exists in the database but the status is Inactive.";
+				echo 'There is some error. '.$new_file_name.' - '.$_FILES["file"]["tmp_name"];
 			}
 		}
 		else
 		{
-			$query = "
-			INSERT INTO athletes (athletes_last,athletes_first,athletes_mi,gender,birthdate,height,weight,contact,email,
-			address,coaches_id,level_id,school_id,scholar,varsity,class_a, date_created) 
-			VALUES (:athletes_last, :athletes_first, :athletes_mi,:gender, :birthdate, :height,:weight, :contact, :email, 
-			:address,:coaches_id, :level_id, :school_id,:scholar, :varsity, :class_a, :date_created)
-			";	
-			$statement = $connect->prepare($query);
-			$result = $statement->execute(
-				array(
-					':athletes_last'	=>	trim($_POST["athletes_last"]),
-					':athletes_first'	=>	trim($_POST["athletes_first"]),
-					':athletes_mi'		=>	trim($_POST["athletes_mi"]),
-					':gender'			=>	trim($_POST["gender"]),
-					':birthdate'		=>	trim($_POST["birthdate"]),
-					':height'			=>	trim($_POST["height"]),
-					':weight'			=>	trim($_POST["weight"]),
-					':contact'			=>	trim($_POST["contact"]),
-					':email'			=>	trim($_POST["email"]),
-					':address'			=>	trim($_POST["address"]),
-					':coaches_id'		=>	trim($_POST["coaches_id"]),
-					':level_id'			=>	trim($_POST["level_id"]),
-					':school_id'		=>	trim($_POST["school_id"]),
-					':scholar'			=>	trim($_POST["scholar"]),
-					':varsity'			=>	trim($_POST["varsity"]),
-					':class_a'			=>	trim($_POST["class_a"]),
-					':date_created'		=>	date("m-d-Y")
-				)
-			);
-			if(isset($result))
-			{
-				echo 'Athlete Added.';
-			}
+			echo 'Invalid Image File. '.$extension.' - '.$allowed_extension ;
 		}
+
+		// $fn = '';
+		// $athletes_status = '';
+		// $query2 = "SELECT * FROM athletes WHERE athletes_last = :athletes_last and athletes_first = :athletes_first and athletes_mi = :athletes_mi";
+		// $statement2 = $connect->prepare($query2);
+		// $statement2->execute(
+		// 	array(
+		// 		':athletes_last'		=>	$_POST["athletes_last"],
+		// 		':athletes_first'	=>	$_POST["athletes_first"],
+		// 		':athletes_mi'		=>	$_POST["athletes_mi"]
+		// 	)
+		// );
+		// $result2 = $statement2->fetchAll();
+		// foreach($result2 as $row)
+		// {
+		// 	$athletes_status = $row["athletes_status"];
+		// 	$fn = $row["athletes_last"].$row["athletes_first"].$row["athletes_mi"];
+		// }
+
+		// if(trim($_POST["athletes_last"]).trim($_POST["athletes_first"]).trim($_POST["athletes_mi"]) == $fn)
+		// {
+		// 	if($athletes_status == 'Active')
+		// 	{
+		// 		echo "This athlete is already exists in the database.";
+		// 	}
+		// 	else
+		// 	{
+		// 		echo "This athlete is already exists in the database but the status is Inactive.";
+		// 	}
+		// }
+		// else
+		// {
+		// 	$query = "
+		// 	INSERT INTO athletes (athletes_last,athletes_first,athletes_mi,gender,birthdate,height,weight,contact,email,
+		// 	address,coaches_id,level_id,school_id,scholar,varsity,class_a, date_created) 
+		// 	VALUES (:athletes_last, :athletes_first, :athletes_mi,:gender, :birthdate, :height,:weight, :contact, :email, 
+		// 	:address,:coaches_id, :level_id, :school_id,:scholar, :varsity, :class_a, :date_created)
+		// 	";	
+		// 	$statement = $connect->prepare($query);
+		// 	$result = $statement->execute(
+		// 		array(
+		// 			':athletes_last'	=>	trim($_POST["athletes_last"]),
+		// 			':athletes_first'	=>	trim($_POST["athletes_first"]),
+		// 			':athletes_mi'		=>	trim($_POST["athletes_mi"]),
+		// 			':gender'			=>	trim($_POST["gender"]),
+		// 			':birthdate'		=>	trim($_POST["birthdate"]),
+		// 			':height'			=>	trim($_POST["height"]),
+		// 			':weight'			=>	trim($_POST["weight"]),
+		// 			':contact'			=>	trim($_POST["contact"]),
+		// 			':email'			=>	trim($_POST["email"]),
+		// 			':address'			=>	trim($_POST["address"]),
+		// 			':coaches_id'		=>	trim($_POST["coaches_id"]),
+		// 			':level_id'			=>	trim($_POST["level_id"]),
+		// 			':school_id'		=>	trim($_POST["school_id"]),
+		// 			':scholar'			=>	trim($_POST["scholar"]),
+		// 			':varsity'			=>	trim($_POST["varsity"]),
+		// 			':class_a'			=>	trim($_POST["class_a"]),
+		// 			':date_created'		=>	date("m-d-Y")
+		// 		)
+		// 	);
+		// 	if(isset($result))
+		// 	{
+		// 		echo 'Athlete Added.';
+		// 	}
+		// }
 	}
 	
 	if($_POST['btn_action'] == 'fetch_single')

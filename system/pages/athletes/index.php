@@ -190,14 +190,14 @@ $_SESSION['tournaments_name'] ='';
 
   <div id="athletesModal" class="modal fade">
     	<div class="modal-dialog">
-    		<form method="post" id="athletes_form">
+    		<form method="post" id="athletes_form" enctype="multipart/form-data">
     			<div class="modal-content">
     				<div class="modal-header">
 						<h4 class="modal-title"><i class="fa fa-plus"></i></h4>
     					<button type="button" class="close" data-dismiss="modal">&times;</button>
     				</div>
     				<div class="modal-body">
-                  <div class="row">
+                  <!-- <div class="row">
                     <div class="col-6">
                       <div class="form-group">
                         <label>Last Name</label>
@@ -219,11 +219,6 @@ $_SESSION['tournaments_name'] ='';
                   </div> 
                   <div class="row">
                     <div class="col-4">
-
-                      <!-- <div class="form-group">
-                        <label>Birthdate</label>
-                        <input type="text" name="birthdate" id="birthdate" class="form-control" required />
-                      </div> -->
 
                       <div class="form-group">
                         <label>Birthdate</label>
@@ -333,13 +328,14 @@ $_SESSION['tournaments_name'] ='';
                           </select>
                       </div>
                     </div>
-                  </div>  
-
-                  <!-- <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="upload_image" required>
-                      <label class="custom-file-label" id="upload_image_name" name="upload_image_name" >Choose file</label>
-                      <input type="hidden" name="new_image" id="new_image">
                   </div> -->
+
+                  <div class="form-group">
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="file" name="file" required>
+                      <label class="custom-file-label" for="file">Choose file</label>
+                    </div>
+                  </div>
 
     				</div>
     				<div class="modal-footer">
@@ -416,6 +412,8 @@ $_SESSION['tournaments_name'] ='';
 <script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- bs-custom-file-input -->
+<script src="../../plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
@@ -436,11 +434,15 @@ $_SESSION['tournaments_name'] ='';
     $(document).on('submit','#athletes_form', function(event){
       event.preventDefault();
       $('#action').attr('disabled','disabled');
-      var form_data = $(this).serialize();
+      //var form_data = $(this).serialize();
       $.ajax({
         url:"action.php",
         method:"POST",
-        data:form_data,
+        //data:form_data,
+        data: new FormData(this),
+        contentType: false,
+        cache: false,
+        processData:false,
         success:function(data)
         {
           $('#athletes_form')[0].reset();
@@ -574,57 +576,63 @@ $_SESSION['tournaments_name'] ='';
   $(document).ready(function(){
     var filename = null;
 
-    $('#uploadimageModal').on('hidden.bs.modal', function (e) {
-            if ($('#new_image').val() == ''){
-                $('#upload_image').val("");
-                $("#upload_image_name").empty();
-                $("#upload_image_name").append("Choose file");
-            }
-            $('#athletesModal').modal('show');
-        });
+    // $('#uploadimageModal').on('hidden.bs.modal', function (e) {
+    //         if ($('#new_image').val() == ''){
+    //             $('#upload_image').val("");
+    //             $("#upload_image_name").empty();
+    //             $("#upload_image_name").append("Choose file");
+    //         }
+    //         $('#athletesModal').modal('show');
+    //     });
 
-    $image_crop = $('#image_demo').croppie({
-            enableExif: true,
-            viewport: {
-            width:250,
-            height:250,
-            type:'square'
-            },
-            boundary:{
-            width:350,
-            height:350
-            }
-        });
+    // $image_crop = $('#image_demo').croppie({
+    //         enableExif: true,
+    //         viewport: {
+    //         width:250,
+    //         height:250,
+    //         type:'square'
+    //         },
+    //         boundary:{
+    //         width:350,
+    //         height:350
+    //         }
+    //     });
 
-      $('#upload_image').on('change', function(){
-        var reader = new FileReader();
-        reader.onload = function (event) {
-            $image_crop.croppie('bind', {
-                url: event.target.result
-            }).then(function(){
-            });
-        }
-        reader.readAsDataURL(this.files[0]);
-        filename = this.files[0].name;
-        $('.modal-title').html("Crop Athlete Image");
-        $('#uploadimageModal').modal('toggle');
-        $('#athletesModal').modal('toggle');
-    });
+    //   $('#upload_image').on('change', function(){
+    //     var reader = new FileReader();
+    //     reader.onload = function (event) {
+    //         $image_crop.croppie('bind', {
+    //             url: event.target.result
+    //         }).then(function(){
+    //         });
+    //     }
+    //     reader.readAsDataURL(this.files[0]);
+    //     filename = this.files[0].name;
+    //     $('.modal-title').html("Crop Athlete Image");
+    //     $('#uploadimageModal').modal('toggle');
+    //     $('#athletesModal').modal('toggle');
+    // });
 
-    $('.crop_image').click(function(event){
-            $image_crop.croppie('result', {
-            type: 'canvas',
-            size: 'viewport'
-            }).then(function(response){
-                //console.log(response);
-                $('#new_image').val(response);
-                $("#upload_image_name").empty();
-                $("#upload_image_name").append(filename);
-                $('#athletesModal').modal('toggle');
-                $('#uploadimageModal').modal('toggle');
-            })
-        });
+    // $('.crop_image').click(function(event){
+    //         $image_crop.croppie('result', {
+    //         type: 'canvas',
+    //         size: 'viewport'
+    //         }).then(function(response){
+    //             $('#new_image').val(response);
+    //             $("#upload_image_name").empty();
+    //             $("#upload_image_name").append(filename);
+    //             $('#athletesModal').modal('toggle');
+    //             $('#uploadimageModal').modal('toggle');
+    //         })
+    //     });
   });
 </script>
+
+<script>
+$(function () {
+  bsCustomFileInput.init();
+});
+</script>
+
 </body>
 </html>
