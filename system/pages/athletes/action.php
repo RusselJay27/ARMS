@@ -283,6 +283,13 @@ if(isset($_POST['btn_action']))
 			: (date("Y") - $birthDate[2])); //$age
 			$output .= '
 			<tr>
+				<td colspan="2">
+				<div class="col-6"  style="float:none;margin:auto;">
+				<img src="'.$row['image'].'" alt="Default Avatar" class="img-thumbnail" >
+				</div>
+				</td>
+			</tr>
+			<tr>
 				<td>Fullname</td>
 				<td>'.$row['athletes_last'].', '.$row['athletes_first'].' '.$row['athletes_mi'].'.'.'</td>
 			</tr>
