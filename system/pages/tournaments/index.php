@@ -46,6 +46,11 @@ $_SESSION['tournaments_name'] ='';
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
+      <li class="nav-item d-none d-sm-inline-block">
+          <img style="height:30px; width:125px"
+                src="../../assets/yasdo_logo.png"
+                alt="User profile picture"> 
+      </li>
     </ul>
 
   </nav>

@@ -78,6 +78,14 @@ else{
   <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  
+<style type="text/css">
+.login-page {
+  background: url("assets/Muntinlupa_Sports_Center.jpg") no-repeat center center fixed;
+  background-size: cover;	
+}
+</style>
+
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
@@ -88,8 +96,11 @@ else{
     <div class="card-body card-primary">
 
        <div class="text-center">
-            <img class="profile-user-img img-fluid img-circle"
-                src="dist/img/login_user.png"
+            <!-- <img class="profile-user-img img-fluid img-square"
+                src="assets/yasdo_logo.png"
+                alt="User profile picture">  -->
+            <img style="height:175px"
+                src="assets/yasdo_logo.png"
                 alt="User profile picture"> 
         </div>
         <br/>

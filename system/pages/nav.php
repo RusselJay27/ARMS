@@ -7,6 +7,12 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="../index3.html" class="nav-link">Home</a>
+            <!-- <img style="height:175px"
+                src="../assets/yasdo_logo.png"
+                alt="User profile picture">  -->
+      </li>
     </ul>
 
   </nav>
