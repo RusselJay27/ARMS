@@ -29,6 +29,9 @@ $_SESSION['tournaments_name'] ='';
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="../../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
   <!-- DataTables -->
   <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -203,14 +206,24 @@ $_SESSION['tournaments_name'] ='';
     				</div>
 
     				<div class="modal-body">
-    					<div class="form-group">
+    					<!-- <div class="form-group">
     						<select name="category" id="category" class="form-control" required>
                   <option value="">Select Category</option>
                   <option value="Individual / Dual">Individual / Dual</option>
                   <option value="Team">Team</option>
                   <option value="Combative">Combative</option>
                 </select>
-    					</div>
+    					</div> -->
+              
+              <div class="select2-warning form-group">
+                <select class="form-control select2" multiple="multiple" data-placeholder="Select Category" data-dropdown-css-class="select2-warning" style="width: 100%;" name="category1" id="category1">
+                  
+                <!-- <option selected="selected">Alabama</option> -->
+                <option value="Individual / Dual">Individual / Dual</option>
+                  <option value="Team">Team</option>
+                  <option value="Combative">Combative</option>
+                </select>
+              </div>
     					<div class="form-group">
                 <label>Enter Sport Name</label>
                 <input type="text" name="sports_name" id="sports_name" class="form-control" required />
@@ -222,6 +235,7 @@ $_SESSION['tournaments_name'] ='';
     				</div>
 
     				<div class="modal-footer">
+              <input type="hidden" name="hidden_category" id="hidden_category" />
     					<input type="hidden" name="sports_id" id="sports_id"/>
     					<input type="hidden" name="btn_action" id="btn_action"/>
     					<input type="submit" name="action" id="action" class="btn btn-warning" value="Add" />
@@ -236,6 +250,8 @@ $_SESSION['tournaments_name'] ='';
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Select2 -->
+<script src="../../plugins/select2/js/select2.full.min.js"></script>
 <!-- DataTables  & Plugins -->
 <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -256,11 +272,31 @@ $_SESSION['tournaments_name'] ='';
 <!-- Page specific script -->
 <script>
   $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2();
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+    
+    $('#category1').change(function(){
+      $('#hidden_category').val($('#category1').val());
+    });
+
     $('#add_button').click(function(){
       $('#sports_form')[0].reset();
       $('.modal-title').html("<i class='fa fa-plus'></i> Add Sport");
       $('#action').val('Add');
       $('#btn_action').val('Add');
+      $('#hidden_category').val(null);
+      $('#category1').val(null).trigger('change'); //remove all selected value
+      
+      //$('#category1').val(null).trigger('change'); //remove all selected value
+      // var selectedValuesTest = ["Team", "Combative"]; // 
+      // $("#category1").select2({
+      //   multiple: true,
+      // });
+      // $('#category1').val(selectedValuesTest).trigger('change');// display mutiple value
     });
     
     $(document).on('submit','#sports_form', function(event){
@@ -278,6 +314,8 @@ $_SESSION['tournaments_name'] ='';
           $('#alert_action').fadeIn().html('<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i>'+data+'</div>');
           $('#action').attr('disabled', false);
           sportsdataTable.ajax.reload();
+          $('#category1').val(null).trigger('change');
+          $('#hidden_category').val(null);
         }
       })
     });
@@ -340,7 +378,7 @@ $_SESSION['tournaments_name'] ='';
           $('#sportsModal').modal('show');
           $('#sports_name').val(data.sports_name);
           $('#details').val(data.details);
-          $('#category').val(data.category);
+          $('#category1').val(data.category);
           $('.modal-title').html("<i class='fa fa-edit'></i> Edit Sport");
           $('#sports_id').val(sports_id);
           $('#action').val('Edit');
