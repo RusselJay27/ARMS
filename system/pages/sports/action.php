@@ -11,14 +11,15 @@ if(isset($_POST['btn_action']))
 {
 	if($_POST['btn_action'] == 'Add')
 	{
-		//echo $_POST['hidden_category'];
 		$sports_name = '';
+		$category = '';
 		$sports_status = 'Active';
-		$query2 = "SELECT * FROM sports WHERE sports_name = :sports_name";
+		$query2 = "SELECT * FROM sports WHERE sports_name = :sports_name AND category = :category";
 		$statement2 = $connect->prepare($query2);
 		$statement2->execute(
 			array(
-				':sports_name'	=>	trim($_POST["sports_name"])
+				':sports_name'	=>	trim($_POST["sports_name"]),
+				':category'		=>	$_POST["category"]
 			)
 		);
 		$result2 = $statement2->fetchAll();
@@ -26,8 +27,9 @@ if(isset($_POST['btn_action']))
 		{
 			$sports_name = $row2['sports_name'];
 			$sports_status = $row2['sports_status'];
+			$category = $row2['category'];
 		}
-		if($sports_name == trim($_POST["sports_name"]))
+		if($sports_name == trim($_POST["sports_name"]) && $category == $_POST["category"])
 		{
 			if($sports_status == 'Inactive')
 			{
@@ -47,8 +49,8 @@ if(isset($_POST['btn_action']))
 			$statement = $connect->prepare($query);
 			$result = $statement->execute(
 				array(
-					//':category'		=>	$_POST["category"],
-					':category'		=>	$_POST["hidden_category"],
+					':category'		=>	$_POST["category"],
+					//':category'		=>	$_POST["hidden_category"],
 					':sports_name'	=>	trim($_POST["sports_name"]),
 					':details'		=>	trim($_POST["details"]),
 					':date_created'	=>	date("m-d-Y")

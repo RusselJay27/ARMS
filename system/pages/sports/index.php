@@ -206,24 +206,23 @@ $_SESSION['tournaments_name'] ='';
     				</div>
 
     				<div class="modal-body">
-    					<!-- <div class="form-group">
+    					<div class="form-group">
     						<select name="category" id="category" class="form-control" required>
                   <option value="">Select Category</option>
                   <option value="Individual / Dual">Individual / Dual</option>
                   <option value="Team">Team</option>
                   <option value="Combative">Combative</option>
                 </select>
-    					</div> -->
+    					</div>
               
-              <div class="select2-warning form-group">
+              <!-- <div class="select2-warning form-group">
                 <select class="form-control select2" multiple="multiple" data-placeholder="Select Category" data-dropdown-css-class="select2-warning" style="width: 100%;" name="category1" id="category1">
-                  
-                <!-- <option selected="selected">Alabama</option> -->
                 <option value="Individual / Dual">Individual / Dual</option>
                   <option value="Team">Team</option>
                   <option value="Combative">Combative</option>
                 </select>
-              </div>
+              </div> -->
+
     					<div class="form-group">
                 <label>Enter Sport Name</label>
                 <input type="text" name="sports_name" id="sports_name" class="form-control" required />
@@ -235,7 +234,7 @@ $_SESSION['tournaments_name'] ='';
     				</div>
 
     				<div class="modal-footer">
-              <input type="hidden" name="hidden_category" id="hidden_category" />
+              <!-- <input type="hidden" name="hidden_category" id="hidden_category" /> -->
     					<input type="hidden" name="sports_id" id="sports_id"/>
     					<input type="hidden" name="btn_action" id="btn_action"/>
     					<input type="submit" name="action" id="action" class="btn btn-warning" value="Add" />
@@ -273,23 +272,23 @@ $_SESSION['tournaments_name'] ='';
 <script>
   $(function () {
     //Initialize Select2 Elements
-    $('.select2').select2();
+    //$('.select2').select2();
     //Initialize Select2 Elements
-    $('.select2bs4').select2({
-      theme: 'bootstrap4'
-    })
+    // $('.select2bs4').select2({
+    //   theme: 'bootstrap4'
+    // })
     
-    $('#category1').change(function(){
-      $('#hidden_category').val($('#category1').val());
-    });
+    // $('#category1').change(function(){
+    //   $('#hidden_category').val($('#category1').val());
+    // });
 
     $('#add_button').click(function(){
       $('#sports_form')[0].reset();
       $('.modal-title').html("<i class='fa fa-plus'></i> Add Sport");
       $('#action').val('Add');
       $('#btn_action').val('Add');
-      $('#hidden_category').val(null);
-      $('#category1').val(null).trigger('change'); //remove all selected value
+      //$('#hidden_category').val(null);
+      //$('#category1').val(null).trigger('change'); //remove all selected value
       
       //$('#category1').val(null).trigger('change'); //remove all selected value
       // var selectedValuesTest = ["Team", "Combative"]; // 
@@ -378,34 +377,34 @@ $_SESSION['tournaments_name'] ='';
           $('#sportsModal').modal('show');
           $('#sports_name').val(data.sports_name);
           $('#details').val(data.details);
-          //$('#category1').val(data.category);
+          $('#category').val(data.category);
           
-          var selectedValuesTest = [];
-          if (data.category == 'Individual / Dual'){
-            selectedValuesTest = ["Individual / Dual"];
-          }
-          if (data.category == 'Individual / Dual,Team'){
-            selectedValuesTest = ["Individual / Dual","Team"];
-          }
-          if (data.category == 'Team'){
-            selectedValuesTest = ["Team"];
-          }
-          if (data.category == 'Combative'){
-            selectedValuesTest = ["Combative"];
-          }
-          if (data.category == 'Individual / Dual,Team,Combative'){
-            selectedValuesTest = ["Individual / Dual","Team","Combative"];
-          }
-          if (data.category == 'Individual / Dual,Combative'){
-            selectedValuesTest = ["Individual / Dual","Combative"];
-          }
-          if (data.category == 'Team,Combative'){
-            selectedValuesTest = ["Team","Combative"];
-          }
-          $("#category1").select2({
-            multiple: true,
-          });
-          $('#category1').val(selectedValuesTest).trigger('change');
+          // var selectedValuesTest = [];
+          // if (data.category == 'Individual / Dual'){
+          //   selectedValuesTest = ["Individual / Dual"];
+          // }
+          // if (data.category == 'Individual / Dual,Team'){
+          //   selectedValuesTest = ["Individual / Dual","Team"];
+          // }
+          // if (data.category == 'Team'){
+          //   selectedValuesTest = ["Team"];
+          // }
+          // if (data.category == 'Combative'){
+          //   selectedValuesTest = ["Combative"];
+          // }
+          // if (data.category == 'Individual / Dual,Team,Combative'){
+          //   selectedValuesTest = ["Individual / Dual","Team","Combative"];
+          // }
+          // if (data.category == 'Individual / Dual,Combative'){
+          //   selectedValuesTest = ["Individual / Dual","Combative"];
+          // }
+          // if (data.category == 'Team,Combative'){
+          //   selectedValuesTest = ["Team","Combative"];
+          // }
+          // $("#category1").select2({
+          //   multiple: true,
+          // });
+          // $('#category1').val(selectedValuesTest).trigger('change');
 
           $('.modal-title').html("<i class='fa fa-edit'></i> Edit Sport");
           $('#sports_id').val(sports_id);
