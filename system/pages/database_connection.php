@@ -55,6 +55,7 @@ try{
         `gender` enum('Male','Female') DEFAULT 'Male',
         `contact` varchar(255) DEFAULT NULL,
         `email` varchar(255) DEFAULT NULL,
+        `image` varchar(255) DEFAULT NULL,
         `coaches_status` enum('Active','Inactive') DEFAULT 'Active',
         `date_created` varchar(255) DEFAULT null
     );";

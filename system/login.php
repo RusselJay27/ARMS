@@ -80,10 +80,10 @@ else{
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   
 <style type="text/css">
-.login-page {
-  background: url("assets/Muntinlupa_Sports_Center.jpg") no-repeat center center fixed;
-  background-size: cover;	
-}
+  .login-page {
+    background: url("assets/Muntinlupa_Sports_Center.jpg") no-repeat center center fixed;
+    background-size: cover;	
+  }
 </style>
 
 </head>
