@@ -13,9 +13,9 @@ else
   }
 }
 
-if($_SESSION["tournaments_name"] == '')
+if($_SESSION["coaches_fullname"] == '')
 {
-  header("location:../../tournaments/");
+  header("location:../../coaches/");
 }
 
 ?>
@@ -24,7 +24,7 @@ if($_SESSION["tournaments_name"] == '')
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin Portal | Sports</title>
+  <title>Admin Portal | Coaches</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -90,11 +90,17 @@ if($_SESSION["tournaments_name"] == '')
                     <p>Sports</p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="../../coaches/" class="nav-link">
+                <i class="ion ion-stats-bars nav-icon"></i>
+                    <p>Tournaments</p>
+                </a>
+            </li>
             <li class="nav-item menu-open">
               <a href="#" class="nav-link active">
-                <i class="ion ion-stats-bars nav-icon"></i>
+                    <i class="far fa-user nav-icon"></i>
                 <p>
-                Tournaments
+                Coaches
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
@@ -106,12 +112,6 @@ if($_SESSION["tournaments_name"] == '')
                   </a>
                 </li>
               </ul>
-            </li>
-            <li class="nav-item">
-                <a href="../../coaches/" class="nav-link">
-                    <i class="far fa-user nav-icon"></i>
-                    <p>Coaches</p>
-                </a>
             </li>
             <li class="nav-item">
                 <a href="../../athletes/" class="nav-link">
@@ -153,7 +153,7 @@ if($_SESSION["tournaments_name"] == '')
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Tournaments/Competitions - <?php echo $_SESSION['tournaments_name']; ?></h1> 
+            <h1>Coaches - <?php echo $_SESSION['coaches_fullname']; ?></h1> 
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -174,7 +174,7 @@ if($_SESSION["tournaments_name"] == '')
 
             <div class="card">
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="dataTables" class="table table-bordered table-striped">
                   <thead>
                   <tr>
                     <th>ID</th>
@@ -220,7 +220,7 @@ if($_SESSION["tournaments_name"] == '')
 
     				</div>
     				<div class="modal-footer">
-    					<input type="hidden" name="tournament_sports_id" id="tournament_sports_id"/>
+    					<input type="hidden" name="id" id="id"/>
     					<input type="hidden" name="btn_action" id="btn_action"/>
     					<input type="submit" name="action" id="action" class="btn btn-warning" value="Add" />
     					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -262,7 +262,7 @@ if($_SESSION["tournaments_name"] == '')
           data:{btn_action:btn_action},
         success:function(data)
         {
-          window.location.href = "../../tournaments/";
+          window.location.href = "../../coaches/";
         }
       })
     });
@@ -288,24 +288,24 @@ if($_SESSION["tournaments_name"] == '')
           $('#sportsModal').modal('hide');
           $('#alert_action').fadeIn().html('<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i>'+data+'</div>');
           $('#action').attr('disabled', false);
-          sportsdataTable.ajax.reload();
+          dataTable.ajax.reload();
         }
       })
     });
 
     $(document).on('click', '.delete', function(){
-      var tournament_sports_id = $(this).attr('id');
+      var id = $(this).attr('id');
       var btn_action = 'delete';
       if(confirm("Are you sure you want to delete?"))
       {
         $.ajax({
           url:"action.php",
           method:"POST",
-          data:{tournament_sports_id:tournament_sports_id, btn_action:btn_action},
+          data:{id:id, btn_action:btn_action},
           success:function(data)
           {
             $('#alert_action').fadeIn().html('<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i>'+data+'</div>');
-            sportsdataTable.ajax.reload();
+            dataTable.ajax.reload();
           }
         })
       }
@@ -316,26 +316,26 @@ if($_SESSION["tournaments_name"] == '')
     });
 
     $(document).on('click', '.update', function(){
-      var tournament_sports_id = $(this).attr("id");
+      var id = $(this).attr("id");
       var btn_action = 'fetch_single';
       $.ajax({
         url:"action.php",
         method:"POST",
-        data:{tournament_sports_id:tournament_sports_id, btn_action:btn_action},
+        data:{id:id, btn_action:btn_action},
         dataType:"json",
         success:function(data)
         {
           $('#sportsModal').modal('show');
           $('#sports_id').val(data.sports_id);
           $('.modal-title').html("<i class='fa fa-edit'></i> Edit Sport");
-          $('#tournament_sports_id').val(tournament_sports_id);
+          $('#id').val(id);
           $('#action').val('Edit');
           $('#btn_action').val("Edit");
         }
       })
     });
     
-    var sportsdataTable = $('#example1').DataTable({
+    var dataTable = $('#dataTables').DataTable({
       "responsive": true, "lengthChange": true, "autoWidth": false,
       "processing":true,
       "serverSide":true,

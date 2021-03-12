@@ -161,8 +161,8 @@ $_SESSION['tournaments_name'] ='';
                   <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Fullname</th>
                     <th>Sport</th>
+                    <th>Fullname</th>
                     <th>Gender</th>
                     <th>Age</th>
                     <th>Birthdate</th>
@@ -201,27 +201,6 @@ $_SESSION['tournaments_name'] ='';
     					<button type="button" class="close" data-dismiss="modal">&times;</button>
     				</div>
     				<div class="modal-body">
-
-                  <!-- <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label>Last Name</label>
-                        <input type="text" name="coaches_last" id="coaches_last" class="form-control" required />
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" name="coaches_first" id="coaches_first" class="form-control" required />
-                      </div>
-                    </div>
-                    <div class="col-md-2">
-                      <div class="form-group">
-                        <label>M.I.</label>
-                        <input type="text" name="coaches_mi" id="coaches_mi" class="form-control" required/>
-                      </div>
-                    </div>
-                  </div>  -->
                   
                 <div class="row">
                     <div class="col-6">
@@ -251,19 +230,30 @@ $_SESSION['tournaments_name'] ='';
                     </div>
                 </div>
 
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
+
+                   <!-- <div class="form-group">
                         <select name="sports_id" id="sports_id" class="form-control" required>
                             <option value="">Select Sport</option>
                             <?php echo fill_sports_list($connect) ?> 
                           </select>
-                      </div>
+                    </div> -->
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                          <label>Birthdate</label>
+                            <div class="input-group date" id="birthdates" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input" data-target="#birthdates" name="birthdate" id="birthdate" required/>
+                                <div class="input-group-append" data-target="#birthdates" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
+                          <label> Gender</label>
                         <select name="gender" id="gender" class="form-control" required>
-                            <option value="">Select Gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                           </select>
@@ -271,13 +261,13 @@ $_SESSION['tournaments_name'] ='';
                     </div>
                   </div>  
                   <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                       <!-- <div class="form-group">
                         <label>Enter Birthdate</label>
                         <input type="text" name="birthdate" id="birthdate" class="form-control" required />
                       </div> -->
 
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                         <label>Birthdate</label>
                           <div class="input-group date" id="birthdates" data-target-input="nearest">
                               <input type="text" class="form-control datetimepicker-input" data-target="#birthdates" name="birthdate" id="birthdate" required/>
@@ -285,24 +275,25 @@ $_SESSION['tournaments_name'] ='';
                                   <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                               </div>
                           </div>
-                      </div>
+                      </div> -->
+                      
+                  <div class="form-group">
+                    <label>Enter Email</label>
+                    <input type="email" name="email" id="email" class="form-control" required />
+                  </div> 
 
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                       <div class="form-group">
-                        <label>Enter Contact</label>
+                        <label>Contact</label>
                         <input type="text" name="contact" id="contact" class="form-control" required />
                       </div>
                     </div>
                   </div> 
                   <div class="form-group">
-                    <label>Enter Email</label>
-                    <input type="email" name="email" id="email" class="form-control" required />
+                    <label>Enter Address</label>
+                    <textarea rows="3" name="address" id="address" class="form-control" required></textarea>
                   </div> 
-              <div class="form-group">
-                <label>Enter Address</label>
-                <textarea rows="3" name="address" id="address" class="form-control" required></textarea>
-              </div> 
     				</div>
     				<div class="modal-footer">
     					<input type="hidden" name="coaches_id" id="coaches_id"/>
@@ -449,7 +440,6 @@ $_SESSION['tournaments_name'] ='';
           $('#coaches_last').val(data.coaches_last);
           $('#coaches_first').val(data.coaches_first);
           $('#coaches_mi').val(data.coaches_mi);
-          $('#sports_id').val(data.sports_id);
           $('#birthdate').val(data.birthdate);
           $('#address').val(data.address);
           $('#gender').val(data.gender);
@@ -465,6 +455,20 @@ $_SESSION['tournaments_name'] ='';
       })
     });
     
+    $(document).on('click', '.sports', function(){
+      var coaches_id = $(this).attr("id");
+      var btn_action = 'fetch_sports';
+      $.ajax({
+        url:"action.php",
+        method:"POST",
+        data:{coaches_id:coaches_id, btn_action:btn_action},
+        success:function(data)
+        {
+          window.location.href = "./sports/";
+        }
+      })
+    });
+    
     var coachesdataTable = $('#example1').DataTable({
       "responsive": true, "lengthChange": true, "autoWidth": false,
       "processing":true,
@@ -476,7 +480,7 @@ $_SESSION['tournaments_name'] ='';
       },
       "columnDefs":[
         {
-          "targets":[0,11,12],
+          "targets":[0,1,11,12],
           "orderable":false,
         },
       ],

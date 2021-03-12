@@ -8,21 +8,18 @@ $query = '';
 
 $output = array();
 
-$query .= "SELECT coaches.coaches_id, coaches.coaches_last, coaches.coaches_first, coaches.coaches_mi, coaches.address,
-coaches.gender, coaches.contact, coaches.email, coaches.birthdate, coaches.coaches_status, coaches.date_created, sports.sports_name
-FROM coaches INNER JOIN sports ON coaches.sports_id = sports.sports_id where";
+$query .= "SELECT * FROM coaches where ";
 
 if(isset($_POST["search"]["value"]))
 {
-	$query .= '(coaches.coaches_first LIKE "%'.$_POST["search"]["value"].'%" ';
-	$query .= 'OR coaches.coaches_last LIKE "%'.$_POST["search"]["value"].'%" ';
-	$query .= 'OR coaches.address LIKE "%'.$_POST["search"]["value"].'%" ';
-	$query .= 'OR coaches.gender LIKE "%'.$_POST["search"]["value"].'%" ';
-	$query .= 'OR coaches.contact LIKE "%'.$_POST["search"]["value"].'%" ';
-	$query .= 'OR coaches.email LIKE "%'.$_POST["search"]["value"].'%" ';
-	$query .= 'OR coaches.birthdate LIKE "%'.$_POST["search"]["value"].'%" ';
-	$query .= 'OR sports.sports_name LIKE "%'.$_POST["search"]["value"].'%" ';
-	$query .= 'OR coaches.date_created LIKE "%'.$_POST["search"]["value"].'%" )';
+	$query .= '(coaches_first LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR coaches_last LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR address LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR gender LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR contact LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR email LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR birthdate LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR date_created LIKE "%'.$_POST["search"]["value"].'%" )';
 }
 
 if(isset($_POST['order']))
@@ -31,7 +28,7 @@ if(isset($_POST['order']))
 }
 else
 {
-	$query .= 'ORDER BY coaches.coaches_id DESC ';
+	$query .= 'ORDER BY coaches_id DESC ';
 }
 
 if($_POST['length'] != -1)
@@ -63,8 +60,8 @@ foreach($result as $row)
 	$status = '';
 	$sub_array = array();
 	$sub_array[] = $row['coaches_id'];
+	$sub_array[] = '<button type="button" name="sports" id="'.$row["coaches_id"].'" class="btn btn-primary btn-flat btn-xs sports">View</button>';
 	$sub_array[] = $row['coaches_last'].', '.$row['coaches_first'].' '.$row['coaches_mi'].'.';
-	$sub_array[] = $row['sports_name'];
 	$sub_array[] = $row['gender'];
 	$sub_array[] = $age;
 	$sub_array[] = $row['birthdate'];;

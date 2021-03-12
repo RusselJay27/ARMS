@@ -66,8 +66,8 @@ if(isset($_POST['btn_action']))
 		else
 		{
 			$query = "
-			INSERT INTO coaches (coaches_last,coaches_first,coaches_mi,sports_id,birthdate,address,gender,contact,email, image, date_created) 
-			VALUES (:coaches_last, :coaches_first, :coaches_mi,:sports_id, :birthdate, :address,:gender, :contact, :email, :image, :date_created)
+			INSERT INTO coaches (coaches_last, coaches_first, coaches_mi, birthdate, address, gender, contact, email, image, date_created) 
+			VALUES (:coaches_last, :coaches_first, :coaches_mi, :birthdate, :address,:gender, :contact, :email, :image, :date_created)
 			";	
 			$statement = $connect->prepare($query);
 			$result = $statement->execute(
@@ -75,7 +75,7 @@ if(isset($_POST['btn_action']))
 					':coaches_last'		=>	trim($_POST["coaches_last"]),
 					':coaches_first'	=>	trim($_POST["coaches_first"]),
 					':coaches_mi'		=>	trim($_POST["coaches_mi"]),
-					':sports_id'		=>	trim($_POST["sports_id"]),
+					//':sports_id'		=>	trim($_POST["sports_id"]),
 					':birthdate'		=>	trim($_POST["birthdate"]),
 					':address'			=>	trim($_POST["address"]),
 					':gender'			=>	trim($_POST["gender"]),
@@ -107,7 +107,7 @@ if(isset($_POST['btn_action']))
 			$output['coaches_last'] = $row['coaches_last'];
 			$output['coaches_first'] = $row['coaches_first'];
 			$output['coaches_mi'] = $row['coaches_mi'];
-			$output['sports_id'] = $row['sports_id'];
+			//$output['sports_id'] = $row['sports_id'];
 			$output['birthdate'] = $row['birthdate'];
 			$output['address'] = $row['address'];
 			$output['gender'] = $row['gender'];
@@ -128,7 +128,6 @@ if(isset($_POST['btn_action']))
 				coaches_last = '".trim($_POST["coaches_last"])."',
 				coaches_first = '".trim($_POST["coaches_first"])."',
 				coaches_mi = '".trim($_POST["coaches_mi"])."',
-				sports_id = '".trim($_POST["sports_id"])."',
 				birthdate = '".trim($_POST["birthdate"])."',
 				address = '".trim($_POST["address"])."',
 				gender = '".trim($_POST["gender"])."',
@@ -159,7 +158,6 @@ if(isset($_POST['btn_action']))
 						coaches_last = '".trim($_POST["coaches_last"])."',
 						coaches_first = '".trim($_POST["coaches_first"])."',
 						coaches_mi = '".trim($_POST["coaches_mi"])."',
-						sports_id = '".trim($_POST["sports_id"])."',
 						birthdate = '".trim($_POST["birthdate"])."',
 						address = '".trim($_POST["address"])."',
 						gender = '".trim($_POST["gender"])."',
@@ -227,6 +225,23 @@ if(isset($_POST['btn_action']))
 		if(isset($result))
 		{
 			echo "Coach Status change to " . $status .".";
+		}
+	}
+	
+	if($_POST['btn_action'] == 'fetch_sports')
+	{
+		$query = "SELECT * FROM coaches WHERE coaches_id = :coaches_id";
+		$statement = $connect->prepare($query);
+		$statement->execute(
+			array(
+				':coaches_id'	=>	$_POST["coaches_id"]
+			)
+		);
+		$result = $statement->fetchAll();
+		foreach($result as $row)
+		{	
+			$_SESSION['coaches_id'] = $_POST["coaches_id"];
+			$_SESSION['coaches_fullname'] =  $row["coaches_last"].', '.$row["coaches_first"].' '.$row["coaches_mi"].'.';
 		}
 	}
 }

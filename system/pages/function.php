@@ -11,7 +11,7 @@ function fill_sports_list($connect)
 	$output = '';
 	foreach($result as $row)
 	{
-		$output .= '<option value="'.$row["sports_id"].'">'.$row["sports_name"].'</option>';
+		$output .= '<option value="'.$row["sports_id"].'">'.$row["sports_name"].' - '.$row["category"].'</option>';
 	}
 	return $output;
 }

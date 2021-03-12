@@ -8,14 +8,14 @@ $query = '';
 
 $output = array();
 
-$query .= "SELECT tournament_sports.*, sports.sports_name, sports.category FROM tournament_sports 
-INNER JOIN sports ON tournament_sports.sports_id = sports.sports_id 
-where tournament_sports.tournaments_id = '".$_SESSION['tournaments_id']."' AND ";
+$query .= "SELECT coach_sports.*, sports.sports_name, sports.category FROM coach_sports 
+INNER JOIN sports ON coach_sports.sports_id = sports.sports_id 
+where coach_sports.coaches_id = '".$_SESSION['coaches_id']."' AND ";
 
 if(isset($_POST["search"]["value"]))
 {
 	$query .= '(sports.sports_name  LIKE "%'.$_POST["search"]["value"].'%" ';
-	$query .= 'OR tournament_sports.date_created LIKE "%'.$_POST["search"]["value"].'%" )';
+	$query .= 'OR coach_sports.date_created LIKE "%'.$_POST["search"]["value"].'%" )';
 }
 
 if(isset($_POST['order']))
@@ -24,7 +24,7 @@ if(isset($_POST['order']))
 }
 else
 {
-	$query .= 'ORDER BY tournament_sports.tournament_sports_id DESC ';
+	$query .= 'ORDER BY coach_sports.id DESC ';
 }
 
 if($_POST['length'] != -1)
@@ -45,13 +45,13 @@ $filtered_rows = $statement->rowCount();
 foreach($result as $row)
 {
 	$sub_array = array();
-	$sub_array[] = $row['tournament_sports_id'];
+	$sub_array[] = $row['id'];
 	$sub_array[] = $row['category'];
 	$sub_array[] = $row['sports_name'];
 
-	$sub_array[] = '<button type="button" name="update" id="'.$row["tournament_sports_id"].'" class="btn btn-warning  btn-flat btn-xs update">Update</button>';
+	$sub_array[] = '<button type="button" name="update" id="'.$row["id"].'" class="btn btn-warning  btn-flat btn-xs update">Update</button>';
 
-	$sub_array[] = '<button type="button" name="delete" id="'.$row["tournament_sports_id"].'" class="btn btn-danger  btn-flat btn-xs delete">Delete</button>';
+	$sub_array[] = '<button type="button" name="delete" id="'.$row["id"].'" class="btn btn-danger  btn-flat btn-xs delete">Delete</button>';
 	$data[] = $sub_array;
 }
 
@@ -64,9 +64,9 @@ $output = array(
 
 function get_total_all_records($connect)
 {
-	$statement = $connect->prepare("SELECT * FROM tournament_sports 
-	INNER JOIN sports ON tournament_sports.sports_id = sports.sports_id 
-	where tournament_sports.tournaments_id = '".$_SESSION['tournaments_id']."' ");
+	$statement = $connect->prepare("SELECT * FROM coach_sports 
+	INNER JOIN sports ON coach_sports.sports_id = sports.sports_id 
+	where coach_sports.coaches_id = '".$_SESSION['coaches_id']."' ");
 	$statement->execute();
 	return $statement->rowCount();
 }
