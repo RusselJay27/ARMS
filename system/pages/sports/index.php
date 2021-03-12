@@ -378,7 +378,35 @@ $_SESSION['tournaments_name'] ='';
           $('#sportsModal').modal('show');
           $('#sports_name').val(data.sports_name);
           $('#details').val(data.details);
-          $('#category1').val(data.category);
+          //$('#category1').val(data.category);
+          
+          var selectedValuesTest = [];
+          if (data.category == 'Individual / Dual'){
+            selectedValuesTest = ["Individual / Dual"];
+          }
+          if (data.category == 'Individual / Dual,Team'){
+            selectedValuesTest = ["Individual / Dual","Team"];
+          }
+          if (data.category == 'Team'){
+            selectedValuesTest = ["Team"];
+          }
+          if (data.category == 'Combative'){
+            selectedValuesTest = ["Combative"];
+          }
+          if (data.category == 'Individual / Dual,Team,Combative'){
+            selectedValuesTest = ["Individual / Dual","Team","Combative"];
+          }
+          if (data.category == 'Individual / Dual,Combative'){
+            selectedValuesTest = ["Individual / Dual","Combative"];
+          }
+          if (data.category == 'Team,Combative'){
+            selectedValuesTest = ["Team","Combative"];
+          }
+          $("#category1").select2({
+            multiple: true,
+          });
+          $('#category1').val(selectedValuesTest).trigger('change');
+
           $('.modal-title').html("<i class='fa fa-edit'></i> Edit Sport");
           $('#sports_id').val(sports_id);
           $('#action').val('Edit');
