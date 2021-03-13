@@ -6,9 +6,9 @@ if(!isset($_SESSION["user_type"]))
   header("location:../../../login.php");
 }
 
-if($_SESSION["coaches_fullname"] == '')
+if($_SESSION["athletes_fullname"] == '')
 {
-  header("location:../../coaches/");
+  header("location:../../athletes/");
 }
 
 ?>
@@ -17,7 +17,7 @@ if($_SESSION["coaches_fullname"] == '')
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><?php echo $_SESSION['user_type']; ?> Portal | Coaches</title>
+  <title><?php echo $_SESSION['user_type']; ?> Portal | Athletes</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -91,11 +91,17 @@ if($_SESSION["coaches_fullname"] == '')
                 </a>
             </li>
             <?php }?>
+            <li class="nav-item">
+                <a href="../../coaches/" class="nav-link">
+                    <i class="far fa-user nav-icon"></i>
+                    <p>Coaches</p>
+                </a>
+            </li>
             <li class="nav-item menu-open">
               <a href="#" class="nav-link active">
-                    <i class="far fa-user nav-icon"></i>
+                    <i class="fa fa-child nav-icon"></i>
                 <p>
-                Coaches
+                Athletes
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
@@ -107,12 +113,6 @@ if($_SESSION["coaches_fullname"] == '')
                   </a>
                 </li>
               </ul>
-            </li>
-            <li class="nav-item">
-                <a href="../../athletes/" class="nav-link">
-                    <i class="fa fa-child nav-icon"></i>
-                    <p>Athletes</p>
-                </a>
             </li>
             <li class="nav-item">
                 <a href="../../report/" class="nav-link">
@@ -150,7 +150,7 @@ if($_SESSION["coaches_fullname"] == '')
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Coaches - <?php echo $_SESSION['coaches_fullname']; ?></h1> 
+            <h1>Atheltes - <?php echo $_SESSION['athletes_fullname']; ?></h1> 
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -177,7 +177,7 @@ if($_SESSION["coaches_fullname"] == '')
                     <th>ID</th>
                     <th>Category</th>
                     <th>Sport</th>
-                    <!-- <th>Update</th> -->
+                    <th>Coach</th>
                     <th>Delete</th>
                   </tr>
                   </thead>
@@ -208,11 +208,16 @@ if($_SESSION["coaches_fullname"] == '')
     				</div>
     				<div class="modal-body">
 
-    					<div class="form-group">
+            <div class="form-group">
     						<select name="sports_id" id="sports_id" class="form-control" required>
 								<option value="">Select Sport</option>
                   <?php echo fill_sports_list($connect) ?> 
-							</select>
+							  </select>
+    					</div>
+    					<div class="form-group">
+    						<select name="coaches_id" id="coaches_id" class="form-control" required>
+								<option value="">Select Coach</option>
+							  </select>
     					</div>
 
     				</div>
@@ -250,6 +255,22 @@ if($_SESSION["coaches_fullname"] == '')
 <script src="../../../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
+
+$(document).ready(function(){
+      $('#sports_id').change(function(){  
+           var sports_id = $(this).val();  
+            var btn_action = 'change';
+           $.ajax({  
+                url:"action.php",  
+                method:"POST",  
+                data:{sports_id:sports_id, btn_action:btn_action},  
+                success:function(data){  
+                  $('#coaches_id').html(data);  
+                }  
+           });  
+      });  
+ });  
+
   $(function () {
     $('#back_button').click(function(){
       var btn_action = 'back';
@@ -259,7 +280,7 @@ if($_SESSION["coaches_fullname"] == '')
           data:{btn_action:btn_action},
         success:function(data)
         {
-          window.location.href = "../../coaches/";
+          window.location.href = "../../athletes/";
         }
       })
     });
@@ -324,6 +345,7 @@ if($_SESSION["coaches_fullname"] == '')
         {
           $('#sportsModal').modal('show');
           $('#sports_id').val(data.sports_id);
+          $('#coaches_id').val(data.coaches_id);
           $('.modal-title').html("<i class='fa fa-edit'></i> Edit Sport");
           $('#id').val(id);
           $('#action').val('Edit');
@@ -343,7 +365,7 @@ if($_SESSION["coaches_fullname"] == '')
       },
       "columnDefs":[
         {
-          "targets":[0, 3],
+          "targets":[0, 4],
           "orderable":false,
         },
       ],

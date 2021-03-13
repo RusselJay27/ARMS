@@ -8,14 +8,17 @@ $query = '';
 
 $output = array();
 
-$query .= "SELECT coach_sports.*, sports.sports_name, sports.category FROM coach_sports 
-INNER JOIN sports ON coach_sports.sports_id = sports.sports_id 
-where coach_sports.coaches_id = '".$_SESSION['coaches_id']."' AND ";
+$query .= "SELECT athlete_sports.*, sports.sports_name, sports.category, coaches.coaches_last, coaches.coaches_first, coaches.coaches_mi
+FROM athlete_sports 
+INNER JOIN sports ON athlete_sports.sports_id = sports.sports_id 
+INNER JOIN coaches ON athlete_sports.coaches_id = coaches.coaches_id 
+where athlete_sports.athletes_id = '".$_SESSION['athletes_id']."' AND ";
 
 if(isset($_POST["search"]["value"]))
 {
 	$query .= '(sports.sports_name  LIKE "%'.$_POST["search"]["value"].'%" ';
-	$query .= 'OR coach_sports.date_created LIKE "%'.$_POST["search"]["value"].'%" )';
+	$query .= 'OR sports.category LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR athlete_sports.date_created LIKE "%'.$_POST["search"]["value"].'%" )';
 }
 
 if(isset($_POST['order']))
@@ -24,7 +27,7 @@ if(isset($_POST['order']))
 }
 else
 {
-	$query .= 'ORDER BY coach_sports.id DESC ';
+	$query .= 'ORDER BY athlete_sports.id DESC ';
 }
 
 if($_POST['length'] != -1)
@@ -48,8 +51,7 @@ foreach($result as $row)
 	$sub_array[] = $row['id'];
 	$sub_array[] = $row['category'];
 	$sub_array[] = $row['sports_name'];
-
-	//$sub_array[] = '<button type="button" name="update" id="'.$row["id"].'" class="btn btn-warning  btn-flat btn-xs update">Update</button>';
+	$sub_array[] = $row['coaches_last'].', '.$row['coaches_first'].' '.$row['coaches_mi'].'.';
 
 	$sub_array[] = '<button type="button" name="delete" id="'.$row["id"].'" class="btn btn-danger  btn-flat btn-xs delete">Delete</button>';
 	$data[] = $sub_array;

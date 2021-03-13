@@ -14,6 +14,10 @@ else
 }
 $_SESSION['tournaments_id'] ='';
 $_SESSION['tournaments_name'] ='';
+$_SESSION['coaches_id'] = '';
+$_SESSION['coaches_fullname'] = '';
+$_SESSION['athletes_id'] ='';
+$_SESSION['athletes_fullname'] ='';
 
 ?>
 <!DOCTYPE html>

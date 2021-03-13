@@ -68,9 +68,9 @@ if(isset($_POST['btn_action']))
 		{
 			$query = "
 			INSERT INTO athletes (athletes_last,athletes_first,athletes_mi,gender,birthdate,height,weight,contact,email,
-			address,coaches_id,level_id,school_id,scholar,varsity,class_a, image, date_created) 
+			address,level_id,school_id,scholar,varsity,class_a, image, date_created) 
 			VALUES (:athletes_last, :athletes_first, :athletes_mi,:gender, :birthdate, :height,:weight, :contact, :email, 
-			:address,:coaches_id, :level_id, :school_id,:scholar, :varsity, :class_a, :image, :date_created)
+			:address, :level_id, :school_id,:scholar, :varsity, :class_a, :image, :date_created)
 			";	
 			$statement = $connect->prepare($query);
 			$result = $statement->execute(
@@ -85,7 +85,6 @@ if(isset($_POST['btn_action']))
 				':contact'			=>	trim($_POST["contact"]),
 				':email'			=>	trim($_POST["email"]),
 				':address'			=>	trim($_POST["address"]),
-				':coaches_id'		=>	trim($_POST["coaches_id"]),
 				':level_id'			=>	trim($_POST["level_id"]),
 				':school_id'		=>	trim($_POST["school_id"]),
 				':scholar'			=>	trim($_POST["scholar"]),
@@ -122,7 +121,6 @@ if(isset($_POST['btn_action']))
 			$output['athletes_last'] = $row['athletes_last'];
 			$output['athletes_first'] = $row['athletes_first'];
 			$output['athletes_mi'] = $row['athletes_mi'];
-			$output['coaches_id'] = $row['coaches_id'];
 			$output['birthdate'] = $row['birthdate'];
 			$output['address'] = $row['address'];
 			$output['gender'] = $row['gender'];
@@ -151,7 +149,6 @@ if(isset($_POST['btn_action']))
 				contact = '".trim($_POST["contact"])."',
 				email = '".trim($_POST["email"])."',
 				address = '".trim($_POST["address"])."',
-				coaches_id = '".trim($_POST["coaches_id"])."',
 				level_id = '".trim($_POST["level_id"])."',
 				school_id = '".trim($_POST["school_id"])."',
 				scholar = '".trim($_POST["scholar"])."',
@@ -189,7 +186,6 @@ if(isset($_POST['btn_action']))
 						contact = '".trim($_POST["contact"])."',
 						email = '".trim($_POST["email"])."',
 						address = '".trim($_POST["address"])."',
-						coaches_id = '".trim($_POST["coaches_id"])."',
 						level_id = '".trim($_POST["level_id"])."',
 						school_id = '".trim($_POST["school_id"])."',
 						scholar = '".trim($_POST["scholar"])."',
@@ -262,10 +258,8 @@ if(isset($_POST['btn_action']))
 
 	if($_POST['btn_action'] == 'athletes_details')
 	{
-		$query = "SELECT athletes.*, sports.sports_name, grade_level.level_name, schools.school_name, coaches.coaches_last, coaches.coaches_first, coaches.coaches_mi
+		$query = "SELECT athletes.*,  grade_level.level_name, schools.school_name
 		FROM athletes 
-		INNER JOIN coaches ON athletes.coaches_id = coaches.coaches_id 
-		INNER JOIN sports ON coaches.sports_id = sports.sports_id 
 		INNER JOIN grade_level ON athletes.level_id = grade_level.level_id 
 		INNER JOIN schools ON athletes.school_id = schools.school_id 
 		WHERE athletes_id = '".$_POST["athletes_id"]."'
@@ -331,14 +325,6 @@ if(isset($_POST['btn_action']))
 				<td>'.$row['address'].'</td>
 			</tr>
 			<tr>
-				<td>Sport</td>
-				<td>'.$row['sports_name'].'</td>
-			</tr>
-			<tr>
-				<td>Coach</td>
-				<td>'.$row['coaches_last'].', '.$row['coaches_first'].' '.$row['coaches_mi'].'.'.'</td>
-			</tr>
-			<tr>
 				<td>Grade Level</td>
 				<td>'.$row['level_name'].'</td>
 			</tr>
@@ -369,6 +355,23 @@ if(isset($_POST['btn_action']))
 		</div>
 		';
 		echo $output;
+	}
+	
+	if($_POST['btn_action'] == 'fetch_sports')
+	{
+		$query = "SELECT * FROM athletes WHERE athletes_id = :athletes_id";
+		$statement = $connect->prepare($query);
+		$statement->execute(
+			array(
+				':athletes_id'	=>	$_POST["athletes_id"]
+			)
+		);
+		$result = $statement->fetchAll();
+		foreach($result as $row)
+		{	
+			$_SESSION['athletes_id'] = $_POST["athletes_id"];
+			$_SESSION['athletes_fullname'] =  $row["athletes_last"].', '.$row["athletes_first"].' '.$row["athletes_mi"].'.';
+		}
 	}
 }
 

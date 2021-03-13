@@ -45,10 +45,12 @@ function fill_schools_list($connect)
 	}
 	return $output;
 }
-function fill_coaches_list($connect)
+function fill_coaches_list($connect, $sport_id)
 {
 	$query = "
-	SELECT * from coaches where coaches_status = 'Active' order by coaches_last asc
+	SELECT coaches.* from coaches 
+	INNER JOIN coach_sports ON coach_sports.coaches_id = coaches.coaches_id
+	where coaches.coaches_status = 'Active' AND coach_sports.sports_id = '".$sport_id."'
 	";
 	$statement = $connect->prepare($query);
 	$statement->execute();
@@ -56,7 +58,7 @@ function fill_coaches_list($connect)
 	$output = '';
 	foreach($result as $row)
 	{
-		$output .= '<option value="'.$row["coaches_id"].'">'.$row["coaches_last"].', '.$row["coaches_first"].' '.$row["coaches_mi"].'.'.'</option>';
+		$output .= '<option value="'.$row["coaches_id"].'">'.$row["coaches_last"].', '.$row["coaches_first"].' '.$row["coaches_mi"].'.-'.$sport_id.'-'.'</option>';
 	}
 	return $output;
 }

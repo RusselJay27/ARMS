@@ -49,7 +49,6 @@ try{
         `coaches_last` varchar(255) DEFAULT NULL,
         `coaches_first` varchar(255) DEFAULT NULL,
         `coaches_mi` varchar(255) DEFAULT NULL,
-        `sports_id` INT(11) DEFAULT 0,
         `birthdate` varchar(255) DEFAULT NULL,
         `address` varchar(255) DEFAULT NULL,
         `gender` enum('Male','Female') DEFAULT 'Male',
@@ -73,7 +72,6 @@ try{
         `contact` varchar(255) DEFAULT NULL,
         `email` varchar(255) DEFAULT NULL,
         `address` varchar(255) DEFAULT NULL,
-        `coaches_id` INT(11) DEFAULT 0,
         `level_id` INT(11) DEFAULT 0,
         `school_id` INT(11) DEFAULT 0,
         `scholar` enum('Yes','No') DEFAULT 'No',
@@ -115,6 +113,16 @@ try{
         `date_created` varchar(255) DEFAULT null
     );";
     $connect->exec($coach_sports);
+
+    $athlete_sports = "CREATE table athlete_sports(
+        `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
+        `sports_id` INT(11) DEFAULT 0,
+        `coaches_id` INT(11) DEFAULT 0,
+        `athletes_id` INT(11) DEFAULT 0,
+        `status` enum('Active','Inactive') DEFAULT 'Active',
+        `date_created` varchar(255) DEFAULT null
+    );";
+    $connect->exec($athlete_sports);
 
 }
 catch(PDOException $e){

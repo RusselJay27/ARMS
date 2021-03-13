@@ -7,6 +7,10 @@ if(!isset($_SESSION["user_type"]))
 }
 $_SESSION['tournaments_id'] ='';
 $_SESSION['tournaments_name'] ='';
+$_SESSION['coaches_id'] = '';
+$_SESSION['coaches_fullname'] = '';
+$_SESSION['athletes_id'] ='';
+$_SESSION['athletes_fullname'] ='';
 
 ?>
 <!DOCTYPE html>
@@ -14,7 +18,7 @@ $_SESSION['tournaments_name'] ='';
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin Portal | Sports</title>
+  <title><?php echo $_SESSION['user_type']; ?> Portal | Athletes</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -164,10 +168,10 @@ $_SESSION['tournaments_name'] ='';
                   <thead>
                   <tr>
                     <th>ID</th>
+                    <th>Sport</th>
                     <th>Fullname</th>
                     <th>Grade Level</th>
                     <th>Gender</th>
-                    <th>Sport</th>
                     <th>School</th>
                     <th>Status</th>
                     <th>Update</th>
@@ -317,14 +321,12 @@ $_SESSION['tournaments_name'] ='';
 
                   <div class="row">
                     <div class="col-6">
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                         <select name="coaches_id" id="coaches_id" class="form-control" required>
                             <option value="">Select Coach</option>
-                            <?php echo fill_coaches_list($connect) ?> 
+                            <?php //echo fill_coaches_list($connect) ?> 
                           </select>
-                      </div>
-                    </div>
-                    <div class="col-6">
+                      </div> -->
                       <div class="form-group">
                         <select name="school_id" id="school_id" class="form-control" required>
                             <option value="">Select School</option>
@@ -332,10 +334,7 @@ $_SESSION['tournaments_name'] ='';
                           </select>
                       </div>
                     </div>
-                  </div>  
-
-                  <div class="row">
-                    <div class="col-4">
+                    <div class="col-6">
                       <div class="form-group">
                         <select name="scholar" id="scholar" class="form-control" required>
                             <option value="">MSP Scholar</option>
@@ -344,7 +343,10 @@ $_SESSION['tournaments_name'] ='';
                           </select>
                       </div>
                     </div>
-                    <div class="col-4">
+                  </div>  
+
+                  <div class="row">
+                    <div class="col-6">
                       <div class="form-group">
                         <select name="varsity" id="varsity" class="form-control" required>
                             <option value="">School Varsity</option>
@@ -353,7 +355,7 @@ $_SESSION['tournaments_name'] ='';
                           </select>
                       </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-6">
                       <div class="form-group">
                         <select name="class_a" id="class_a" class="form-control" required>
                             <option value="">Class-A Athlete</option>
@@ -590,6 +592,20 @@ $_SESSION['tournaments_name'] ='';
         })
     });
     
+    $(document).on('click', '.sports', function(){
+      var athletes_id = $(this).attr("id");
+      var btn_action = 'fetch_sports';
+      $.ajax({
+        url:"action.php",
+        method:"POST",
+        data:{athletes_id:athletes_id, btn_action:btn_action},
+        success:function(data)
+        {
+          window.location.href = "./sports/";
+        }
+      })
+    });
+    
     var athletesdataTable = $('#example1').DataTable({
       "responsive": true, "lengthChange": true, "autoWidth": false,
       "processing":true,
@@ -601,7 +617,7 @@ $_SESSION['tournaments_name'] ='';
       },
       "columnDefs":[
         {
-          "targets":[0,7,8,9,10],
+          "targets":[0,1,7,8,9,10],
           "orderable":false,
         },
       ],

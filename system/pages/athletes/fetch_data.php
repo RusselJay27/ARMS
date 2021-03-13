@@ -8,10 +8,9 @@ $query = '';
 
 $output = array();
 
-$query .= "SELECT athletes.*, sports.sports_name, schools.school_name
+$query .= "SELECT athletes.*,  grade_level.level_name, schools.school_name
 FROM athletes 
-INNER JOIN coaches ON athletes.coaches_id = coaches.coaches_id 
-INNER JOIN sports ON coaches.sports_id = sports.sports_id 
+INNER JOIN grade_level ON athletes.level_id = grade_level.level_id 
 INNER JOIN schools ON athletes.school_id = schools.school_id 
 where";
 
@@ -30,7 +29,6 @@ if(isset($_POST["search"]["value"]))
 	$query .= 'OR athletes.varsity LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR athletes.class_a LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR schools.school_name LIKE "%'.$_POST["search"]["value"].'%" ';
-	$query .= 'OR sports.sports_name LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR athletes.date_created LIKE "%'.$_POST["search"]["value"].'%" )';
 }
 
@@ -63,10 +61,10 @@ foreach($result as $row)
 	$status = '';
 	$sub_array = array();
 	$sub_array[] = $row['athletes_id'];
+	$sub_array[] = '<button type="button" name="sports" id="'.$row["athletes_id"].'" class="btn btn-primary  btn-flat btn-xs sports">View</button>';
 	$sub_array[] = $row['athletes_last'].', '.$row['athletes_first'].' '.$row['athletes_mi'].'.';
-	$sub_array[] = $row['level_id'];
+	$sub_array[] = $row['level_name'];
 	$sub_array[] = $row['gender'];
-	$sub_array[] = $row['sports_name'];
 	$sub_array[] = $row['school_name'];
 
 	if($row['athletes_status'] == 'Active')
@@ -94,7 +92,7 @@ $output = array(
 
 function get_total_all_records($connect)
 {
-	$statement = $connect->prepare("SELECT * FROM athletes");
+	$statement = $connect->prepare("SELECT * FROM athletes INNER JOIN grade_level ON athletes.level_id = grade_level.level_id  INNER JOIN schools ON athletes.school_id = schools.school_id ");
 	$statement->execute();
 	return $statement->rowCount();
 }

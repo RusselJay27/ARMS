@@ -7,15 +7,15 @@ if(!isset($_SESSION["user_type"]))
 }
 $_SESSION['tournaments_id'] ='';
 $_SESSION['tournaments_name'] ='';
+$_SESSION['coaches_id'] = '';
+$_SESSION['coaches_fullname'] = '';
+$_SESSION['athletes_id'] ='';
+$_SESSION['athletes_fullname'] ='';
 
-    $query = "SELECT athletes.*, sports.sports_name, coaches.coaches_last, coaches.coaches_first, coaches.coaches_mi
-    FROM athletes
-		INNER JOIN coaches ON athletes.coaches_id = coaches.coaches_id 
-		INNER JOIN sports ON coaches.sports_id = sports.sports_id ";
+    $query = "SELECT *
+    FROM athletes";
 		$statement = $connect->prepare($query);
-		$statement->execute(
-			array()
-		);
+		$statement->execute();
 		$result = $statement->fetchAll();
 
 ?>
@@ -24,7 +24,7 @@ $_SESSION['tournaments_name'] ='';
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin Portal | Report</title>
+  <title><?php echo $_SESSION['user_type']; ?> Portal | Report</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -72,6 +72,7 @@ $_SESSION['tournaments_name'] ='';
                     <p>Dashboard</p>
                 </a>
             </li>
+            <?php if ($_SESSION['user_type'] == 'Admin'){?>
             <li class="nav-item">
                 <a href="./../schools/" class="nav-link">
                     <i class="far fa-building nav-icon"></i>
@@ -96,6 +97,7 @@ $_SESSION['tournaments_name'] ='';
                     <p>Tournaments</p>
                 </a>
             </li>
+            <?php }?>
             <li class="nav-item">
                 <a href="./../coaches/" class="nav-link">
                     <i class="far fa-user nav-icon"></i>
@@ -114,12 +116,14 @@ $_SESSION['tournaments_name'] ='';
                     <p>Report</p>
                 </a>
             </li>
+            <?php if ($_SESSION['user_type'] == 'Admin'){?>
             <li class="nav-item">
                 <a href="./../users/" class="nav-link">
                     <i class="fas fa-users nav-icon"></i>
                     <p>Users</p>
                 </a>
             </li>
+            <?php }?>
             <li class="nav-item">
                 <a href="./../profile/" class="nav-link">
                     <i class="fas fa-user nav-icon"></i>
@@ -178,8 +182,8 @@ $_SESSION['tournaments_name'] ='';
                         echo '
                         <tr>
                           <td>'.$row["athletes_last"].', '.$row["athletes_first"].' '.$row["athletes_mi"].'.'.'</td>
-                          <td>'.$row['sports_name'].'</td>
-                          <td>'.$row['coaches_last'].', '.$row['coaches_first'].' '.$row['coaches_mi'].'.'.'</td>
+                          <td>'.$row['athletes_last'].'</td>
+                          <td>'.$row['athletes_last'].', '.$row['athletes_first'].' '.$row['athletes_mi'].'.'.'</td>
                           <td>No Award Yet.</td>
                           <td>'.$row['birthdate'].'</td>
                         </tr>';

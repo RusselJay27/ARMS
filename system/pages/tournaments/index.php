@@ -14,6 +14,10 @@ else
 }
 $_SESSION['tournaments_id'] ='';
 $_SESSION['tournaments_name'] ='';
+$_SESSION['coaches_id'] = '';
+$_SESSION['coaches_fullname'] = '';
+$_SESSION['athletes_id'] ='';
+$_SESSION['athletes_fullname'] ='';
 
 ?>
 <!DOCTYPE html>
@@ -21,7 +25,7 @@ $_SESSION['tournaments_name'] ='';
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin Portal | Sports</title>
+  <title>Admin Portal | Tournaments</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
