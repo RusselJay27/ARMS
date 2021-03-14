@@ -46,6 +46,9 @@ foreach($result as $row)
 {
 	$sub_array = array();
 	$sub_array[] = $row['tournament_sports_id'];
+
+	$sub_array[] = '<button type="button" name="athletes" id="'.$row["tournament_sports_id"].'" class="btn btn-primary  btn-flat btn-xs athletes">View</button>';
+
 	$sub_array[] = $row['category'];
 	$sub_array[] = $row['sports_name'];
 

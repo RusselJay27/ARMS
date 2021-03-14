@@ -6,12 +6,12 @@ include('../../database_connection.php');
 
 if(isset($_POST['btn_action']))
 {
-    
 	if($_POST['btn_action'] == 'back')
 	{
         $_SESSION['tournaments_id'] ='';
         $_SESSION['tournaments_name'] ='';
 	}
+
 	if($_POST['btn_action'] == 'Add')
 	{
 		$sports_id = '';
@@ -106,6 +106,24 @@ if(isset($_POST['btn_action']))
 			echo 'Sport Deleted.';
 		}
 	}
+
+	if($_POST['btn_action'] == 'fetch_athletes')
+	{
+		$query = "SELECT * FROM sports WHERE sports_id = :sports_id";
+		$statement = $connect->prepare($query);
+		$statement->execute(
+			array(
+				':sports_id'	=>	$_POST["sports_id"]
+			)
+		);
+		$result = $statement->fetchAll();
+		foreach($result as $row)
+		{	
+			$_SESSION['sports_id'] = $_POST["sports_id"];
+			$_SESSION['sports_name'] =  $row['sports_name'].' - '.$row['category'];
+		}
+	}
+
 }
 
 ?>

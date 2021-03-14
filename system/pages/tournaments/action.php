@@ -78,6 +78,7 @@ if(isset($_POST['btn_action']))
 		}
 		echo json_encode($output);
 	}
+	
 	if($_POST['btn_action'] == 'fetch_sports')
 	{
 		$query = "SELECT * FROM tournaments WHERE tournaments_id = :tournaments_id";
@@ -94,6 +95,7 @@ if(isset($_POST['btn_action']))
 			$_SESSION['tournaments_name'] =  $row['tournaments_name'];
 		}
 	}
+
 	if($_POST['btn_action'] == 'Edit')
 	{
 		$query = "
@@ -132,6 +134,7 @@ if(isset($_POST['btn_action']))
 			echo 'Tournament Deleted.';
 		}
 	}
+
 	if($_POST['btn_action'] == 'status')
 	{
 		$status = 'Active';

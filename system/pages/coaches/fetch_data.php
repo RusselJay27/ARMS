@@ -62,12 +62,12 @@ foreach($result as $row)
 	$sub_array[] = $row['coaches_id'];
 	$sub_array[] = '<button type="button" name="sports" id="'.$row["coaches_id"].'" class="btn btn-primary btn-flat btn-xs sports">View</button>';
 	$sub_array[] = $row['coaches_last'].', '.$row['coaches_first'].' '.$row['coaches_mi'].'.';
-	$sub_array[] = $row['gender'];
-	$sub_array[] = $age;
 	$sub_array[] = $row['birthdate'];;
-	$sub_array[] = $row['address'];	
-	$sub_array[] = $row['contact'];	
+	$sub_array[] = $age;
+	$sub_array[] = $row['gender'];
 	$sub_array[] = $row['email'];	
+	$sub_array[] = $row['contact'];	
+	$sub_array[] = $row['address'];	
 	$sub_array[] = $row['date_created'];
 
 	if($row['coaches_status'] == 'Active')

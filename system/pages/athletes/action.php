@@ -293,16 +293,12 @@ if(isset($_POST['btn_action']))
 				<td>'.$row['athletes_last'].', '.$row['athletes_first'].' '.$row['athletes_mi'].'.'.'</td>
 			</tr>
 			<tr>
-				<td>Gender</td>
-				<td>'.$row['gender'].'</td>
+				<td>Birthdate</td>
+				<td>'.$row['birthdate'].'</td>
 			</tr>
 			<tr>
 				<td>Age</td>
 				<td>'.$age.'</td>
-			</tr>
-			<tr>
-				<td>Birthdate</td>
-				<td>'.$row['birthdate'].'</td>
 			</tr>
 			<tr>
 				<td>Height</td>
@@ -313,20 +309,24 @@ if(isset($_POST['btn_action']))
 				<td>'.$row['weight'].'</td>
 			</tr>
 			<tr>
-				<td>Contact</td>
-				<td>'.$row['contact'].'</td>
+				<td>Grade Level</td>
+				<td>'.$row['level_name'].'</td>
+			</tr>
+			<tr>
+				<td>Gender</td>
+				<td>'.$row['gender'].'</td>
 			</tr>
 			<tr>
 				<td>Email</td>
 				<td>'.$row['email'].'</td>
 			</tr>
 			<tr>
-				<td>Address</td>
-				<td>'.$row['address'].'</td>
+				<td>Contact</td>
+				<td>'.$row['contact'].'</td>
 			</tr>
 			<tr>
-				<td>Grade Level</td>
-				<td>'.$row['level_name'].'</td>
+				<td>Address</td>
+				<td>'.$row['address'].'</td>
 			</tr>
 			<tr>
 				<td>School</td>

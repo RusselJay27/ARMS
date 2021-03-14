@@ -48,6 +48,9 @@ foreach($result as $row)
 	$status = '';
 	$sub_array = array();
 	$sub_array[] = $row['tournaments_id'];
+
+	$sub_array[] = '<button type="button" name="sports" id="'.$row["tournaments_id"].'" class="btn btn-primary  btn-flat btn-xs sports">View</button>';
+	
 	$sub_array[] = $row['tournaments_name'];
 	$sub_array[] = $row['details'];
 	$sub_array[] = $row['type'];
@@ -65,8 +68,6 @@ foreach($result as $row)
 	$sub_array[] = '<button type="button" name="update" id="'.$row["tournaments_id"].'" class="btn btn-warning  btn-flat btn-xs update">Update</button>';
 
 	$sub_array[] = '<button type="button" name="delete" id="'.$row["tournaments_id"].'" class="btn btn-danger  btn-flat btn-xs delete">Delete</button>';
-
-	$sub_array[] = '<button type="button" name="sports" id="'.$row["tournaments_id"].'" class="btn btn-primary  btn-flat btn-xs sports">View</button>';
 	$data[] = $sub_array;
 }
 

@@ -153,7 +153,7 @@ if($_SESSION["tournaments_name"] == '')
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Tournaments/Competitions - <?php echo $_SESSION['tournaments_name']; ?></h1> 
+            <h1>Tournaments/Competitions : <?php echo $_SESSION['tournaments_name']; ?></h1> 
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -178,6 +178,7 @@ if($_SESSION["tournaments_name"] == '')
                   <thead>
                   <tr>
                     <th>ID</th>
+                    <th>Athletes</th>
                     <th>Category</th>
                     <th>Sport</th>
                     <th>Update</th>
@@ -335,6 +336,20 @@ if($_SESSION["tournaments_name"] == '')
       })
     });
     
+    $(document).on('click', '.athletes', function(){
+      var sports_id = $(this).attr("id");
+      var btn_action = 'fetch_athletes';
+      $.ajax({
+        url:"action.php",
+        method:"POST",
+        data:{sports_id:sports_id, btn_action:btn_action},
+        success:function(data)
+        {
+          window.location.href = "./athletes/";
+        }
+      })
+    });
+    
     var sportsdataTable = $('#example1').DataTable({
       "responsive": true, "lengthChange": true, "autoWidth": false,
       "processing":true,
@@ -346,7 +361,7 @@ if($_SESSION["tournaments_name"] == '')
       },
       "columnDefs":[
         {
-          "targets":[0, 4, 3],
+          "targets":[0, 1, 4, 5],
           "orderable":false,
         },
       ],

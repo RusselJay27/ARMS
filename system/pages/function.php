@@ -58,7 +58,25 @@ function fill_coaches_list($connect, $sport_id)
 	$output = '';
 	foreach($result as $row)
 	{
-		$output .= '<option value="'.$row["coaches_id"].'">'.$row["coaches_last"].', '.$row["coaches_first"].' '.$row["coaches_mi"].'.-'.$sport_id.'-'.'</option>';
+		$output .= '<option value="'.$row["coaches_id"].'">'.$row["coaches_last"].', '.$row["coaches_first"].' '.$row["coaches_mi"].'</option>';
+	}
+	return $output;
+}
+function fill_athletes_list($connect, $sport_id)
+{
+	$query = "
+	SELECT athletes.*, coaches.* from athletes 
+	INNER JOIN athlete_sports ON athlete_sports.athletes_id = athletes.athletes_id
+	INNER JOIN coaches ON athlete_sports.coaches_id = coaches.coaches_id
+	where athletes.athletes_status = 'Active' AND athlete_sports.sports_id = '".$sport_id."'
+	";
+	$statement = $connect->prepare($query);
+	$statement->execute();
+	$result = $statement->fetchAll();
+	$output = '';
+	foreach($result as $row)
+	{
+		$output .= '<option value="'.$row["athletes_id"].'">'.$row["athletes_last"].', '.$row["athletes_first"].' '.$row["athletes_mi"].'. - Coach: '.$row["coaches_last"].', '.$row["coaches_first"].' '.$row["coaches_mi"].'.'.'</option>';
 	}
 	return $output;
 }

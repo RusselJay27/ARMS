@@ -167,12 +167,12 @@ $_SESSION['athletes_fullname'] ='';
                     <th>ID</th>
                     <th>Sport</th>
                     <th>Fullname</th>
-                    <th>Gender</th>
-                    <th>Age</th>
                     <th>Birthdate</th>
-                    <th>Address</th>
-                    <th>Contact</th>
+                    <th>Age</th>
+                    <th>Gender</th>
                     <th>Email</th>
+                    <th>Contact</th>
+                    <th>Address</th>
                     <th>Date Created</th>
                     <th>Status</th>
                     <th>Update</th>
