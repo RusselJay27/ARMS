@@ -15,11 +15,12 @@ if(isset($_POST['btn_action']))
 	if($_POST['btn_action'] == 'Add')
 	{
 		$sports_id = '';
-		$query2 = "SELECT * FROM tournament_sports WHERE sports_id = :sports_id";
+		$query2 = "SELECT * FROM tournament_sports WHERE sports_id = :sports_id AND tournaments_id = :tournaments_id";
 		$statement2 = $connect->prepare($query2);
 		$statement2->execute(
 			array(
-				':sports_id'	=>	trim($_POST["sports_id"])
+				':sports_id'		=>	$_POST["sports_id"],
+				':tournaments_id'	=>	$_SESSION["tournaments_id"]
 			)
 		);
 		$result2 = $statement2->fetchAll();
@@ -109,17 +110,19 @@ if(isset($_POST['btn_action']))
 
 	if($_POST['btn_action'] == 'fetch_athletes')
 	{
-		$query = "SELECT * FROM sports WHERE sports_id = :sports_id";
+		$query = "SELECT tournament_sports.*, sports.* FROM tournament_sports 
+		INNER JOIN sports ON tournament_sports.sports_id = sports.sports_id 
+		where tournament_sports.tournament_sports_id = :tournament_sports_id ";
 		$statement = $connect->prepare($query);
 		$statement->execute(
 			array(
-				':sports_id'	=>	$_POST["sports_id"]
+				':tournament_sports_id'		=>	$_POST["sports_id"],
 			)
 		);
 		$result = $statement->fetchAll();
 		foreach($result as $row)
 		{	
-			$_SESSION['sports_id'] = $_POST["sports_id"];
+			$_SESSION['sports_id'] = $row["sports_id"];
 			$_SESSION['sports_name'] =  $row['sports_name'].' - '.$row['category'];
 		}
 	}

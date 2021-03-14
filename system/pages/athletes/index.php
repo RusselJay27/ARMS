@@ -606,6 +606,20 @@ $_SESSION['athletes_fullname'] ='';
       })
     });
     
+    $(document).on('click', '.achievements', function(){
+      var athletes_id = $(this).attr("id");
+      var btn_action = 'fetch_sports';
+      $.ajax({
+        url:"action.php",
+        method:"POST",
+        data:{athletes_id:athletes_id, btn_action:btn_action},
+        success:function(data)
+        {
+          window.location.href = "./achievements/";
+        }
+      })
+    });
+    
     var athletesdataTable = $('#example1').DataTable({
       "responsive": true, "lengthChange": true, "autoWidth": false,
       "processing":true,
