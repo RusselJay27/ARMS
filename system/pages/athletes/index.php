@@ -169,6 +169,7 @@ $_SESSION['athletes_fullname'] ='';
                   <tr>
                     <th>ID</th>
                     <th>Sport</th>
+                    <th>Achievements</th>
                     <th>Fullname</th>
                     <th>Grade Level</th>
                     <th>Gender</th>
@@ -177,7 +178,6 @@ $_SESSION['athletes_fullname'] ='';
                     <th>Update</th>
                     <th>Delete</th>
                     <th>More</th>
-                    <th>Achievements</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -631,7 +631,7 @@ $_SESSION['athletes_fullname'] ='';
       },
       "columnDefs":[
         {
-          "targets":[0,1,7,8,9,10],
+          "targets":[0,1,2,7,8,9],
           "orderable":false,
         },
       ],

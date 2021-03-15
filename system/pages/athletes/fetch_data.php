@@ -62,6 +62,7 @@ foreach($result as $row)
 	$sub_array = array();
 	$sub_array[] = $row['athletes_id'];
 	$sub_array[] = '<button type="button" name="sports" id="'.$row["athletes_id"].'" class="btn btn-primary  btn-flat btn-xs sports">View</button>';
+	$sub_array[] = '<button type="button" name="achievements" id="'.$row["athletes_id"].'" class="btn btn-info  btn-flat btn-xs achievements">View</button>';
 	$sub_array[] = $row['athletes_last'].', '.$row['athletes_first'].' '.$row['athletes_mi'].'.';
 	$sub_array[] = $row['level_name'];
 	$sub_array[] = $row['gender'];
@@ -79,7 +80,6 @@ foreach($result as $row)
 
 	$sub_array[] = '<button type="button" name="delete" id="'.$row["athletes_id"].'" class="btn btn-danger  btn-flat btn-xs delete">Delete</button>';
 	$sub_array[] = '<button type="button" name="view" id="'.$row["athletes_id"].'" class="btn btn-primary  btn-flat btn-xs view">View</button>';
-	$sub_array[] = '<button type="button" name="achievements" id="'.$row["athletes_id"].'" class="btn btn-info  btn-flat btn-xs achievements">View</button>';
 	$data[] = $sub_array;
 }
 
