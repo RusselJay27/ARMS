@@ -35,6 +35,12 @@ if(isset($_POST['btn_action']))
 			  				</select>
 						</div>';
 		}
+		else{$output = '<div class="form-group">
+				<select name="coaches_id" id="coaches_id" class="form-control" required>
+					<option value="">Select Coach</option>
+				</select>
+				</div>';
+		}
 		echo $output;
 	}
 

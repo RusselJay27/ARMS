@@ -16,21 +16,26 @@ if(isset($_POST['btn_action']))
 							<select name="sports_id" id="sports_id" class="form-control" required>
 							<option value="">Select Sport</option>';
 							
-		$query = "SELECT tournament_athletes.*, sports.* from tournament_athletes 
-		INNER JOIN sports ON tournament_athletes.sports_id = sports.sports_id
-		where tournament_athletes.status = 'Active' AND tournament_athletes.athletes_id = '".$_SESSION['athletes_id']."' AND tournament_athletes.tournaments_id = :tournaments_id";
-		$statement = $connect->prepare($query);
-		$statement->execute(
-			array(
-				':tournaments_id'	=> $_POST["tournaments_id"]
-			)
-		);
-		$result = $statement->fetchAll();
-		foreach($result as $row)
-		{
-			$output .= '<option value="'.$row["sports_id"].'">'.$row["sports_name"].' - '.$row["category"].'</option>';
-		}
+			$query = "SELECT tournament_athletes.*, sports.* from tournament_athletes 
+			INNER JOIN sports ON tournament_athletes.sports_id = sports.sports_id
+			where tournament_athletes.status = 'Active' AND tournament_athletes.athletes_id = '".$_SESSION['athletes_id']."' AND tournament_athletes.tournaments_id = :tournaments_id";
+			$statement = $connect->prepare($query);
+			$statement->execute(
+				array(
+					':tournaments_id'	=> $_POST["tournaments_id"]
+				)
+			);
+			$result = $statement->fetchAll();
+			foreach($result as $row)
+			{
+				$output .= '<option value="'.$row["sports_id"].'">'.$row["sports_name"].' - '.$row["category"].'</option>';
+			}
 			$output .= '</select> </div>';
+		}
+		else{$output = '<div class="form-group">
+			<select name="sports_id" id="sports_id" class="form-control" required>
+				<option value="">Select Sport</option>
+				</select> </div>';
 		}
 		echo $output;
 	}
