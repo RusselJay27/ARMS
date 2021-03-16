@@ -115,6 +115,22 @@ function fill_tournament_sports_list($connect, $tournaments_id)
 	}
 	return $output;
 }
+function fill_tournaments_ranking_list($connect)
+{
+	$query = "
+	SELECT * FROM tournaments
+	WHERE tournaments_status = 'Active'
+	";
+	$statement = $connect->prepare($query);
+	$statement->execute();
+	$result = $statement->fetchAll();
+	$output = '';
+	foreach($result as $row)
+	{
+		$output .= '<option value="'.$row["tournaments_id"].'">'.$row["tournaments_name"].'</option>';
+	}
+	return $output;
+}
 function count_athletes($connect)
 {
 	$query = "SELECT * from athletes";

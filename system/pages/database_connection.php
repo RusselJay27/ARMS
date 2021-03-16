@@ -83,19 +83,6 @@ try{
     );";
     $connect->exec($athletes);
 
-    $user_account = "CREATE table user_account(
-        `user_id` INT(11) AUTO_INCREMENT PRIMARY KEY,
-        `user_name` varchar(255) DEFAULT NULL,
-        `user_password` varchar(255) DEFAULT NULL,
-        `user_last` varchar(255) DEFAULT NULL,
-        `user_first` varchar(255) DEFAULT NULL,
-        `user_mi` varchar(255) DEFAULT NULL,
-        `user_status` enum('Active','Inactive') DEFAULT 'Active',
-        `user_type` enum('Admin','Staff') DEFAULT 'Staff',
-        `date_created` varchar(255) DEFAULT null
-    );";
-    $connect->exec($user_account);
-
     $tournament_sports = "CREATE table tournament_sports(
         `tournament_sports_id` INT(11) AUTO_INCREMENT PRIMARY KEY,
         `tournaments_id` INT(11) DEFAULT 0,
@@ -144,6 +131,39 @@ try{
         `date_created` varchar(255) DEFAULT null
     );";
     $connect->exec($achievements);
+
+    $user_account = "CREATE table user_account(
+        `user_id` INT(11) AUTO_INCREMENT PRIMARY KEY,
+        `user_name` varchar(255) DEFAULT NULL,
+        `user_password` varchar(255) DEFAULT NULL,
+        `user_last` varchar(255) DEFAULT NULL,
+        `user_first` varchar(255) DEFAULT NULL,
+        `user_mi` varchar(255) DEFAULT NULL,
+        `user_status` enum('Active','Inactive') DEFAULT 'Active',
+        `user_type` enum('Admin','Staff') DEFAULT 'Staff',
+        `date_created` varchar(255) DEFAULT null
+    );";
+    $connect->exec($user_account);
+
+    $date_today = date("m-d-Y");
+    $insert_sports = "INSERT INTO `sports`
+        (`sports_id`, `category`, `sports_name`, `details`, `sports_status`, `date_created`) 
+        VALUES 
+        (1,'Individual / Dual','Badminton','','Active','".$date_today."'),
+        (2,'Individual / Dual','Chess','','Active','".$date_today."'),
+        (3,'Individual / Dual','Table Tennis','','Active','".$date_today."'),
+        (4,'Individual / Dual','Gymnastics','','Active','".$date_today."'),
+        (5,'Individual / Dual','Athletics','','Active','".$date_today."'),
+        (6,'Team','Volleyball','','Active','".$date_today."'),
+        (7,'Team','Basketball','','Active','".$date_today."'),
+        (8,'Team','Football / Futsal','','Active','".$date_today."'),
+        (9,'Team','Baseball','','Active','".$date_today."'),
+        (10,'Combative','Judo','','Active','".$date_today."'),
+        (11,'Combative','Taekwondo','','Active','".$date_today."'),
+        (12,'Combative','Arnis','','Active','".$date_today."'),
+        (13,'Combative','Pencak Silat','','Active','".$date_today."')
+    ;";
+    $connect->exec($insert_sports);
 
 }
 catch(PDOException $e){
