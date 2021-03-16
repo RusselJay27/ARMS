@@ -193,7 +193,7 @@ $_SESSION['athletes_fullname'] ='';
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3><?php echo count_users($connect);?></h3>
+                <h3><?php echo count_users_dashboard($connect);?></h3>
 
                 <p>User Registrations</p>
               </div>

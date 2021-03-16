@@ -145,6 +145,13 @@ function count_users($connect)
 	$statement->execute();
 	return $statement->rowCount();
 }
+function count_users_dashboard($connect)
+{
+	$query = "SELECT * from user_account WHERE user_id != '".$_SESSION['user_id']."'";
+	$statement = $connect->prepare($query);
+	$statement->execute();
+	return $statement->rowCount();
+}
 function count_tournaments($connect)
 {
 	$query = "SELECT * from tournaments";
