@@ -238,27 +238,24 @@ $_SESSION['athletes_fullname'] ='';
         <!-- /.row -->
         <div class="row">
           <div class="col-lg-12">
-            
-            <div class="card">
+            <!-- elementary (7-11): local, highschool(12-16): national, international nakabase sa coach  -->
+            <div class="card"> 
               <div class="card-header border-0">
                 <h3 class="card-title">Tournament</h3>
                 <div class="card-tools">
                   <div class="row">
-                    <div class="col-7">
+                    <div class="col-6">
                       <div class="form-group">
                         <select name="tournaments_id" id="tournaments_id" class="form-control" required>
                           <option value="">Select Tournament</option>
-                          <?php echo fill_tournaments_ranking_list($connect) ?> 
+                          <?php echo fill_tournaments_active_list($connect) ?> 
                         </select>
                       </div>
                     </div>
-                    <div class="col-5">
+                    <div class="col-6">
                       <div class="form-group">
                         <select name="sports_id" id="sports_id" class="form-control" required>
                           <option value="">Select Sport</option>
-                          <option value="Individual / Dual">Individual / Dual</option>
-                          <option value="Team">Team</option>
-                          <option value="Combative">Combative</option>
                         </select>
                       </div>
                     </div>
@@ -293,7 +290,7 @@ $_SESSION['athletes_fullname'] ='';
                 <h3 class="card-title">Ranking</h3>
                 <div class="card-tools">
                     <div class="form-group">
-                      <select name="ranking_tournament" id="ranking_tournament" class="form-control" required>
+                      <select name="ranking_tournament_id" id="ranking_tournament_id" class="form-control" required>
                         <option value="">Select Tournament</option>
                         <?php echo fill_tournaments_ranking_list($connect) ?> 
                       </select>
@@ -301,18 +298,19 @@ $_SESSION['athletes_fullname'] ='';
                 </div>
               </div>
               <div class="card-body table-responsive p-0">
-                <table class="table table-striped table-valign-middle">
+                <table id="ranking" class="table table-striped table-valign-middle">
                   <thead>
-                  <tr>
-                    <th>Rank</th>
-                    <th>Athlete</th>
-                    <th>Sport</th>
-                    <th>Coach</th>
-                  </tr>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Athlete</th>
+                        <th>Award</th>
+                        <th>Sport</th>
+                        <th>Coach</th>
+                    </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td colspan="4" style="text-align: center">No data found.</td>
+                      <td colspan="5" style="text-align: center">No data found.</td>
                     </tr>
                   </tbody>
                 </table>
@@ -376,5 +374,36 @@ $_SESSION['athletes_fullname'] ='';
 <script src="../dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="../dist/js/pages/dashboard.js"></script>
+
+<script>
+$(document).ready(function(){
+      $('#tournaments_id').change(function(){  
+           var tournaments_id = $(this).val();  
+            var btn_action = 'tournament_change';
+           $.ajax({  
+                url:"action.php",  
+                method:"POST",  
+                data:{tournaments_id:tournaments_id, btn_action:btn_action},  
+                success:function(data){  
+                  $('#sports_id').html(data);  
+                }  
+           });  
+      });  
+
+      $('#ranking_tournament_id').change(function(){  
+           var ranking_tournament_id = $(this).val();  
+            var btn_action = 'ranking_change';
+           $.ajax({  
+                url:"action.php",  
+                method:"POST",  
+                data:{ranking_tournament_id:ranking_tournament_id, btn_action:btn_action},  
+                success:function(data){  
+                  $('#ranking').html(data);  
+                }  
+           });  
+      });  
+
+ }); 
+</script>
 </body>
 </html>

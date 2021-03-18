@@ -119,7 +119,21 @@ function fill_tournaments_ranking_list($connect)
 {
 	$query = "
 	SELECT * FROM tournaments
-	WHERE tournaments_status = 'Active'
+	";
+	$statement = $connect->prepare($query);
+	$statement->execute();
+	$result = $statement->fetchAll();
+	$output = '';
+	foreach($result as $row)
+	{
+		$output .= '<option value="'.$row["tournaments_id"].'">'.$row["tournaments_name"].'</option>';
+	}
+	return $output;
+}
+function fill_tournaments_active_list($connect)
+{
+	$query = "
+	SELECT * FROM tournaments WHERE tournaments_status = 'Active' 
 	";
 	$statement = $connect->prepare($query);
 	$statement->execute();
