@@ -85,7 +85,7 @@ function fill_tournaments_list($connect)
 	$query = "
 	SELECT tournament_athletes.*, tournaments.* from tournament_athletes 
 	INNER JOIN tournaments ON tournament_athletes.tournaments_id = tournaments.tournaments_id
-	where tournament_athletes.status = 'Active' 
+	where tournaments.tournaments_status = 'Active' 
 	AND tournament_athletes.athletes_id = '".$_SESSION['athletes_id']."' GROUP BY tournament_athletes.tournaments_id ASC
 	";
 	$statement = $connect->prepare($query);
@@ -118,7 +118,7 @@ function fill_tournament_sports_list($connect, $tournaments_id)
 function fill_tournaments_ranking_list($connect)
 {
 	$query = "
-	SELECT * FROM tournaments
+	SELECT * FROM tournaments WHERE tournaments_status = 'Inactive' 
 	";
 	$statement = $connect->prepare($query);
 	$statement->execute();

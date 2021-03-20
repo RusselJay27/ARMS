@@ -263,7 +263,7 @@ $_SESSION['athletes_fullname'] ='';
                 </div>
               </div>
               <div class="card-body table-responsive p-0">
-                <table class="table table-striped table-valign-middle">
+                <table id="tournament" class="table table-striped table-valign-middle">
                   <thead>
                   <tr>
                     <th>Athlete</th>
@@ -378,32 +378,104 @@ $_SESSION['athletes_fullname'] ='';
 <script>
 $(document).ready(function(){
       $('#tournaments_id').change(function(){  
-           var tournaments_id = $(this).val();  
-            var btn_action = 'tournament_change';
-           $.ajax({  
-                url:"action.php",  
-                method:"POST",  
-                data:{tournaments_id:tournaments_id, btn_action:btn_action},  
-                success:function(data){  
-                  $('#sports_id').html(data);  
-                }  
-           });  
+          if ($('#tournaments_id').val() == ''){
+            var btn_action = 'tournament_clear';
+            $.ajax({  
+                  url:"action.php",  
+                  method:"POST",  
+                  data:{ btn_action:btn_action},  
+                  success:function(data){  
+                    $('#tournament').html(data);  
+                  }  
+            });  
+          }
+          var tournaments_id = $(this).val();  
+          var btn_action = 'tournament_change';
+          $.ajax({  
+            url:"action.php",  
+            method:"POST",  
+            data:{tournaments_id:tournaments_id, btn_action:btn_action},  
+            success:function(data){  
+              $('#sports_id').html(data);  
+            }  
+          });  
       });  
 
-      $('#ranking_tournament_id').change(function(){  
-           var ranking_tournament_id = $(this).val();  
-            var btn_action = 'ranking_change';
-           $.ajax({  
+      $('#sports_id').change(function(){  
+          var sports_id = $(this).val();  
+          var tournaments_id = $('#tournaments_id').val(); 
+          var btn_action = 'sports_change';
+          $.ajax({  
                 url:"action.php",  
                 method:"POST",  
-                data:{ranking_tournament_id:ranking_tournament_id, btn_action:btn_action},  
+                data:{sports_id:sports_id, tournaments_id:tournaments_id, btn_action:btn_action},  
                 success:function(data){  
-                  $('#ranking').html(data);  
+                  $('#tournament').html(data);  
                 }  
-           });  
+          });  
+      });   
+
+      $('#ranking_tournament_id').change(function(){  
+          var ranking_tournament_id = $(this).val();  
+          var btn_action = 'ranking_change';
+          $.ajax({  
+            url:"action.php",  
+            method:"POST",  
+            data:{ranking_tournament_id:ranking_tournament_id, btn_action:btn_action},  
+            success:function(data){  
+              $('#ranking').html(data);  
+            }  
+          });  
       });  
 
  }); 
+ 
+ $(function () {
+    $(document).on('click', '.accept', function(){
+      var id = $(this).attr('id');
+      var sports_id = $('#sports_id').val();  
+      var tournaments_id = $('#tournaments_id').val(); 
+      var btn_action = 'accept';
+      if(confirm("Are you sure you want to accept this athlete?"))
+      {
+        $.ajax({
+          url:"action.php",
+          method:"POST",
+          data:{id:id, sports_id:sports_id, tournaments_id:tournaments_id, btn_action:btn_action},
+          success:function(data)
+          {
+            $('#tournament').html(data);  
+          }
+        })
+      }
+      else
+      {
+        return false;
+      }
+    });
+    $(document).on('click', '.decline', function(){
+      var id = $(this).attr('id');
+      var sports_id = $('#sports_id').val();  
+      var tournaments_id = $('#tournaments_id').val(); 
+      var btn_action = 'decline';
+      if(confirm("Are you sure you want to decline this athlete?"))
+      {
+        $.ajax({
+          url:"action.php",
+          method:"POST",
+          data:{id:id, sports_id:sports_id, tournaments_id:tournaments_id, btn_action:btn_action},
+          success:function(data)
+          {
+            $('#tournament').html(data); 
+          }
+        })
+      }
+      else
+      {
+        return false;
+      }
+    });
+ });
 </script>
 </body>
 </html>
