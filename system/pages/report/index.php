@@ -1,22 +1,109 @@
 <?php
 include('../database_connection.php');
-//include('function.php');
+include('../function.php');
 if(!isset($_SESSION["user_type"]))
 {
   header("location:../../login.php");
 }
+
+function fetch_data($connect,$tournaments_id)  
+ { 
+      $output = '';
+      $query = " SELECT
+                tournament_athletes.*, 
+                athletes.athletes_last, 
+                athletes.athletes_first, 
+                athletes.athletes_mi, 
+                sports.category, 
+                sports.sports_name, 
+                coaches.coaches_last, 
+                coaches.coaches_first, 
+                coaches.coaches_mi,
+                (SELECT award from achievements WHERE athletes_id = tournament_athletes.athletes_id AND tournaments_id = tournament_athletes.tournaments_id AND sports_id = tournament_athletes.sports_id ) as award
+            FROM
+                tournament_athletes
+            INNER JOIN athletes ON tournament_athletes.athletes_id = athletes.athletes_id
+            INNER JOIN sports ON tournament_athletes.sports_id = sports.sports_id
+            INNER JOIN coach_sports ON sports.sports_id = coach_sports.sports_id
+            INNER JOIN coaches ON coach_sports.coaches_id = coaches.coaches_id
+            WHERE
+                tournament_athletes.tournaments_id = :tournaments_id
+            ORDER BY award DESC ";
+            $statement = $connect->prepare($query);
+            $statement->execute(
+                array(
+                    ':tournaments_id'	=> $tournaments_id
+                )
+            );
+            $result = $statement->fetchAll();
+
+            foreach($result as $row)
+            {
+              $award = '';
+              if ($row['award'] == '3'){
+                $award = 'Gold';
+              }
+              if ($row['award'] == '2'){
+                $award = 'Silver';
+              }
+              if ($row['award'] == '1'){
+                $award = 'Bronze';
+              }
+              $output .= '
+                <tr>
+                  <td >'.$row['athletes_last'].', '.$row['athletes_first'].' '.$row['athletes_mi'].'.'.'</td>
+                  <td >'.$row["sports_name"].' - '.$row["category"].'</td>
+                  <td >'.$row['coaches_last'].', '.$row['coaches_first'].' '.$row['coaches_mi'].'.'.'</td>
+                  <td >'.$award.'</td>
+                  <td >'.$row['date_created'].'</td>
+                </tr>
+                ';
+            }
+        return $output;
+ }  
+ if(isset($_POST["pdf_button"]))  
+ { 
+      $tournaments_id = $_POST['tournaments_id'];
+      require_once('../tcpdf/tcpdf.php');  
+      $obj_pdf = new TCPDF('P', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);  
+      $obj_pdf->SetCreator(PDF_CREATOR);  
+      $obj_pdf->SetTitle("Report of Athletes per Tournament");  
+      $obj_pdf->SetHeaderData('', '', PDF_HEADER_TITLE, PDF_HEADER_STRING);  
+      $obj_pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));  
+      $obj_pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));  
+      $obj_pdf->SetDefaultMonospacedFont('helvetica');  
+      $obj_pdf->SetFooterMargin(PDF_MARGIN_FOOTER);  
+      $obj_pdf->SetMargins(PDF_MARGIN_LEFT, '5', PDF_MARGIN_RIGHT);  
+      $obj_pdf->setPrintHeader(false);  
+      $obj_pdf->setPrintFooter(false);  
+      $obj_pdf->SetAutoPageBreak(TRUE, 10);  
+      $obj_pdf->SetFont('helvetica', '', 12);  
+      $obj_pdf->AddPage();  
+      $content = '';  
+      $content .= '  
+      <h3 align="center">Report of Athletes per Tournament</h3><br /><br />  
+      <table border="1" cellspacing="0" cellpadding="2">  
+           <tr> 
+              <th width="25%">Athlete</th>
+              <th width="25%">Sport</th>
+              <th width="25%">Coach</th>
+              <th width="10%">Award</th>
+              <th width="15%">Date Event</th>
+           </tr>  
+      ';  
+      $content .= fetch_data($connect,$tournaments_id);  
+      $content .= '</table>';  
+      $obj_pdf->writeHTML($content);  
+      $obj_pdf->Output('Report of Athletes per Tournament.pdf', 'I');
+  //echo $data;
+ }  
+ 
 $_SESSION['tournaments_id'] ='';
 $_SESSION['tournaments_name'] ='';
 $_SESSION['coaches_id'] = '';
 $_SESSION['coaches_fullname'] = '';
 $_SESSION['athletes_id'] ='';
 $_SESSION['athletes_fullname'] ='';
-
-    $query = "SELECT *
-    FROM athletes";
-		$statement = $connect->prepare($query);
-		$statement->execute();
-		$result = $statement->fetchAll();
 
 ?>
 <!DOCTYPE html>
@@ -142,11 +229,17 @@ $_SESSION['athletes_fullname'] ='';
   </aside>
 
   <div class="content-wrapper">
+    <form method="post">
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1>Report</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <button type="submit" name="pdf_button" id="pdf_button" class="btn btn-warning">Print PDF</button> 
+            </ol>
           </div>
         </div>
       </div>
@@ -160,35 +253,34 @@ $_SESSION['athletes_fullname'] ='';
 
           <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Generate Report of Athletes per Tournament</h3>
+                <h3 class="card-title">Report of Athletes per Tournament</h3>
+                <div class="card-tools">
+                    <div class="col-12">
+                      <div class="form-group">
+                        <select name="tournaments_id" id="tournaments_id" class="form-control" required>
+                          <option value="">Select Tournament</option>
+                          <?php echo fill_tournaments_ranking_list($connect) ?> 
+                        </select>
+                      </div>
+                    </div>
+                </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="report" class="table table-bordered table-striped">
                   <thead>
-                  <tr>
-                    <th>Athlete</th>
-                    <th>Sport</th>
-                    <th>Coach</th>
-                    <th>Award</th>
-                    <th>Date Event</th>
-                  </tr>
+                    <tr>
+                      <th>Athlete</th>
+                      <th>Sport</th>
+                      <th>Coach</th>
+                      <th>Award</th>
+                      <th>Date Event</th>
+                    </tr>
                   </thead>
                   <tbody>
-                    <?php 
-
-                      foreach($result as $row)
-                      {
-                        echo '
-                        <tr>
-                          <td>'.$row["athletes_last"].', '.$row["athletes_first"].' '.$row["athletes_mi"].'.'.'</td>
-                          <td>'.$row['athletes_last'].'</td>
-                          <td>'.$row['athletes_last'].', '.$row['athletes_first'].' '.$row['athletes_mi'].'.'.'</td>
-                          <td>No Award Yet.</td>
-                          <td>'.$row['birthdate'].'</td>
-                        </tr>';
-                      }
-                    ?>
+                    <tr>
+                      <td colspan='5' style='text-align: center'>Please select tournament above.</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -200,6 +292,7 @@ $_SESSION['athletes_fullname'] ='';
         <!-- /.row -->
       </div>
     </section>
+    </form>
   </div>
   <footer class="main-footer">
     <strong>Copyright &copy; 2021</strong>
@@ -231,12 +324,22 @@ $_SESSION['athletes_fullname'] ='';
 <script src="../../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["csv", "excel", "pdf", "print"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-  });
+$(document).ready(function(){
+      $('#tournaments_id').change(function(){  
+          var tournaments_id = $(this).val();  
+          var btn_action = 'tournament_change';
+          $.ajax({  
+                url:"action.php",  
+                method:"POST",  
+                data:{ tournaments_id:tournaments_id, btn_action:btn_action},  
+                success:function(data){  
+                  $('#report').html(data);  
+                }  
+          });  
+      }); 
+
+ }); 
+
 </script>
 </body>
 </html>

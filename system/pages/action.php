@@ -228,13 +228,13 @@ if(isset($_POST['btn_action']))
 				$count = $count + 1;
 				$award = '';
 				if ($row['medalist'] == '3'){
-					$award = 'Gold Medalist';
+					$award = 'Gold';
 				}
 				if ($row['medalist'] == '2'){
-					$award = 'Silver Medalist';
+					$award = 'Silver';
 				}
 				if ($row['medalist'] == '1'){
-					$award = 'Bronze Medalist';
+					$award = 'Bronze';
 				}
 
 				$output .= '

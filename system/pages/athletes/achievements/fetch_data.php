@@ -58,13 +58,13 @@ foreach($result as $row)
 	$sub_array[] = $row['category'];
 
 	if ($row['award'] == '3'){
-		$award = 'Gold Medalist';
+		$award = 'Gold';
 	}
 	if ($row['award'] == '2'){
-		$award = 'Silver Medalist';
+		$award = 'Silver';
 	}
 	if ($row['award'] == '1'){
-		$award = 'Bronze Medalist';
+		$award = 'Bronze';
 	}
 	$sub_array[] = $award;
 
