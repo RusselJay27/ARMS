@@ -132,19 +132,6 @@ try{
     );";
     $connect->exec($achievements);
 
-    $user_account = "CREATE table user_account(
-        `user_id` INT(11) AUTO_INCREMENT PRIMARY KEY,
-        `user_name` varchar(255) DEFAULT NULL,
-        `user_password` varchar(255) DEFAULT NULL,
-        `user_last` varchar(255) DEFAULT NULL,
-        `user_first` varchar(255) DEFAULT NULL,
-        `user_mi` varchar(255) DEFAULT NULL,
-        `user_status` enum('Active','Inactive') DEFAULT 'Active',
-        `user_type` enum('Admin','Staff') DEFAULT 'Staff',
-        `date_created` varchar(255) DEFAULT null
-    );";
-    $connect->exec($user_account);
-
     $date_today = date("m-d-Y");
     $insert_sports = "INSERT INTO `sports`
         (`sports_id`, `category`, `sports_name`, `details`, `sports_status`, `date_created`) 
@@ -164,6 +151,29 @@ try{
         (13,'Combative','Pencak Silat','','Active','".$date_today."')
     ;";
     $connect->exec($insert_sports);
+
+    $recommended = "CREATE table recommended(
+        `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
+        `tournaments_id` INT(11) DEFAULT 0,
+        `sports_id` INT(11) DEFAULT 0,
+        `athletes_id` INT(11) DEFAULT 0,
+        `status` enum('Accepted','Declined','Pending') DEFAULT 'Pending',
+        `date_created` varchar(255) DEFAULT null
+    );";
+    $connect->exec($recommended);
+
+    $user_account = "CREATE table user_account(
+        `user_id` INT(11) AUTO_INCREMENT PRIMARY KEY,
+        `user_name` varchar(255) DEFAULT NULL,
+        `user_password` varchar(255) DEFAULT NULL,
+        `user_last` varchar(255) DEFAULT NULL,
+        `user_first` varchar(255) DEFAULT NULL,
+        `user_mi` varchar(255) DEFAULT NULL,
+        `user_status` enum('Active','Inactive') DEFAULT 'Active',
+        `user_type` enum('Admin','Staff') DEFAULT 'Staff',
+        `date_created` varchar(255) DEFAULT null
+    );";
+    $connect->exec($user_account);
 
 }
 catch(PDOException $e){
