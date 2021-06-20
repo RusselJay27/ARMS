@@ -5,6 +5,13 @@ if(!isset($_SESSION["user_type"]))
 {
   header("location:../../../login.php");
 }
+else
+{
+  if($_SESSION["user_type"] == 'Coach')
+  {
+    header("location:../../athletes/");
+  }
+}
 
 if($_SESSION["coaches_fullname"] == '')
 {
@@ -65,7 +72,6 @@ if($_SESSION["coaches_fullname"] == '')
                     <p>Dashboard</p>
                 </a>
             </li>
-            <?php if ($_SESSION['user_type'] == 'Admin'){?>
             <li class="nav-item">
                 <a href="../../schools/" class="nav-link">
                     <i class="far fa-building nav-icon"></i>
@@ -90,7 +96,6 @@ if($_SESSION["coaches_fullname"] == '')
                     <p>Tournaments</p>
                 </a>
             </li>
-            <?php }?>
             <li class="nav-item menu-open">
               <a href="#" class="nav-link active">
                     <i class="far fa-user nav-icon"></i>
@@ -210,7 +215,7 @@ if($_SESSION["coaches_fullname"] == '')
 
     					<div class="form-group">
     						<select name="sports_id" id="sports_id" class="form-control" required>
-								<option value="">Select Sport</option>
+								<option value="">Select Sport *</option>
                   <?php echo fill_sports_list($connect) ?> 
 							</select>
     					</div>

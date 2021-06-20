@@ -211,18 +211,18 @@ if($_SESSION["athletes_fullname"] == '')
 
             <div class="form-group">
     						<select name="tournaments_id" id="tournaments_id" class="form-control" required>
-								<option value="">Select Tournament</option>
+								<option value="">Select Tournament *</option>
                   <?php echo fill_tournaments_list($connect) ?> 
 							  </select>
     					</div>
     					<div class="form-group">
     						<select name="sports_id" id="sports_id" class="form-control" required>
-								<option value="">Select Sport</option>
+								<option value="">Select Sport *</option>
 							  </select>
     					</div>
     					<div class="form-group">
     						<select name="award" id="award" class="form-control" required>
-								<option value="">Select Award</option>
+								<option value="">Select Award *</option>
 								<option value="3">Gold Medalist</option>
 								<option value="2">Silver Medalist</option>
 								<option value="1">Bronze Medalist</option>

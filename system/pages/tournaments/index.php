@@ -7,9 +7,9 @@ if(!isset($_SESSION["user_type"]))
 }
 else
 {
-  if($_SESSION["user_type"] != 'Admin')
+  if($_SESSION["user_type"] == 'Coach')
   {
-    header("location:../index.php");
+    header("location:../athletes/");
   }
 }
 $_SESSION['tournaments_id'] ='';
@@ -117,12 +117,14 @@ $_SESSION['athletes_fullname'] ='';
                     <p>Report</p>
                 </a>
             </li>
+            <?php if ($_SESSION['user_type'] == 'Admin'){?>
             <li class="nav-item">
                 <a href="./../users/" class="nav-link">
                     <i class="fas fa-users nav-icon"></i>
                     <p>Users</p>
                 </a>
             </li>
+            <?php }?>
             <li class="nav-item">
                 <a href="./../profile/" class="nav-link">
                     <i class="fas fa-user nav-icon"></i>
@@ -206,28 +208,24 @@ $_SESSION['athletes_fullname'] ='';
     				</div>
     				<div class="modal-body">
     					<div class="form-group">
-                  <label>Enter Tournament Name</label>
-                  <input type="text" name="tournaments_name" id="tournaments_name" class="form-control" required />
+                  <label>Enter Tournament Name *</label>
+                  <input type="text" name="tournaments_name" id="tournaments_name" class="form-control" required maxlength="50"/>
     					</div>
     					<div class="form-group">
-                  <label>Enter Tournament Details</label>
+                  <label>Enter Tournament Details *</label>
                   <textarea rows="3" name="details" id="details" class="form-control" required></textarea>
     					</div>
     					<div class="form-group">
     						<select name="type" id="type" class="form-control" required>
-								<option value="">Select Type</option>
+								<option value="">Select Type *</option>
 								<option value="International">International</option>
 								<option value="National">National</option>
 								<option value="Local">Local</option>
 							</select>
     					</div>
-    					<!-- <div class="form-group">
-                  <label>Enter Date Event</label>
-                  <input type="text" name="date" id="date" class="form-control" required />
-    					</div> -->
 
               <div class="form-group">
-                        <label>Date Event</label>
+                        <label>Date Event *</label>
                           <div class="input-group date" id="dates" data-target-input="nearest">
                               <input type="text" class="form-control datetimepicker-input" data-target="#dates" name="date" id="date" required/>
                               <div class="input-group-append" data-target="#dates" data-toggle="datetimepicker">

@@ -7,9 +7,9 @@ if(!isset($_SESSION["user_type"]))
 }
 else
 {
-  if($_SESSION["user_type"] != 'Admin')
+  if($_SESSION["user_type"] == 'Coach')
   {
-    header("location:../../../index.php");
+    header("location:../../../athletes/");
   }
 }
 
@@ -138,12 +138,14 @@ if($_SESSION["sports_name"] == '')
                     <p>Report</p>
                 </a>
             </li>
+            <?php if ($_SESSION['user_type'] == 'Admin'){?>
             <li class="nav-item">
                 <a href="../../../users/" class="nav-link">
                     <i class="fas fa-users nav-icon"></i>
                     <p>Users</p>
                 </a>
             </li>
+            <?php }?>
             <li class="nav-item">
                 <a href="../../../profile/" class="nav-link">
                     <i class="fas fa-user nav-icon"></i>
@@ -225,7 +227,7 @@ if($_SESSION["sports_name"] == '')
 
     					<div class="form-group">
     						<select name="athletes_id" id="athletes_id" class="form-control" required>
-								<option value="">Select Athlete</option>
+								<option value="">Select Athlete *</option>
                   <?php echo fill_athletes_list($connect) ?> 
 							</select>
     					</div>

@@ -14,7 +14,7 @@ if(isset($_POST['btn_action']))
 		{
 			$output = '<div class="form-group">
 							<select name="coaches_id" id="coaches_id" class="form-control" required>
-							<option value="">Select Coach</option>';
+							<option value="">Select Coach *</option>';
 							
 		$query = "SELECT coaches.* from coaches 
 		INNER JOIN coach_sports ON coach_sports.coaches_id = coaches.coaches_id
@@ -37,7 +37,7 @@ if(isset($_POST['btn_action']))
 		}
 		else{$output = '<div class="form-group">
 				<select name="coaches_id" id="coaches_id" class="form-control" required>
-					<option value="">Select Coach</option>
+					<option value="">Select Coach *</option>
 				</select>
 				</div>';
 		}

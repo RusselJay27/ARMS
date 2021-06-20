@@ -7,9 +7,9 @@ if(!isset($_SESSION["user_type"]))
 }
 else
 {
-  if($_SESSION["user_type"] != 'Admin')
+  if($_SESSION["user_type"] == 'Coach')
   {
-    header("location:../index.php");
+    header("location:../athletes/");
   }
 }
 $_SESSION['tournaments_id'] ='';
@@ -115,12 +115,14 @@ $_SESSION['athletes_fullname'] ='';
                     <p>Report</p>
                 </a>
             </li>
+            <?php if ($_SESSION['user_type'] == 'Admin'){?>
             <li class="nav-item">
                 <a href="./../users/" class="nav-link">
                     <i class="fas fa-users nav-icon"></i>
                     <p>Users</p>
                 </a>
             </li>
+            <?php }?>
             <li class="nav-item">
                 <a href="./../profile/" class="nav-link">
                     <i class="fas fa-user nav-icon"></i>
@@ -205,8 +207,8 @@ $_SESSION['athletes_fullname'] ='';
     				</div>
     				<div class="modal-body">
     					<div class="form-group">
-							<label>Enter Grade Level</label>
-							<input type="text" name="level_name" id="level_name" class="form-control" required />
+							<label>Enter Grade Level *</label>
+							<input type="text" name="level_name" id="level_name" class="form-control" required maxlength="20"/>
     					</div>
     				</div>
     				<div class="modal-footer">

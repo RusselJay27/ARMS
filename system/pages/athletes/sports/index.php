@@ -210,13 +210,13 @@ if($_SESSION["athletes_fullname"] == '')
 
             <div class="form-group">
     						<select name="sports_id" id="sports_id" class="form-control" required>
-								<option value="">Select Sport</option>
+								<option value="">Select Sport *</option>
                   <?php echo fill_sports_list($connect) ?> 
 							  </select>
     					</div>
     					<div class="form-group">
     						<select name="coaches_id" id="coaches_id" class="form-control" required>
-								<option value="">Select Coach</option>
+								  <option value="">Select Coach *</option>
 							  </select>
     					</div>
 

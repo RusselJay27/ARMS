@@ -44,9 +44,9 @@ if(isset($_POST['btn_action']))
 			$statement = $connect->prepare($query);
 			$result = $statement->execute(
 				array(
-					':tournaments_name'	=>	trim($_POST["tournaments_name"]),
-					':details'			=>	trim($_POST["details"]),
-					':type'				=>	trim($_POST["type"]),
+					':tournaments_name'	=>	ucfirst(trim($_POST["tournaments_name"])),
+					':details'			=>	ucfirst(trim($_POST["details"])),
+					':type'				=>	ucfirst(trim($_POST["type"])),
 					':date'				=>	trim($_POST["date"]),
 					':date_created'		=>	date("m-d-Y")
 				)
@@ -105,9 +105,9 @@ if(isset($_POST['btn_action']))
 		$statement = $connect->prepare($query);
 		$result = $statement->execute(
 			array(
-				':tournaments_name'		=>	$_POST["tournaments_name"],
-				':details'				=>	$_POST["details"],
-				':type'					=>	$_POST["type"],
+				':tournaments_name'		=>	ucfirst(trim($_POST["tournaments_name"])),
+				':details'				=>	ucfirst(trim($_POST["details"])),
+				':type'					=>	ucfirst(trim($_POST["type"])),
 				':date'					=>	$_POST["date"],
 				':tournaments_id'		=>	$_POST["tournaments_id"]
 			)

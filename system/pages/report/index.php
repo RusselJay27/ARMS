@@ -5,6 +5,13 @@ if(!isset($_SESSION["user_type"]))
 {
   header("location:../../login.php");
 }
+else
+{
+  if($_SESSION["user_type"] == 'Coach')
+  {
+    header("location:../athletes/");
+  }
+}
 
 function fetch_data($connect,$tournaments_id)  
  { 
@@ -159,7 +166,6 @@ $_SESSION['athletes_fullname'] ='';
                     <p>Dashboard</p>
                 </a>
             </li>
-            <?php if ($_SESSION['user_type'] == 'Admin'){?>
             <li class="nav-item">
                 <a href="./../schools/" class="nav-link">
                     <i class="far fa-building nav-icon"></i>
@@ -184,7 +190,6 @@ $_SESSION['athletes_fullname'] ='';
                     <p>Tournaments</p>
                 </a>
             </li>
-            <?php }?>
             <li class="nav-item">
                 <a href="./../coaches/" class="nav-link">
                     <i class="far fa-user nav-icon"></i>

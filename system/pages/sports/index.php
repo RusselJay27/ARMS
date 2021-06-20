@@ -7,9 +7,9 @@ if(!isset($_SESSION["user_type"]))
 }
 else
 {
-  if($_SESSION["user_type"] != 'Admin')
+  if($_SESSION["user_type"] == 'Coach')
   {
-    header("location:../index.php");
+    header("location:../athletes/");
   }
 }
 $_SESSION['tournaments_id'] ='';
@@ -118,12 +118,14 @@ $_SESSION['athletes_fullname'] ='';
                     <p>Report</p>
                 </a>
             </li>
+            <?php if ($_SESSION['user_type'] == 'Admin'){?>
             <li class="nav-item">
                 <a href="./../users/" class="nav-link">
                     <i class="fas fa-users nav-icon"></i>
                     <p>Users</p>
                 </a>
             </li>
+            <?php }?>
             <li class="nav-item">
                 <a href="./../profile/" class="nav-link">
                     <i class="fas fa-user nav-icon"></i>
@@ -212,33 +214,24 @@ $_SESSION['athletes_fullname'] ='';
     				<div class="modal-body">
     					<div class="form-group">
     						<select name="category" id="category" class="form-control" required>
-                  <option value="">Select Category</option>
+                  <option value="">Select Category *</option>
                   <option value="Individual / Dual">Individual / Dual</option>
                   <option value="Team">Team</option>
                   <option value="Combative">Combative</option>
                 </select>
     					</div>
-              
-              <!-- <div class="select2-warning form-group">
-                <select class="form-control select2" multiple="multiple" data-placeholder="Select Category" data-dropdown-css-class="select2-warning" style="width: 100%;" name="category1" id="category1">
-                <option value="Individual / Dual">Individual / Dual</option>
-                  <option value="Team">Team</option>
-                  <option value="Combative">Combative</option>
-                </select>
-              </div> -->
 
     					<div class="form-group">
-                <label>Enter Sport Name</label>
-                <input type="text" name="sports_name" id="sports_name" class="form-control" required />
+                <label>Enter Sport Name *</label>
+                <input type="text" name="sports_name" id="sports_name" class="form-control" required maxlength="20"/>
     					</div>
     					<div class="form-group">
-                <label>Enter Sport Details</label>
+                <label>Enter Sport Details *</label>
                 <textarea rows="3" name="details" id="details" class="form-control" required></textarea>
     					</div>
     				</div>
 
     				<div class="modal-footer">
-              <!-- <input type="hidden" name="hidden_category" id="hidden_category" /> -->
     					<input type="hidden" name="sports_id" id="sports_id"/>
     					<input type="hidden" name="btn_action" id="btn_action"/>
     					<input type="submit" name="action" id="action" class="btn btn-warning" value="Add" />

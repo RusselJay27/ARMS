@@ -78,13 +78,21 @@ $_SESSION['athletes_fullname'] ='';
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+               
+            <?php if ($_SESSION['user_type'] == 'Coach'){?>
+              <li class="nav-item">
+                  <a href="#" class="nav-link active">
+                      <i class="fa fa-child nav-icon"></i>
+                      <p>Athletes</p>
+                  </a>
+              </li>
+            <?php } else {?>
             <li class="nav-item">
                 <a href="#" class="nav-link active">
                     <i class="fas fa-tachometer-alt nav-icon"></i>
                     <p>Dashboard</p>
                 </a>
             </li>
-            <?php if ($_SESSION['user_type'] == 'Admin'){?>
             <li class="nav-item">
                 <a href="./schools/" class="nav-link">
                     <i class="far fa-building nav-icon"></i>
@@ -109,7 +117,6 @@ $_SESSION['athletes_fullname'] ='';
                     <p>Tournaments</p>
                 </a>
             </li>
-            <?php }?>
             <li class="nav-item">
                 <a href="./coaches/" class="nav-link">
                     <i class="far fa-user nav-icon"></i>
@@ -135,7 +142,7 @@ $_SESSION['athletes_fullname'] ='';
                     <p>Users</p>
                 </a>
             </li>
-            <?php }?>
+            <?php }}?>
             <li class="nav-item">
                 <a href="./profile/" class="nav-link">
                     <i class="fas fa-user nav-icon"></i>

@@ -1,6 +1,6 @@
 <?php
 
-$connect = new PDO('mysql:host=localhost;dbname=record_mngmnt_yasdo', 'root', '');
+$connect = new PDO('mysql:host=localhost;dbname=yasdo', 'root', '');
 session_start();
 
 try{
@@ -30,7 +30,9 @@ try{
         `school_id` INT(11) AUTO_INCREMENT PRIMARY KEY,
         `school_name` varchar(255) DEFAULT NULL,
         `details` varchar(255) DEFAULT NULL,
-        `address` varchar(255) DEFAULT NULL,
+        `street` varchar(255) DEFAULT NULL,
+        `barangay` varchar(255) DEFAULT NULL,
+        `city` varchar(255) DEFAULT NULL,
         `school_status` enum('Active','Inactive') DEFAULT 'Active',
         `date_created` varchar(255) DEFAULT null
     );";
@@ -50,7 +52,9 @@ try{
         `coaches_first` varchar(255) DEFAULT NULL,
         `coaches_mi` varchar(255) DEFAULT NULL,
         `birthdate` varchar(255) DEFAULT NULL,
-        `address` varchar(255) DEFAULT NULL,
+        `street` varchar(255) DEFAULT NULL,
+        `barangay` varchar(255) DEFAULT NULL,
+        `city` varchar(255) DEFAULT NULL,
         `gender` enum('Male','Female') DEFAULT 'Male',
         `contact` varchar(255) DEFAULT NULL,
         `email` varchar(255) DEFAULT NULL,
@@ -71,7 +75,9 @@ try{
         `weight` varchar(255) DEFAULT NULL,
         `contact` varchar(255) DEFAULT NULL,
         `email` varchar(255) DEFAULT NULL,
-        `address` varchar(255) DEFAULT NULL,
+        `street` varchar(255) DEFAULT NULL,
+        `barangay` varchar(255) DEFAULT NULL,
+        `city` varchar(255) DEFAULT NULL,
         `level_id` INT(11) DEFAULT 0,
         `school_id` INT(11) DEFAULT 0,
         `scholar` enum('Yes','No') DEFAULT 'No',
@@ -177,6 +183,6 @@ try{
 
 }
 catch(PDOException $e){
-    //echo $e->getMessage();
+    // echo $e->getMessage();
 }
 ?>
