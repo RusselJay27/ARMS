@@ -14,7 +14,9 @@ if(isset($_POST["search"]["value"]))
 {
 	$query .= '(coaches_first LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR coaches_last LIKE "%'.$_POST["search"]["value"].'%" ';
-	$query .= 'OR address LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR street LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR barangay LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR city LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR gender LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR contact LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR email LIKE "%'.$_POST["search"]["value"].'%" ';
@@ -67,7 +69,7 @@ foreach($result as $row)
 	$sub_array[] = $row['gender'];
 	$sub_array[] = $row['email'];	
 	$sub_array[] = $row['contact'];	
-	$sub_array[] = $row['address'];	
+	$sub_array[] = $row['street']." ".$row['barangay'].", ".$row['city'];
 	$sub_array[] = $row['date_created'];
 
 	if($row['coaches_status'] == 'Active')

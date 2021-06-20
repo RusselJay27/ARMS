@@ -18,7 +18,9 @@ if(isset($_POST["search"]["value"]))
 {
 	$query .= '(athletes.athletes_first LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR athletes.athletes_last LIKE "%'.$_POST["search"]["value"].'%" ';
-	$query .= 'OR athletes.address LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR athletes.street LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR athletes.barangay LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR athletes.city LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR athletes.gender LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR athletes.contact LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR athletes.email LIKE "%'.$_POST["search"]["value"].'%" ';
@@ -61,24 +63,34 @@ foreach($result as $row)
 	$status = '';
 	$sub_array = array();
 	$sub_array[] = $row['athletes_id'];
-	$sub_array[] = '<button type="button" name="sports" id="'.$row["athletes_id"].'" class="btn btn-primary  btn-flat btn-xs sports">View</button>';
-	$sub_array[] = '<button type="button" name="achievements" id="'.$row["athletes_id"].'" class="btn btn-info  btn-flat btn-xs achievements">View</button>';
+
+	if($_SESSION["user_type"] != 'Coach') {
+		$sub_array[] = '<button type="button" name="sports" id="'.$row["athletes_id"].'" class="btn btn-primary  btn-flat btn-xs sports">View</button>';
+		$sub_array[] = '<button type="button" name="achievements" id="'.$row["athletes_id"].'" class="btn btn-info  btn-flat btn-xs achievements">View</button>';
+	}
+
 	$sub_array[] = $row['athletes_last'].', '.$row['athletes_first'].' '.$row['athletes_mi'].'.';
 	$sub_array[] = $row['level_name'];
 	$sub_array[] = $row['gender'];
 	$sub_array[] = $row['school_name'];
 
-	if($row['athletes_status'] == 'Active')
-	{
-	$sub_array[] = '<button type="button" name="status" id="'.$row["athletes_id"].'" class="btn btn-success  btn-flat btn-xs status" data-status="'.$row["athletes_status"].'">Active</button>';
+	if($_SESSION["user_type"] != 'Coach') {
+		if($row['athletes_status'] == 'Active')
+		{
+			$sub_array[] = '<button type="button" name="status" id="'.$row["athletes_id"].'" class="btn btn-success  btn-flat btn-xs status" data-status="'.$row["athletes_status"].'">Active</button>';
+		}
+		else
+		{
+			$sub_array[] = '<button type="button" name="status" id="'.$row["athletes_id"].'" class="btn btn-info  btn-flat btn-xs status" data-status="'.$row["athletes_status"].'">Inactive</button>';
+		}
 	}
-	else
-	{
-	$sub_array[] = '<button type="button" name="status" id="'.$row["athletes_id"].'" class="btn btn-info  btn-flat btn-xs status" data-status="'.$row["athletes_status"].'">Inactive</button>';
-	}
+
 	$sub_array[] = '<button type="button" name="update" id="'.$row["athletes_id"].'" class="btn btn-warning  btn-flat btn-xs update">Update</button>';
 
-	$sub_array[] = '<button type="button" name="delete" id="'.$row["athletes_id"].'" class="btn btn-danger  btn-flat btn-xs delete">Delete</button>';
+	if($_SESSION["user_type"] != 'Coach') {
+		$sub_array[] = '<button type="button" name="delete" id="'.$row["athletes_id"].'" class="btn btn-danger  btn-flat btn-xs delete">Delete</button>';
+	}
+
 	$sub_array[] = '<button type="button" name="view" id="'.$row["athletes_id"].'" class="btn btn-primary  btn-flat btn-xs view">View</button>';
 	$data[] = $sub_array;
 }

@@ -68,23 +68,25 @@ if(isset($_POST['btn_action']))
 		{
 			$query = "
 			INSERT INTO athletes (athletes_last,athletes_first,athletes_mi,gender,birthdate,height,weight,contact,email,
-			address,level_id,school_id,scholar,varsity,class_a, image, date_created) 
+			street, barangay, city, level_id,school_id,scholar,varsity,class_a, image, date_created) 
 			VALUES (:athletes_last, :athletes_first, :athletes_mi,:gender, :birthdate, :height,:weight, :contact, :email, 
-			:address, :level_id, :school_id,:scholar, :varsity, :class_a, :image, :date_created)
+			:street, :barangay, :city, :level_id, :school_id,:scholar, :varsity, :class_a, :image, :date_created)
 			";	
 			$statement = $connect->prepare($query);
 			$result = $statement->execute(
 			array(
-				':athletes_last'	=>	trim($_POST["athletes_last"]),
-				':athletes_first'	=>	trim($_POST["athletes_first"]),
-				':athletes_mi'		=>	trim($_POST["athletes_mi"]),
+				':athletes_last'	=>	ucfirst(trim($_POST["athletes_last"])),
+				':athletes_first'	=>	ucfirst(trim($_POST["athletes_first"])),
+				':athletes_mi'		=>	ucfirst(trim($_POST["athletes_mi"])),
 				':gender'			=>	trim($_POST["gender"]),
 				':birthdate'		=>	trim($_POST["birthdate"]),
 				':height'			=>	trim($_POST["height"]),
 				':weight'			=>	trim($_POST["weight"]),
 				':contact'			=>	trim($_POST["contact"]),
 				':email'			=>	trim($_POST["email"]),
-				':address'			=>	trim($_POST["address"]),
+				':street'			=>	ucfirst(trim($_POST["street"])),
+				':barangay'			=>	ucfirst(trim($_POST["barangay"])),
+				':city'				=>	ucfirst(trim($_POST["city"])),
 				':level_id'			=>	trim($_POST["level_id"]),
 				':school_id'		=>	trim($_POST["school_id"]),
 				':scholar'			=>	trim($_POST["scholar"]),
@@ -122,7 +124,9 @@ if(isset($_POST['btn_action']))
 			$output['athletes_first'] = $row['athletes_first'];
 			$output['athletes_mi'] = $row['athletes_mi'];
 			$output['birthdate'] = $row['birthdate'];
-			$output['address'] = $row['address'];
+			$output['street'] = $row['street'];
+			$output['barangay'] = $row['barangay'];
+			$output['city'] = $row['city'];
 			$output['gender'] = $row['gender'];
 			$output['contact'] = $row['contact'];
 			$output['email'] = $row['email'];
@@ -139,16 +143,18 @@ if(isset($_POST['btn_action']))
 		{
 			$query = "
 			UPDATE athletes SET 
-				athletes_last = '".trim($_POST["athletes_last"])."',
-				athletes_first = '".trim($_POST["athletes_first"])."',
-				athletes_mi = '".trim($_POST["athletes_mi"])."',
+				athletes_last = '".ucfirst(trim($_POST["athletes_last"]))."',
+				athletes_first = '".ucfirst(trim($_POST["athletes_first"]))."',
+				athletes_mi = '".ucfirst(trim($_POST["athletes_mi"]))."',
 				gender = '".trim($_POST["gender"])."',
 				birthdate = '".trim($_POST["birthdate"])."',
 				height = '".trim($_POST["height"])."',
 				weight = '".trim($_POST["weight"])."',
 				contact = '".trim($_POST["contact"])."',
 				email = '".trim($_POST["email"])."',
-				address = '".trim($_POST["address"])."',
+				street = '".ucfirst(trim($_POST["street"]))."',
+				barangay = '".ucfirst(trim($_POST["barangay"]))."',
+				city = '".ucfirst(trim($_POST["city"]))."',
 				level_id = '".trim($_POST["level_id"])."',
 				school_id = '".trim($_POST["school_id"])."',
 				scholar = '".trim($_POST["scholar"])."',
@@ -176,16 +182,18 @@ if(isset($_POST['btn_action']))
 				{
 					$query = "
 					UPDATE athletes SET 
-						athletes_last = '".trim($_POST["athletes_last"])."',
-						athletes_first = '".trim($_POST["athletes_first"])."',
-						athletes_mi = '".trim($_POST["athletes_mi"])."',
+						athletes_last = '".ucfirst(trim($_POST["athletes_last"]))."',
+						athletes_first = '".ucfirst(trim($_POST["athletes_first"]))."',
+						athletes_mi = '".ucfirst(trim($_POST["athletes_mi"]))."',
 						gender = '".trim($_POST["gender"])."',
 						birthdate = '".trim($_POST["birthdate"])."',
 						height = '".trim($_POST["height"])."',
 						weight = '".trim($_POST["weight"])."',
 						contact = '".trim($_POST["contact"])."',
 						email = '".trim($_POST["email"])."',
-						address = '".trim($_POST["address"])."',
+						street = '".ucfirst(trim($_POST["street"]))."',
+						barangay = '".ucfirst(trim($_POST["barangay"]))."',
+						city = '".ucfirst(trim($_POST["city"]))."',
 						level_id = '".trim($_POST["level_id"])."',
 						school_id = '".trim($_POST["school_id"])."',
 						scholar = '".trim($_POST["scholar"])."',
@@ -301,11 +309,11 @@ if(isset($_POST['btn_action']))
 				<td>'.$age.'</td>
 			</tr>
 			<tr>
-				<td>Height</td>
+				<td>Height(cm)</td>
 				<td>'.$row['height'].'</td>
 			</tr>
 			<tr>
-				<td>Weight</td>
+				<td>Weight(kg)</td>
 				<td>'.$row['weight'].'</td>
 			</tr>
 			<tr>
@@ -326,7 +334,7 @@ if(isset($_POST['btn_action']))
 			</tr>
 			<tr>
 				<td>Address</td>
-				<td>'.$row['address'].'</td>
+				<td>'.$row['street']." ".$row['barangay'].", ".$row['city'].'</td>
 			</tr>
 			<tr>
 				<td>School</td>

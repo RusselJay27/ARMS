@@ -7,9 +7,9 @@ if(!isset($_SESSION["user_type"]))
 }
 else
 {
-  if($_SESSION["user_type"] != 'Admin')
+  if($_SESSION["user_type"] == 'Coach')
   {
-    header("location:../index.php");
+    header("location:../athletes/");
   }
 }
 $_SESSION['tournaments_id'] ='';
@@ -115,12 +115,14 @@ $_SESSION['athletes_fullname'] ='';
                     <p>Report</p>
                 </a>
             </li>
+            <?php if ($_SESSION['user_type'] == 'Admin'){?>
             <li class="nav-item">
                 <a href="./../users/" class="nav-link">
                     <i class="fas fa-users nav-icon"></i>
                     <p>Users</p>
                 </a>
             </li>
+            <?php }?>
             <li class="nav-item">
                 <a href="./../profile/" class="nav-link">
                     <i class="fas fa-user nav-icon"></i>
@@ -207,17 +209,33 @@ $_SESSION['athletes_fullname'] ='';
     				</div>
     				<div class="modal-body">
     					<div class="form-group">
-									<label>Enter School Name</label>
+									<label>Enter School Name *</label>
 									<input type="text" name="school_name" id="school_name" class="form-control" required />
     					</div>
               <div class="form-group">
-                <label>Enter School Details</label>
+                <label>Enter School Details *</label>
                 <textarea rows="3" name="details" id="details" class="form-control" required></textarea>
               </div>
               <div class="form-group">
-                <label>Enter School Address</label>
-                <textarea rows="3" name="address" id="address" class="form-control" required></textarea>
+                <label>Enter School Address *</label>
+                <!-- <textarea rows="3" name="address" id="address" class="form-control" required></textarea> -->
+									<input type="text" name="street" id="street" class="form-control" placeholder="House No. / Street / Village or Subdivision" required/>
               </div>
+    					
+              <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <input type="text" name="barangay" id="barangay" class="form-control" placeholder="Barangay" maxlength="50" 
+                        style="text-transform: capitalize;" required />
+                      </div> 
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <input type="text" name="city" id="city" class="form-control" placeholder="City / Municipality" maxlength="50" 
+                        style="text-transform: capitalize;" required />
+                      </div>
+                    </div>
+              </div> 
     				</div>
     				<div class="modal-footer">
     					<input type="hidden" name="school_id" id="school_id"/>
@@ -338,7 +356,9 @@ $_SESSION['athletes_fullname'] ='';
           $('#schoolModal').modal('show');
           $('#school_name').val(data.school_name);
           $('#details').val(data.details);
-          $('#address').val(data.address);
+          $('#street').val(data.street);
+          $('#barangay').val(data.barangay);
+          $('#city').val(data.city);
           $('.modal-title').html("<i class='fa fa-edit'></i> Edit School");
           $('#school_id').val(school_id);
           $('#action').val('Edit');

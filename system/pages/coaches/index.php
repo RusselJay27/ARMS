@@ -5,6 +5,14 @@ if(!isset($_SESSION["user_type"]))
 {
   header("location:../../login.php");
 }
+else
+{
+  if($_SESSION["user_type"] == 'Coach')
+  {
+    header("location:../athletes/");
+  }
+}
+
 $_SESSION['tournaments_id'] ='';
 $_SESSION['tournaments_name'] ='';
 $_SESSION['coaches_id'] = '';
@@ -68,7 +76,6 @@ $_SESSION['athletes_fullname'] ='';
                     <p>Dashboard</p>
                 </a>
             </li>
-            <?php if ($_SESSION['user_type'] == 'Admin'){?>
             <li class="nav-item">
                 <a href="./../schools/" class="nav-link">
                     <i class="far fa-building nav-icon"></i>
@@ -93,7 +100,6 @@ $_SESSION['athletes_fullname'] ='';
                     <p>Tournaments</p>
                 </a>
             </li>
-            <?php }?>
             <li class="nav-item">
                 <a href="#" class="nav-link active">
                     <i class="far fa-user nav-icon"></i>
@@ -220,32 +226,27 @@ $_SESSION['athletes_fullname'] ='';
                     </div>
                     <div class="col-6">
                       <div class="form-group">
-                        <label>Last Name</label>
-                        <input type="text" name="coaches_last" id="coaches_last" class="form-control" required />
+                        <label>Last Name *</label>
+                        <input type="text" name="coaches_last" id="coaches_last" class="form-control" maxlength="50" 
+                        style="text-transform: capitalize;" required />
                       </div>
                       <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" name="coaches_first" id="coaches_first" class="form-control" required />
+                        <label>First Name *</label>
+                        <input type="text" name="coaches_first" id="coaches_first" class="form-control" maxlength="50" 
+                        style="text-transform: capitalize;" required />
                       </div>
                       <div class="form-group">
-                        <label>M.I.</label>
-                        <input type="text" name="coaches_mi" id="coaches_mi" class="form-control" required/>
+                        <label>M.I. *</label>
+                        <input type="text" name="coaches_mi" id="coaches_mi" class="form-control" maxlength="1" 
+                        style="text-transform:uppercase"  required/>
                       </div>
                     </div>
                 </div>
 
-
-                   <!-- <div class="form-group">
-                        <select name="sports_id" id="sports_id" class="form-control" required>
-                            <option value="">Select Sport</option>
-                            <?php echo fill_sports_list($connect) ?> 
-                          </select>
-                    </div> -->
-
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                          <label>Birthdate</label>
+                          <label>Birthdate *</label>
                             <div class="input-group date" id="birthdates" data-target-input="nearest">
                                 <input type="text" class="form-control datetimepicker-input" data-target="#birthdates" name="birthdate" id="birthdate" required/>
                                 <div class="input-group-append" data-target="#birthdates" data-toggle="datetimepicker">
@@ -256,8 +257,9 @@ $_SESSION['athletes_fullname'] ='';
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                          <label> Gender</label>
+                          <label>Gender *</label>
                         <select name="gender" id="gender" class="form-control" required>
+                            <option value="">Select Gender *</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                           </select>
@@ -266,38 +268,43 @@ $_SESSION['athletes_fullname'] ='';
                   </div>  
                   <div class="row">
                     <div class="col-md-8">
-                      <!-- <div class="form-group">
-                        <label>Enter Birthdate</label>
-                        <input type="text" name="birthdate" id="birthdate" class="form-control" required />
-                      </div> -->
-
-                      <!-- <div class="form-group">
-                        <label>Birthdate</label>
-                          <div class="input-group date" id="birthdates" data-target-input="nearest">
-                              <input type="text" class="form-control datetimepicker-input" data-target="#birthdates" name="birthdate" id="birthdate" required/>
-                              <div class="input-group-append" data-target="#birthdates" data-toggle="datetimepicker">
-                                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                              </div>
-                          </div>
-                      </div> -->
-                      
-                  <div class="form-group">
-                    <label>Enter Email</label>
-                    <input type="email" name="email" id="email" class="form-control" required />
-                  </div> 
-
+                      <div class="form-group">
+                        <label>Enter Email *</label>
+                        <input type="email" name="email" id="email" class="form-control" maxlength="50"  required />
+                      </div> 
                     </div>
                     <div class="col-md-4">
                       <div class="form-group">
-                        <label>Contact</label>
-                        <input type="text" name="contact" id="contact" class="form-control" required />
+                        <label>Contact *</label>
+                        <input type="number" name="contact" id="contact" class="form-control" maxlength="11"
+                        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required />
+                      </div>
+                    </div>
+                  </div> 
+
+                  <div class="form-group">
+                    <label>Enter Address *</label>
+                    <input type="text" name="street" id="street" class="form-control" placeholder="House No. / Street / Village or Subdivision" maxlength="50" 
+                        style="text-transform: capitalize;" required />
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <input type="text" name="barangay" id="barangay" class="form-control" placeholder="Barangay" maxlength="50" 
+                        style="text-transform: capitalize;" required />
+                      </div> 
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <input type="text" name="city" id="city" class="form-control" placeholder="City / Municipality" maxlength="50" 
+                        style="text-transform: capitalize;" required />
                       </div>
                     </div>
                   </div> 
                   <div class="form-group">
-                    <label>Enter Address</label>
-                    <textarea rows="3" name="address" id="address" class="form-control" required></textarea>
-                  </div> 
+                      <label>Enter Password *</label>
+                      <input type="password" name="password" id="password" class="form-control" maxlength="50" />
+                  </div>
     				</div>
     				<div class="modal-footer">
     					<input type="hidden" name="coaches_id" id="coaches_id"/>
@@ -445,7 +452,9 @@ $_SESSION['athletes_fullname'] ='';
           $('#coaches_first').val(data.coaches_first);
           $('#coaches_mi').val(data.coaches_mi);
           $('#birthdate').val(data.birthdate);
-          $('#address').val(data.address);
+          $('#street').val(data.street);
+          $('#barangay').val(data.barangay);
+          $('#city').val(data.city);
           $('#gender').val(data.gender);
           $('#contact').val(data.contact);
           $('#email').val(data.email);

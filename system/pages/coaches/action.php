@@ -66,21 +66,23 @@ if(isset($_POST['btn_action']))
 		else
 		{
 			$query = "
-			INSERT INTO coaches (coaches_last, coaches_first, coaches_mi, birthdate, address, gender, contact, email, image, date_created) 
-			VALUES (:coaches_last, :coaches_first, :coaches_mi, :birthdate, :address,:gender, :contact, :email, :image, :date_created)
+			INSERT INTO coaches (coaches_last, coaches_first, coaches_mi, birthdate, street, barangay, city, gender, contact, email,  password, image, date_created) 
+			VALUES (:coaches_last, :coaches_first, :coaches_mi, :birthdate, :street, :barangay, :city, :gender, :contact, :email, :password, :image, :date_created)
 			";	
 			$statement = $connect->prepare($query);
 			$result = $statement->execute(
 				array(
-					':coaches_last'		=>	trim($_POST["coaches_last"]),
-					':coaches_first'	=>	trim($_POST["coaches_first"]),
-					':coaches_mi'		=>	trim($_POST["coaches_mi"]),
-					//':sports_id'		=>	trim($_POST["sports_id"]),
+					':coaches_last'		=>	ucfirst(trim($_POST["coaches_last"])),
+					':coaches_first'	=>	ucfirst(trim($_POST["coaches_first"])),
+					':coaches_mi'		=>	ucfirst(trim($_POST["coaches_mi"])),
 					':birthdate'		=>	trim($_POST["birthdate"]),
-					':address'			=>	trim($_POST["address"]),
+					':street'	    	=>	ucfirst(trim($_POST["street"])),
+					':barangay'	    	=>	ucfirst(trim($_POST["barangay"])),
+					':city'	    		=>	ucfirst(trim($_POST["city"])),
 					':gender'			=>	trim($_POST["gender"]),
 					':contact'			=>	trim($_POST["contact"]),
 					':email'			=>	trim($_POST["email"]),
+					':password'			=>	password_hash(trim($_POST["password"]), PASSWORD_DEFAULT),
 					':image'			=>	$path,
 					':date_created'		=>	date("m-d-Y")
 				)
@@ -107,13 +109,15 @@ if(isset($_POST['btn_action']))
 			$output['coaches_last'] = $row['coaches_last'];
 			$output['coaches_first'] = $row['coaches_first'];
 			$output['coaches_mi'] = $row['coaches_mi'];
-			//$output['sports_id'] = $row['sports_id'];
 			$output['birthdate'] = $row['birthdate'];
-			$output['address'] = $row['address'];
+			$output['street'] = $row['street'];
+			$output['barangay'] = $row['barangay'];
+			$output['city'] = $row['city'];
 			$output['gender'] = $row['gender'];
 			$output['contact'] = $row['contact'];
 			$output['email'] = $row['email'];
 			$output['image'] = $row['image'];
+			//$output['password'] = $row['password'];
 		}
 		echo json_encode($output);
 	}
@@ -125,11 +129,13 @@ if(isset($_POST['btn_action']))
 		{
 			$query = "
 			UPDATE coaches SET 
-				coaches_last = '".trim($_POST["coaches_last"])."',
-				coaches_first = '".trim($_POST["coaches_first"])."',
-				coaches_mi = '".trim($_POST["coaches_mi"])."',
+				coaches_last = '".ucfirst(trim($_POST["coaches_last"]))."',
+				coaches_first = '".ucfirst(trim($_POST["coaches_first"]))."',
+				coaches_mi = '".ucfirst(trim($_POST["coaches_mi"]))."',
 				birthdate = '".trim($_POST["birthdate"])."',
-				address = '".trim($_POST["address"])."',
+				street = '".ucfirst(trim($_POST["street"]))."',
+				barangay = '".ucfirst(trim($_POST["barangay"]))."',
+				city = '".ucfirst(trim($_POST["city"]))."',
 				gender = '".trim($_POST["gender"])."',
 				contact = '".trim($_POST["contact"])."',
 				email = '".trim($_POST["email"])."'
@@ -155,11 +161,13 @@ if(isset($_POST['btn_action']))
 				{
 					$query = "
 					UPDATE coaches SET 
-						coaches_last = '".trim($_POST["coaches_last"])."',
-						coaches_first = '".trim($_POST["coaches_first"])."',
-						coaches_mi = '".trim($_POST["coaches_mi"])."',
+						coaches_last = '".ucfirst(trim($_POST["coaches_last"]))."',
+						coaches_first = '".ucfirst(trim($_POST["coaches_first"]))."',
+						coaches_mi = '".ucfirst(trim($_POST["coaches_mi"]))."',
 						birthdate = '".trim($_POST["birthdate"])."',
-						address = '".trim($_POST["address"])."',
+						street = '".ucfirst(trim($_POST["street"]))."',
+						barangay = '".ucfirst(trim($_POST["barangay"]))."',
+						city = '".ucfirst(trim($_POST["city"]))."',
 						gender = '".trim($_POST["gender"])."',
 						contact = '".trim($_POST["contact"])."',
 						email = '".trim($_POST["email"])."',

@@ -40,15 +40,17 @@ if(isset($_POST['btn_action']))
 		else
 		{
 			$query = "
-			INSERT INTO schools (school_name,details, address, date_created) 
-			VALUES (:school_name, :details, :address, :date_created)
+			INSERT INTO schools (school_name,details, street, barangay, city, date_created) 
+			VALUES (:school_name, :details, :street, :barangay, :city, :date_created)
 			";
 			$statement = $connect->prepare($query);
 			$result = $statement->execute(
 				array(
-					':school_name'	=>	trim($_POST["school_name"]),
-					':details'		=>	trim($_POST["details"]),
-					':address'	    =>	trim($_POST["address"]),
+					':school_name'	=>	ucfirst(trim($_POST["school_name"])),
+					':details'		=>	ucfirst(trim($_POST["details"])),
+					':street'	    =>	ucfirst(trim($_POST["street"])),
+					':barangay'	    =>	ucfirst(trim($_POST["barangay"])),
+					':city'	    	=>	ucfirst(trim($_POST["city"])),
 					':date_created'	=>	date("m-d-Y")
 				)
 			);
@@ -74,7 +76,9 @@ if(isset($_POST['btn_action']))
 			$output['school_id'] = $row['school_id'];
 			$output['school_name'] = $row['school_name'];
 			$output['details'] = $row['details'];
-			$output['address'] = $row['address'];
+			$output['street'] = $row['street'];
+			$output['barangay'] = $row['barangay'];
+			$output['city'] = $row['city'];
 		}
 		echo json_encode($output);
 	}
@@ -101,15 +105,17 @@ if(isset($_POST['btn_action']))
 		else
 		{
 			$query = "
-			UPDATE schools set school_name = :school_name, details = :details, address = :address
+			UPDATE schools set school_name = :school_name, details = :details, street = :street, barangay = :barangay, city = :city
 			WHERE school_id = :school_id
 			";
 			$statement = $connect->prepare($query);
 			$result = $statement->execute(
 				array(
-					':school_name'		=>	$_POST["school_name"],
-					':details'			=>	trim($_POST["details"]),
-					':address'			=>	trim($_POST["address"]),
+					':school_name'	=>	ucfirst(trim($_POST["school_name"])),
+					':details'		=>	ucfirst(trim($_POST["details"])),
+					':street'	    =>	ucfirst(trim($_POST["street"])),
+					':barangay'	    =>	ucfirst(trim($_POST["barangay"])),
+					':city'	    	=>	ucfirst(trim($_POST["city"])),
 					':school_id'		=>	$_POST["school_id"]
 				)
 			);

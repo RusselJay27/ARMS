@@ -14,7 +14,9 @@ if(isset($_POST["search"]["value"]))
 {
 	$query .= '(school_name LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR details LIKE "%'.$_POST["search"]["value"].'%" ';
-	$query .= 'OR address LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR street LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR barangay LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR city LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR school_status LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR date_created LIKE "%'.$_POST["search"]["value"].'%" )';
 }
@@ -50,7 +52,7 @@ foreach($result as $row)
 	$sub_array[] = $row['school_id'];
 	$sub_array[] = $row['school_name'];
 	$sub_array[] = $row['details'];
-	$sub_array[] = $row['address'];
+	$sub_array[] = $row['street']." ".$row['barangay'].", ".$row['city'];
 	$sub_array[] = $row['date_created'];
 
 	if($row['school_status'] == 'Active')

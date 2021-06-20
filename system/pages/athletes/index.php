@@ -65,13 +65,13 @@ $_SESSION['athletes_fullname'] ='';
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+            <?php if ($_SESSION['user_type'] !== 'Coach'){?>
             <li class="nav-item">
                 <a href="./../index.php" class="nav-link">
                     <i class="fas fa-tachometer-alt nav-icon"></i>
                     <p>Dashboard</p>
                 </a>
             </li>
-            <?php if ($_SESSION['user_type'] == 'Admin'){?>
             <li class="nav-item">
                 <a href="./../schools/" class="nav-link">
                     <i class="far fa-building nav-icon"></i>
@@ -96,25 +96,27 @@ $_SESSION['athletes_fullname'] ='';
                     <p>Tournaments</p>
                 </a>
             </li>
-            <?php }?>
             <li class="nav-item">
                 <a href="./../coaches/" class="nav-link">
                     <i class="far fa-user nav-icon"></i>
                     <p>Coaches</p>
                 </a>
             </li>
+            <?php }?>
             <li class="nav-item">
                 <a href="#" class="nav-link active">
                     <i class="fa fa-child nav-icon"></i>
                     <p>Athletes</p>
                 </a>
             </li>
+            <?php if ($_SESSION['user_type'] != 'Coach'){?>
             <li class="nav-item">
                 <a href="./../report/" class="nav-link">
                     <i class="fa fa-download nav-icon"></i>
                     <p>Report</p>
                 </a>
             </li>
+            <?php }?>
             <?php if ($_SESSION['user_type'] == 'Admin'){?>
             <li class="nav-item">
                 <a href="./../users/" class="nav-link">
@@ -147,11 +149,14 @@ $_SESSION['athletes_fullname'] ='';
           <div class="col-sm-6">
             <h1>Athletes</h1>
           </div>
+
+          <?php if($_SESSION["user_type"] != 'Coach') { ?>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <button type="button" name="add" id="add_button" data-toggle="modal" data-target="#athletesModal" class="btn btn-warning">Add</button>   
             </ol>
           </div>
+          <?php } ?>
         </div>
       </div>
     </section>
@@ -168,15 +173,23 @@ $_SESSION['athletes_fullname'] ='';
                   <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Sport</th>
-                    <th>Achievements</th>
-                    <th>Fullname</th>
-                    <th>Grade Level</th>
-                    <th>Gender</th>
-                    <th>School</th>
-                    <th>Status</th>
-                    <th>Update</th>
-                    <th>Delete</th>
+                    <?php if($_SESSION["user_type"] != 'Coach') { ?>
+                      <th>Sport</th>
+                      <th>Achievements</th>
+                      <th>Fullname</th>
+                      <th>Grade Level</th>
+                      <th>Gender</th>
+                      <th>School</th>
+                      <th>Status</th>
+                      <th>Update</th>
+                      <th>Delete</th>
+                    <?php } else { ?>
+                      <th>Fullname</th>
+                      <th>Grade Level</th>
+                      <th>Gender</th>
+                      <th>School</th>
+                      <th>Update</th>
+                    <?php } ?>
                     <th>More</th>
                   </tr>
                   </thead>
@@ -221,45 +234,28 @@ $_SESSION['athletes_fullname'] ='';
                     </div>
                     <div class="col-6">
                       <div class="form-group">
-                        <label>Last Name</label>
-                        <input type="text" name="athletes_last" id="athletes_last" class="form-control" required />
+                        <label>Last Name *</label>
+                        <input type="text" name="athletes_last" id="athletes_last" class="form-control" maxlength="50" 
+                        style="text-transform: capitalize;" required />
                       </div>
                       <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" name="athletes_first" id="athletes_first" class="form-control" required />
+                        <label>First Name *</label>
+                        <input type="text" name="athletes_first" id="athletes_first" class="form-control" maxlength="50" 
+                        style="text-transform: capitalize;" required />
                       </div>
                       <div class="form-group">
-                        <label>M.I.</label>
-                        <input type="text" name="athletes_mi" id="athletes_mi" class="form-control" required/>
+                        <label>M.I. *</label>
+                        <input type="text" name="athletes_mi" id="athletes_mi" class="form-control"  maxlength="1" 
+                        style="text-transform:uppercase"  required/>
                       </div>
                     </div>
                 </div>
 
-                  <!-- <div class="row">
-                    <div class="col-6">
-                      <div class="form-group">
-                        <label>Last Name</label>
-                        <input type="text" name="athletes_last" id="athletes_last" class="form-control" required />
-                      </div>
-                    </div>
-                    <div class="col-4">
-                      <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" name="athletes_first" id="athletes_first" class="form-control" required />
-                      </div>
-                    </div>
-                    <div class="col-2">
-                      <div class="form-group">
-                        <label>M.I.</label>
-                        <input type="text" name="athletes_mi" id="athletes_mi" class="form-control" required/>
-                      </div>
-                    </div>
-                  </div>  -->
                   <div class="row">
                     <div class="col-4">
 
                       <div class="form-group">
-                        <label>Birthdate</label>
+                        <label>Birthdate *</label>
                           <div class="input-group date" id="birthdates" data-target-input="nearest">
                               <input type="text" class="form-control datetimepicker-input" data-target="#birthdates" name="birthdate" id="birthdate" required/>
                               <div class="input-group-append" data-target="#birthdates" data-toggle="datetimepicker">
@@ -270,14 +266,16 @@ $_SESSION['athletes_fullname'] ='';
                     </div>
                     <div class="col-4">
                       <div class="form-group">
-                        <label>Height</label>
-                        <input type="text" name="height" id="height" class="form-control" required/>
+                        <label>Height(cm) *</label>
+                        <input type="number" name="height" id="height" class="form-control"  maxlength="3" 
+                        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required />
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group">
-                        <label>Weight</label>
-                        <input type="text" name="weight" id="weight" class="form-control" required/>
+                        <label>Weight(kg) *</label>
+                        <input type="number" name="weight" id="weight" class="form-control"  maxlength="3" 
+                        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required />
                       </div>
                     </div>
                   </div> 
@@ -285,7 +283,7 @@ $_SESSION['athletes_fullname'] ='';
                     <div class="col-6">
                       <div class="form-group">
                         <select name="level_id" id="level_id" class="form-control" required>
-                            <option value="">Select Grade Level</option>
+                            <option value="">Select Grade Level *</option>
                             <?php echo fill_level_list($connect) ?> 
                           </select>
                       </div>
@@ -293,7 +291,7 @@ $_SESSION['athletes_fullname'] ='';
                     <div class="col-6">
                       <div class="form-group">
                         <select name="gender" id="gender" class="form-control" required>
-                            <option value="">Select Gender</option>
+                            <option value="">Select Gender *</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                           </select>
@@ -301,35 +299,46 @@ $_SESSION['athletes_fullname'] ='';
                     </div>
                   </div>  
                   <div class="row">
-                    <div class="col-6">
+                    <div class="col-8">
                       <div class="form-group">
-                        <label>Contact</label>
-                        <input type="text" name="contact" id="contact" class="form-control" required />
+                        <label>Email *</label>
+                        <input type="email" name="email" id="email" class="form-control" maxlength="50" required />
                       </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
                       <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" name="email" id="email" class="form-control" required />
+                        <label>Contact *</label>
+                        <input type="number" name="contact" id="contact" class="form-control"  maxlength="11" 
+                        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required />
                       </div>
                     </div>
                   </div> 
+
                   <div class="form-group">
-                    <label>Address</label>
-                    <textarea rows="3" name="address" id="address" class="form-control" required></textarea>
+                    <label>Enter Address *</label>
+                    <input type="text" name="street" id="street" class="form-control" placeholder="House No. / Street / Village or Subdivision" maxlength="50" 
+                        style="text-transform: capitalize;" required />
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <input type="text" name="barangay" id="barangay" class="form-control" placeholder="Barangay" maxlength="50" 
+                        style="text-transform: capitalize;" required />
+                      </div> 
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <input type="text" name="city" id="city" class="form-control" placeholder="City / Municipality" maxlength="50" 
+                        style="text-transform: capitalize;" required />
+                      </div>
+                    </div>
                   </div> 
 
                   <div class="row">
                     <div class="col-6">
-                      <!-- <div class="form-group">
-                        <select name="coaches_id" id="coaches_id" class="form-control" required>
-                            <option value="">Select Coach</option>
-                            <?php //echo fill_coaches_list($connect) ?> 
-                          </select>
-                      </div> -->
                       <div class="form-group">
                         <select name="school_id" id="school_id" class="form-control" required>
-                            <option value="">Select School</option>
+                            <option value="">Select School *</option>
                             <?php echo fill_schools_list($connect) ?> 
                           </select>
                       </div>
@@ -337,7 +346,7 @@ $_SESSION['athletes_fullname'] ='';
                     <div class="col-6">
                       <div class="form-group">
                         <select name="scholar" id="scholar" class="form-control" required>
-                            <option value="">MSP Scholar</option>
+                            <option value="">MSP Scholar *</option>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                           </select>
@@ -349,7 +358,7 @@ $_SESSION['athletes_fullname'] ='';
                     <div class="col-6">
                       <div class="form-group">
                         <select name="varsity" id="varsity" class="form-control" required>
-                            <option value="">School Varsity</option>
+                            <option value="">School Varsity *</option>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                           </select>
@@ -358,7 +367,7 @@ $_SESSION['athletes_fullname'] ='';
                     <div class="col-6">
                       <div class="form-group">
                         <select name="class_a" id="class_a" class="form-control" required>
-                            <option value="">Class-A Athlete</option>
+                            <option value="">Class-A Athlete *</option>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                           </select>
@@ -556,7 +565,9 @@ $_SESSION['athletes_fullname'] ='';
           $('#athletes_mi').val(data.athletes_mi);
           $('#coaches_id').val(data.coaches_id);
           $('#birthdate').val(data.birthdate);
-          $('#address').val(data.address);
+          $('#street').val(data.street);
+          $('#barangay').val(data.barangay);
+          $('#city').val(data.city);
           $('#gender').val(data.gender);
           $('#contact').val(data.contact);
           $('#email').val(data.email);
@@ -629,12 +640,23 @@ $_SESSION['athletes_fullname'] ='';
         url:"fetch_data.php",
         type:"POST"
       },
+      
+      <?php if($_SESSION["user_type"] != 'Coach') { ?>
       "columnDefs":[
         {
-          "targets":[0,1,2,7,8,9],
+          "targets":[0,1,2,7,8,9,10],
           "orderable":false,
         },
+      <?php } else { ?>
+      "columnDefs":[
+        {
+          "targets":[0,5,6],
+          "orderable":false,
+        },
+      <?php } ?>
+      
       ],
+
       "pageLength": 10, 
     });
     //Date range picker
