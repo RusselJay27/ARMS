@@ -12,7 +12,7 @@ $query .= "SELECT * FROM user_account where user_id != '".$_SESSION['user_id']."
 
 if(isset($_POST["search"]["value"]))
 {
-	$query .= '(user_name LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= '(user_email LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR user_type LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR user_last LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR user_first LIKE "%'.$_POST["search"]["value"].'%" ';
@@ -56,7 +56,7 @@ foreach($result as $row)
 	{
 		$sub_array[] = 'No data fullname.';
 	}
-	$sub_array[] = $row['user_name'];
+	$sub_array[] = $row['user_email'];
 	$sub_array[] = $row['user_type'];
 	$sub_array[] = $row['date_created'];
 

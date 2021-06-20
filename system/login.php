@@ -15,50 +15,82 @@ else{
   
   if(isset($_POST["btn-login"]))
   {
-    $query = "
-    SELECT * FROM user_account 
-      WHERE user_name = :user_name
-    ";
-
+    $query = "SELECT * FROM user_account WHERE user_email = :user_email";
     $statement = $connect->prepare($query);
     $statement->execute(
       array(
-          'user_name'  =>  $_POST["user_name"]
+          'user_email'  =>  $_POST["user_email"]
         )
     );
 
-    $count = $statement->rowCount();
+		$result = $statement->fetchAll();
+    if ($result){
+      // $count = $statement->rowCount();
+      // if($count > 0)
+      // {
+      //     $result = $statement->fetchAll();
+            foreach($result as $row)
+            {
+                if($row['user_status'] == 'Active')
+                {
+                    if(password_verify($_POST["user_password"], $row["user_password"]))
+                    {
+                      $_SESSION['user_type'] = $row['user_type'];
+                      $_SESSION['user_id'] = $row['user_id'];
+                      $_SESSION['user_name'] = $row['user_type']." ".$row['user_last'];
+                      header("location:pages/index.php");
+                    }
+                    else
+                    {
+                      $message = '<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i>Wrong Password!</div>';
+                    }
+                }
+                else
+                {
+                  $message = '<div class="alert alert-warning alert-dismissible"><button type="button"class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i>Your account is inactive, please contact your administrator!</div>';
+                }
+            }
+      // }
+      // else
+      // {
+      //   $message = '<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i>Invalid Account!</div>';
+      // }
+    }
+    else{
+      
+      $query1 = "SELECT * FROM coaches WHERE email = :email";
+      $statement1 = $connect->prepare($query1);
+      $statement1->execute(
+        array(
+            'email'  =>  $_POST["user_email"]
+          )
+      );
 
-    if($count > 0)
-    {
-        $result = $statement->fetchAll();
-          foreach($result as $row)
+      $result1 = $statement1->fetchAll();
+      if ($result1){
+        foreach($result1 as $row)
+        {
+          if(password_verify($_POST["user_password"], $row["password"]))
           {
-              if($row['user_status'] == 'Active')
-              {
-                  if(password_verify($_POST["user_password"], $row["user_password"]))
-                  {
-                    $_SESSION['user_type'] = $row['user_type'];
-                    $_SESSION['user_id'] = $row['user_id'];
-                    $_SESSION['user_name'] = $row['user_name'];
-                    header("location:pages/index.php");
-                  }
-                  else
-                  {
-                    $message = '<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i>Wrong Password!</div>';
-                  }
-              }
-              else
-              {
-                $message = '<div class="alert alert-warning alert-dismissible"><button type="button"class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i>Your account is inactive, please contact your administrator!</div>';
-              }
+            $_SESSION['user_type'] = 'Coach';
+            $_SESSION['user_id'] = $row['coaches_id'];
+            $_SESSION['user_name'] = "Coach ".$row['coaches_last'];
+            header("location:pages/athletes/");
+            // $message = '<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i>Coach Login</div>';
           }
+          else
+          {
+            $message = '<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i>Wrong Password!</div>';
+          }
+        }
+      }
+      else
+      {
+        $message = '<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i>Invalid Account!</div>';
+      }
     }
 
-    else
-    {
-      $message = '<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i>Invalid Account!</div>';
-    }
+    
   }
 }
 
@@ -96,9 +128,6 @@ else{
     <div class="card-body card-primary">
 
        <div class="text-center">
-            <!-- <img class="profile-user-img img-fluid img-square"
-                src="assets/yasdo_logo.png"
-                alt="User profile picture">  -->
             <img style="height:175px"
                 src="assets/yasdo_logo.png"
                 alt="User profile picture"> 
@@ -111,7 +140,7 @@ else{
                         <span class="fas fa-user"></span>
                     </div>
                 </div>
-                <input type="text" class="form-control" name="user_name" id="user_name" placeholder="Username">
+                <input type="email" class="form-control" name="user_email" id="user_email" placeholder="Username">
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-append">

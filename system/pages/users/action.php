@@ -11,14 +11,14 @@ if(isset($_POST['btn_action']))
 {
 	if($_POST['btn_action'] == 'Add')
 	{
-		$user_name = '';
+		$user_email = '';
 		$fn = '';
 		$user_status = '';
-		$query2 = "SELECT * FROM user_account WHERE user_name = :user_name or user_last = :user_last and user_first = :user_first and user_mi = :user_mi";
+		$query2 = "SELECT * FROM user_account WHERE user_email = :user_email or user_last = :user_last and user_first = :user_first and user_mi = :user_mi";
 		$statement2 = $connect->prepare($query2);
 		$statement2->execute(
 			array(
-				':user_name'	=>	trim($_POST["user_name"]),
+				':user_email'	=>	trim($_POST["user_email"]),
 				':user_last'	=>	trim($_POST["user_last"]),
 				':user_first'	=>	trim($_POST["user_first"]),
 				':user_mi'		=>	trim($_POST["user_mi"])
@@ -28,11 +28,11 @@ if(isset($_POST['btn_action']))
 		foreach($result2 as $row)
 		{
 			$user_status = $row["user_status"];
-			$user_name = $row["user_name"];
+			$user_email = $row["user_email"];
 			$fn = $row["user_last"].$row["user_first"].$row["user_mi"];
 		}
 
-		if($user_name == trim($_POST["user_name"]))
+		if($user_email == trim($_POST["user_email"]))
 		{
 			if($user_status == 'Active')
 			{
@@ -57,17 +57,17 @@ if(isset($_POST['btn_action']))
 		else
 		{
 			$query = "
-			INSERT INTO user_account (user_name, user_password, user_last,user_first,user_mi,date_created) 
-			VALUES (:user_name, :user_password, :user_last, :user_first, :user_mi, :date_created)
+			INSERT INTO user_account (user_email, user_password, user_last,user_first,user_mi,date_created) 
+			VALUES (:user_email, :user_password, :user_last, :user_first, :user_mi, :date_created)
 			";	
 			$statement = $connect->prepare($query);
 			$result = $statement->execute(
 				array(
-					':user_name'		=>	trim($_POST["user_name"]),
+					':user_email'		=>	trim($_POST["user_email"]),
 					':user_password'	=>	password_hash(trim($_POST["user_password"]), PASSWORD_DEFAULT),
-					':user_last'		=>	trim($_POST["user_last"]),
-					':user_first'		=>	trim($_POST["user_first"]),
-					':user_mi'			=>	trim($_POST["user_mi"]),
+					':user_last'		=>	ucfirst(trim($_POST["user_last"])),
+					':user_first'		=>	ucfirst(trim($_POST["user_first"])),
+					':user_mi'			=>	ucfirst(trim($_POST["user_mi"])),
 					':date_created'		=>	date("m-d-Y")
 				)
 			);
@@ -90,7 +90,7 @@ if(isset($_POST['btn_action']))
 		$result = $statement->fetchAll();
 		foreach($result as $row)
 		{
-			$output['user_name'] = $row['user_name'];
+			$output['user_email'] = $row['user_email'];
 			$output['user_last'] = $row['user_last'];
 			$output['user_first'] = $row['user_first'];
 			$output['user_mi'] = $row['user_mi'];
@@ -100,13 +100,13 @@ if(isset($_POST['btn_action']))
 	}
 	if($_POST['btn_action'] == 'Edit')
 	{
-		$user_name = '';
+		$user_email = '';
 		$fn = '';
-		$query2 = "SELECT * FROM user_account WHERE user_name = :user_name or user_last = :user_last and user_first = :user_first and user_mi = :user_mi";
+		$query2 = "SELECT * FROM user_account WHERE user_email = :user_email or user_last = :user_last and user_first = :user_first and user_mi = :user_mi";
 		$statement2 = $connect->prepare($query2);
 		$statement2->execute(
 			array(
-				':user_name'	=>	trim($_POST["user_name"]),
+				':user_email'	=>	trim($_POST["user_email"]),
 				':user_last'	=>	trim($_POST["user_last"]),
 				':user_first'	=>	trim($_POST["user_first"]),
 				':user_mi'		=>	trim($_POST["user_mi"])
@@ -115,10 +115,10 @@ if(isset($_POST['btn_action']))
 		$result2 = $statement2->fetchAll();
 		foreach($result2 as $row2)
 		{
-			$user_name = $row2['user_name'];
+			$user_email = $row2['user_email'];
 			$fn = $row2["user_last"].$row2["user_first"].$row2["user_mi"];
 		}
-		if($user_name == trim($_POST["user_name"]))
+		if($user_email == trim($_POST["user_email"]))
 		{
 			echo "This user's username is already exists in the database.";
 		}
@@ -132,10 +132,10 @@ if(isset($_POST['btn_action']))
 			{
 				$query = "
 				UPDATE user_account SET 
-					user_name = '".trim($_POST["user_name"])."', 
-					user_last = '".trim($_POST["user_last"])."',
-					user_first = '".trim($_POST["user_first"])."',
-					user_mi = '".trim($_POST["user_mi"])."',
+					user_email = '".trim($_POST["user_email"])."', 
+					user_last = '".ucfirst(trim($_POST["user_last"]))."',
+					user_first = '".ucfirst(trim($_POST["user_first"]))."',
+					user_mi = '".ucfirst(trim($_POST["user_mi"]))."',
 					user_password = '".password_hash($_POST["user_password"], PASSWORD_DEFAULT)."' 
 					WHERE user_id = '".$_POST["user_id"]."'
 				";
@@ -144,10 +144,10 @@ if(isset($_POST['btn_action']))
 			{
 				$query = "
 				UPDATE user_account SET 
-					user_name = '".trim($_POST["user_name"])."', 
-					user_last = '".trim($_POST["user_last"])."',
-					user_first = '".trim($_POST["user_first"])."',
-					user_mi = '".trim($_POST["user_mi"])."'
+					user_email = '".trim($_POST["user_email"])."', 
+					user_last = '".ucfirst(trim($_POST["user_last"]))."',
+					user_first = '".ucfirst(trim($_POST["user_first"]))."',
+					user_mi = '".ucfirst(trim($_POST["user_mi"]))."'
 					WHERE user_id = '".$_POST["user_id"]."'
 				";
 			}

@@ -14,13 +14,13 @@ if(isset($_POST["btn-create"]))
   }
   else{
     $query = "
-    INSERT INTO user_account (user_name, user_password, user_type) 
-    VALUES (:user_name, :user_password, :user_type)
+    INSERT INTO user_account (user_email, user_password, user_type) 
+    VALUES (:user_email, :user_password, :user_type)
     ";	
     $statement = $connect->prepare($query);
     $result = $statement->execute(
       array(
-        ':user_name'		  =>	trim($_POST["user_name"]),
+        ':user_email'		  =>	trim($_POST["user_email"]),
         ':user_password'	=>	password_hash(trim($_POST["user_password"]), PASSWORD_DEFAULT),
         ':user_type'		  =>	'Admin'
       )
@@ -68,9 +68,6 @@ if(isset($_POST["btn-create"]))
     <div class="card-body card-primary">
 
        <div class="text-center">
-            <!-- <img class="profile-user-img img-fluid img-circle"
-                src="dist/img/AdminLTELogo.png"
-                alt="User profile picture">  -->
                 <img style="height:175px"
                 src="assets/yasdo_logo.png"
                 alt="User profile picture"> 
@@ -83,7 +80,7 @@ if(isset($_POST["btn-create"]))
                         <span class="fas fa-user"></span>
                     </div>
                 </div>
-                <input type="text" class="form-control" name="user_name" id="user_name" placeholder="Username">
+                <input type="email" class="form-control" name="user_email" id="user_email" placeholder="Username">
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-append">
@@ -99,7 +96,7 @@ if(isset($_POST["btn-create"]))
                         <span class="fas fa-lock"></span>
                     </div>
                 </div>
-                <input type="password" class="form-control"  name="retype_password" id="retype_password" placeholder="Retype Password">
+                <input type="password" class="form-control"  name="retype_password" id="retype_password" placeholder="Confirm Password">
             </div>
 
           <div class="social-auth-links text-center mt-2 mb-3">

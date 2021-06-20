@@ -7,9 +7,13 @@ if(!isset($_SESSION["user_type"]))
 }
 else
 {
-  if($_SESSION["user_type"] != 'Admin')
+  if($_SESSION["user_type"] == 'Staff')
   {
     header("location:../index.php");
+  }
+  if($_SESSION["user_type"] == 'Coach')
+  {
+    header("location:../athletes/");
   }
 }
 $_SESSION['tournaments_id'] ='';
@@ -204,34 +208,37 @@ $_SESSION['athletes_fullname'] ='';
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label>Last Name</label>
-                        <input type="text" name="user_last" id="user_last" class="form-control" required />
+                        <label>Last Name *</label>
+                        <input type="text" name="user_last" id="user_last" class="form-control" maxlength="50" 
+                        style="text-transform: capitalize;" required />
                       </div>
                     </div>
                     <div class="col-md-4">
                       <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" name="user_first" id="user_first" class="form-control" required />
+                        <label>First Name *</label>
+                        <input type="text" name="user_first" id="user_first" class="form-control" maxlength="50" 
+                        style="text-transform: capitalize;" required />
                       </div>
                     </div>
                     <div class="col-md-2">
                       <div class="form-group">
-                        <label>M.I.</label>
-                        <input type="text" name="user_mi" id="user_mi" class="form-control" required/>
+                        <label>M.I. *</label>
+                        <input type="text" name="user_mi" id="user_mi" class="form-control" maxlength="1" 
+                        style="text-transform:uppercase"  required/>
                       </div>
                     </div>
                   </div> 
     					<div class="form-group">
-                  <label>Enter Username</label>
-                  <input type="text" name="user_name" id="user_name" class="form-control" required />
+                  <label>Enter Email *</label>
+                  <input type="email" name="user_email" id="user_email" class="form-control" required maxlength="50" />
     					</div>
     					<div class="form-group">
-                  <label>Enter Password</label>
-                  <input type="password" name="user_password" id="user_password" class="form-control" />
+                  <label>Enter Password *</label>
+                  <input type="password" name="user_password" id="user_password" class="form-control" maxlength="50" />
     					</div>
     					<div class="form-group">
     						<select name="user_type" id="user_type" class="form-control" required>
-								<option value="">Select Type</option>
+								<option value="">Select Type *</option>
 								<option value="Admin">Admin</option>
 								<option value="Staff">Staff</option>
 							</select>
@@ -354,7 +361,7 @@ $_SESSION['athletes_fullname'] ='';
         success:function(data)
         {
           $('#usersModal').modal('show');
-          $('#user_name').val(data.user_name);
+          $('#user_email').val(data.user_email);
           $('#user_last').val(data.user_last);
           $('#user_first').val(data.user_first);
           $('#user_mi').val(data.user_mi);
