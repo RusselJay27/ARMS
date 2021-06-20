@@ -209,14 +209,14 @@ $_SESSION['athletes_fullname'] ='';
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Last Name *</label>
-                        <input type="text" name="user_last" id="user_last" class="form-control" maxlength="50" 
+                        <input type="text" name="user_last" id="user_last" class="form-control" maxlength="50"  minlength="4"
                         style="text-transform: capitalize;" required />
                       </div>
                     </div>
                     <div class="col-md-4">
                       <div class="form-group">
                         <label>First Name *</label>
-                        <input type="text" name="user_first" id="user_first" class="form-control" maxlength="50" 
+                        <input type="text" name="user_first" id="user_first" class="form-control" maxlength="50"  minlength="4"
                         style="text-transform: capitalize;" required />
                       </div>
                     </div>
@@ -230,11 +230,11 @@ $_SESSION['athletes_fullname'] ='';
                   </div> 
     					<div class="form-group">
                   <label>Enter Email *</label>
-                  <input type="email" name="user_email" id="user_email" class="form-control" required maxlength="50" />
+                  <input type="email" name="user_email" id="user_email" class="form-control" required maxlength="50"  minlength="8" />
     					</div>
     					<div class="form-group">
                   <label>Enter Password *</label>
-                  <input type="password" name="user_password" id="user_password" class="form-control" maxlength="50" />
+                  <input type="password" name="user_password" id="user_password" class="form-control" maxlength="50"  minlength="8" />
     					</div>
     					<div class="form-group">
     						<select name="user_type" id="user_type" class="form-control" required>

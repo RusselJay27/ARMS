@@ -223,11 +223,11 @@ $_SESSION['athletes_fullname'] ='';
 
     					<div class="form-group">
                 <label>Enter Sport Name *</label>
-                <input type="text" name="sports_name" id="sports_name" class="form-control" required maxlength="20"/>
+                <input type="text" name="sports_name" id="sports_name" class="form-control" required maxlength="20" minlength="4"/>
     					</div>
     					<div class="form-group">
                 <label>Enter Sport Details *</label>
-                <textarea rows="3" name="details" id="details" class="form-control" required></textarea>
+                <textarea rows="3" name="details" id="details" class="form-control" required minlength="8"></textarea>
     					</div>
     				</div>
 

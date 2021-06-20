@@ -80,7 +80,7 @@ if(isset($_POST["btn-create"]))
                         <span class="fas fa-user"></span>
                     </div>
                 </div>
-                <input type="email" class="form-control" name="user_email" id="user_email" placeholder="Username">
+                <input type="email" class="form-control" name="user_email" id="user_email" placeholder="Email" maxlength="50"  minlength="8" required>
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-append">
@@ -88,7 +88,7 @@ if(isset($_POST["btn-create"]))
                         <span class="fas fa-lock"></span>
                     </div>
                 </div>
-                <input type="password" class="form-control"  name="user_password" id="user_password" placeholder="Password">
+                <input type="password" class="form-control"  name="user_password" id="user_password" placeholder="Password" maxlength="50"  minlength="8" required>
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-append">
@@ -96,7 +96,7 @@ if(isset($_POST["btn-create"]))
                         <span class="fas fa-lock"></span>
                     </div>
                 </div>
-                <input type="password" class="form-control"  name="retype_password" id="retype_password" placeholder="Confirm Password">
+                <input type="password" class="form-control"  name="retype_password" id="retype_password" placeholder="Confirm Password" maxlength="50"  minlength="8" required>
             </div>
 
           <div class="social-auth-links text-center mt-2 mb-3">

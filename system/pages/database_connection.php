@@ -58,6 +58,7 @@ try{
         `gender` enum('Male','Female') DEFAULT 'Male',
         `contact` varchar(255) DEFAULT NULL,
         `email` varchar(255) DEFAULT NULL,
+        `password` varchar(255) DEFAULT NULL,
         `image` varchar(255) DEFAULT NULL,
         `coaches_status` enum('Active','Inactive') DEFAULT 'Active',
         `date_created` varchar(255) DEFAULT null
@@ -170,7 +171,7 @@ try{
 
     $user_account = "CREATE table user_account(
         `user_id` INT(11) AUTO_INCREMENT PRIMARY KEY,
-        `user_name` varchar(255) DEFAULT NULL,
+        `user_email` varchar(255) DEFAULT NULL,
         `user_password` varchar(255) DEFAULT NULL,
         `user_last` varchar(255) DEFAULT NULL,
         `user_first` varchar(255) DEFAULT NULL,

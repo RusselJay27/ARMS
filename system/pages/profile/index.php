@@ -12,7 +12,27 @@ $_SESSION['coaches_fullname'] = '';
 $_SESSION['athletes_id'] ='';
 $_SESSION['athletes_fullname'] ='';
 
-$query = "
+
+if($_SESSION["user_type"] == 'Coach')
+{ 
+  $query = "
+  SELECT * FROM coaches
+  WHERE coaches_id = '".$_SESSION["user_id"]."'
+  ";
+  $statement = $connect->prepare($query);
+  $statement->execute();
+  $result = $statement->fetchAll();
+  $full_name = '';
+  $username = '';
+  foreach($result as $row)
+    {
+      $full_name = $row['coaches_last'].", ".$row['coaches_first']." ".$row['coaches_mi'].".";
+      $user_name = $row['email'];
+    } 
+}
+else{
+
+  $query = "
   SELECT * FROM user_account
   WHERE user_id = '".$_SESSION["user_id"]."'
   ";
@@ -23,9 +43,10 @@ $query = "
   $username = '';
   foreach($result as $row)
     {
-      $full_name = $row['user_last'].", ".$row['user_first']." ".$row['user_mi'].".";
-      $user_name = $row['user_name'];
+      $full_name = $row['user_last'] != null ? $row['user_last'].", ".$row['user_first']." ".$row['user_mi']."." : "";
+      $user_name = $row['user_email'];
     } 
+}
 
 ?>
 <!DOCTYPE html>
@@ -71,13 +92,21 @@ $query = "
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+            
+            <?php if ($_SESSION['user_type'] == 'Coach'){?>
+            <li class="nav-item">
+                <a href="./../athletes/" class="nav-link">
+                    <i class="fa fa-child nav-icon"></i>
+                    <p>Athletes</p>
+                </a>
+            </li>
+            <?php } else {?>
             <li class="nav-item">
                 <a href="./../index.php" class="nav-link">
                     <i class="fas fa-tachometer-alt nav-icon"></i>
                     <p>Dashboard</p>
                 </a>
             </li>
-            <?php if ($_SESSION['user_type'] == 'Admin'){?>
             <li class="nav-item">
                 <a href="./../schools/" class="nav-link">
                     <i class="far fa-building nav-icon"></i>
@@ -102,7 +131,6 @@ $query = "
                     <p>Tournaments</p>
                 </a>
             </li>
-            <?php }?>
             <li class="nav-item">
                 <a href="./../coaches/" class="nav-link">
                     <i class="far fa-user nav-icon"></i>
@@ -128,7 +156,7 @@ $query = "
                     <p>Users</p>
                 </a>
             </li>
-            <?php }?>
+            <?php }}?>
             <li class="nav-item">
                 <a href="#" class="nav-link active">
                     <i class="fas fa-user nav-icon"></i>
@@ -171,17 +199,17 @@ $query = "
                         <input type="text" name="full_name" id="full_name" class="form-control" value="<?php echo $full_name; ?>"  disabled />
                     </div>
                     <div class="form-group">
-                        <label>User Name</label>
-                        <input type="text" name="user_name" id="user_name" class="form-control" value="<?php echo $user_name; ?>"  />
+                        <label>Email *</label>
+                        <input type="email" name="user_name" id="user_name" class="form-control" value="<?php echo $user_name; ?>" maxlength="50" minlength="8" required/>
                     </div>
                     <hr />
                     <div class="form-group">
                         <label>New Password</label>
-                        <input type="password" name="user_password" id="user_password" class="form-control" required/>
+                        <input type="password" name="user_password" id="user_password" class="form-control" maxlength="50" minlength="8" required/>
                     </div>
                     <div class="form-group">
                         <label>Re-enter Password</label>
-                        <input type="password" name="re_user_password" id="re_user_password" class="form-control" required/>
+                        <input type="password" name="re_user_password" id="re_user_password" class="form-control" maxlength="50" minlength="8" required/>
                         <span id="error_password"></span> 
                     </div>
                     <div class="form-group">

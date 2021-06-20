@@ -209,11 +209,11 @@ $_SESSION['athletes_fullname'] ='';
     				<div class="modal-body">
     					<div class="form-group">
                   <label>Enter Tournament Name *</label>
-                  <input type="text" name="tournaments_name" id="tournaments_name" class="form-control" required maxlength="50"/>
+                  <input type="text" name="tournaments_name" id="tournaments_name" class="form-control" required maxlength="50" minlength="8"/>
     					</div>
     					<div class="form-group">
                   <label>Enter Tournament Details *</label>
-                  <textarea rows="3" name="details" id="details" class="form-control" required></textarea>
+                  <textarea rows="3" name="details" id="details" class="form-control" required minlength="8"></textarea>
     					</div>
     					<div class="form-group">
     						<select name="type" id="type" class="form-control" required>

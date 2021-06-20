@@ -235,12 +235,12 @@ $_SESSION['athletes_fullname'] ='';
                     <div class="col-6">
                       <div class="form-group">
                         <label>Last Name *</label>
-                        <input type="text" name="athletes_last" id="athletes_last" class="form-control" maxlength="50" 
+                        <input type="text" name="athletes_last" id="athletes_last" class="form-control" maxlength="50"  minlength="4"
                         style="text-transform: capitalize;" required />
                       </div>
                       <div class="form-group">
                         <label>First Name *</label>
-                        <input type="text" name="athletes_first" id="athletes_first" class="form-control" maxlength="50" 
+                        <input type="text" name="athletes_first" id="athletes_first" class="form-control" maxlength="50"  minlength="4"
                         style="text-transform: capitalize;" required />
                       </div>
                       <div class="form-group">
@@ -302,33 +302,33 @@ $_SESSION['athletes_fullname'] ='';
                     <div class="col-8">
                       <div class="form-group">
                         <label>Email *</label>
-                        <input type="email" name="email" id="email" class="form-control" maxlength="50" required />
+                        <input type="email" name="email" id="email" class="form-control" maxlength="50"  minlength="8" required />
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group">
-                        <label>Contact *</label>
-                        <input type="number" name="contact" id="contact" class="form-control"  maxlength="11" 
-                        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required />
+                        <label for="contact">Contact(09) *</label>
+                        <input type="tel" name="contact" id="contact" class="form-control" maxlength="11"  pattern="[0-9]{11,11}" minlength="11" 
+                         required />
                       </div>
                     </div>
                   </div> 
 
                   <div class="form-group">
                     <label>Enter Address *</label>
-                    <input type="text" name="street" id="street" class="form-control" placeholder="House No. / Street / Village or Subdivision" maxlength="50" 
+                    <input type="text" name="street" id="street" class="form-control" placeholder="House No. / Street / Village or Subdivision" maxlength="50"  minlength="8"
                         style="text-transform: capitalize;" required />
                   </div>
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" name="barangay" id="barangay" class="form-control" placeholder="Barangay" maxlength="50" 
+                        <input type="text" name="barangay" id="barangay" class="form-control" placeholder="Barangay" maxlength="50"  minlength="8"
                         style="text-transform: capitalize;" required />
                       </div> 
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" name="city" id="city" class="form-control" placeholder="City / Municipality" maxlength="50" 
+                        <input type="text" name="city" id="city" class="form-control" placeholder="City / Municipality" maxlength="50"  minlength="8"
                         style="text-transform: capitalize;" required />
                       </div>
                     </div>

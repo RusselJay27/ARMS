@@ -210,28 +210,28 @@ $_SESSION['athletes_fullname'] ='';
     				<div class="modal-body">
     					<div class="form-group">
 									<label>Enter School Name *</label>
-									<input type="text" name="school_name" id="school_name" class="form-control" required />
+									<input type="text" name="school_name" id="school_name" class="form-control" required minlength="8" />
     					</div>
               <div class="form-group">
                 <label>Enter School Details *</label>
-                <textarea rows="3" name="details" id="details" class="form-control" required></textarea>
+                <textarea rows="3" name="details" id="details" class="form-control" required minlength="8"></textarea>
               </div>
               <div class="form-group">
                 <label>Enter School Address *</label>
                 <!-- <textarea rows="3" name="address" id="address" class="form-control" required></textarea> -->
-									<input type="text" name="street" id="street" class="form-control" placeholder="House No. / Street / Village or Subdivision" required/>
+									<input type="text" name="street" id="street" class="form-control" placeholder="House No. / Street / Village or Subdivision" required minlength="8"/>
               </div>
     					
               <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" name="barangay" id="barangay" class="form-control" placeholder="Barangay" maxlength="50" 
+                        <input type="text" name="barangay" id="barangay" class="form-control" placeholder="Barangay" maxlength="50" minlength="8"
                         style="text-transform: capitalize;" required />
                       </div> 
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" name="city" id="city" class="form-control" placeholder="City / Municipality" maxlength="50" 
+                        <input type="text" name="city" id="city" class="form-control" placeholder="City / Municipality" maxlength="50" minlength="8"
                         style="text-transform: capitalize;" required />
                       </div>
                     </div>
