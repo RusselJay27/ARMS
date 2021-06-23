@@ -252,26 +252,27 @@ $_SESSION['athletes_fullname'] ='';
                 </div>
 
                   <div class="row">
-                    <div class="col-4">
+                    <div class="col-6">
 
                       <div class="form-group">
                         <label>Birthdate *</label>
-                          <div class="input-group date" id="birthdates" data-target-input="nearest">
+                          <input type="date" class="form-control" name="birthdate" id="birthdate" max="<?php echo date('Y-m-d', strtotime('-5 year'));?>" required/>
+                          <!-- <div class="input-group date" id="birthdates" data-target-input="nearest">
                               <input type="text" class="form-control datetimepicker-input" data-target="#birthdates" name="birthdate" id="birthdate" required/>
                               <div class="input-group-append" data-target="#birthdates" data-toggle="datetimepicker">
                                   <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                               </div>
-                          </div>
+                          </div> -->
                       </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                       <div class="form-group">
                         <label>Height(cm) *</label>
                         <input type="number" name="height" id="height" class="form-control"  maxlength="3" 
                         oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required />
                       </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                       <div class="form-group">
                         <label>Weight(kg) *</label>
                         <input type="number" name="weight" id="weight" class="form-control"  maxlength="3" 

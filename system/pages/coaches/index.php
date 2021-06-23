@@ -149,6 +149,21 @@ $_SESSION['athletes_fullname'] ='';
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1>Coaches</h1>
+            <!-- <?php 
+              //date in mm/dd/yyyy format; or it can be in other formats as well
+              //$birthDate = '06-22-2001';
+              $birthDate = '1992-03-23';
+              //explode the date to get month, day and year
+              //$birthDate = explode("-", $birthDate);
+              //get age from date or birthdate
+              //$age = (date("md", date("U", mktime(0, 0, 0, $birthDate[0], $birthDate[1], $birthDate[2]))) > date("md") ? ((date("Y") - $birthDate[2]) - 1) : (date("Y") - $birthDate[2])); //$age
+              //$age = (date("md", date("U", mktime(0, 0, 0, $birthDate[0], $birthDate[1], $birthDate[2]))) > date("md") ? ((date("Y") - $birthDate[2]) - 1) : (date("Y") - $birthDate[2])); //$age
+              $date = new DateTime($birthDate);
+              $now = new DateTime();
+              $interval = $now->diff($date);
+              $age = $interval->y;
+              echo $age.' - age';
+            ?> -->
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -247,12 +262,13 @@ $_SESSION['athletes_fullname'] ='';
                     <div class="col-md-6">
                       <div class="form-group">
                           <label>Birthdate *</label>
-                            <div class="input-group date" id="birthdates" data-target-input="nearest">
+                          <input type="date" class="form-control" name="birthdates" id="birthdates" max="<?php echo date('Y-m-d', strtotime('-15 year'));?>" required/>
+                            <!-- <div class="input-group date" id="birthdates" data-target-input="nearest">
                                 <input type="text" class="form-control datetimepicker-input" data-target="#birthdates" name="birthdate" id="birthdate" required/>
                                 <div class="input-group-append" data-target="#birthdates" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="col-md-6">

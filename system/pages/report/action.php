@@ -51,28 +51,38 @@ if(isset($_POST['btn_action']))
                 )
             );
             $result = $statement->fetchAll();
-            foreach($result as $row)
-            {
-				$award = '';
-				if ($row['award'] == '3'){
-					$award = 'Gold';
-				}
-				if ($row['award'] == '2'){
-					$award = 'Silver';
-				}
-				if ($row['award'] == '1'){
-					$award = 'Bronze';
-				}
-				$output .= '
+            if ($result){
+                foreach($result as $row)
+                {
+                    $award = '';
+                    if ($row['award'] == '3'){
+                        $award = 'Gold';
+                    }
+                    if ($row['award'] == '2'){
+                        $award = 'Silver';
+                    }
+                    if ($row['award'] == '1'){
+                        $award = 'Bronze';
+                    }
+                    $output .= '
+                    <tr>
+                      <td >'.$row['athletes_last'].', '.$row['athletes_first'].' '.$row['athletes_mi'].'.'.'</td>
+                      <td >'.$row["sports_name"].' - '.$row["category"].'</td>
+                      <td >'.$row['coaches_last'].', '.$row['coaches_first'].' '.$row['coaches_mi'].'.'.'</td>
+                      <td >'.$award.'</td>
+                      <td >'.$row['date_created'].'</td>
+                    </tr>
+                ';
+                }
+            }
+            else{
+                $output .= '
                 <tr>
-                  <td >'.$row['athletes_last'].', '.$row['athletes_first'].' '.$row['athletes_mi'].'.'.'</td>
-                  <td >'.$row["sports_name"].' - '.$row["category"].'</td>
-                  <td >'.$row['coaches_last'].', '.$row['coaches_first'].' '.$row['coaches_mi'].'.'.'</td>
-                  <td >'.$award.'</td>
-                  <td >'.$row['date_created'].'</td>
+                    <td colspan="5" style="text-align: center">No data found.</td>
                 </tr>
             ';
             }
+            
 
             $output .= '</tbody>
                 </table>';

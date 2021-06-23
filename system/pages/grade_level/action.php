@@ -47,7 +47,7 @@ if(isset($_POST['btn_action']))
 			$result = $statement->execute(
 				array(
 					':level_name'	=>	trim($_POST["level_name"]),
-					':date_created'	=>	date("m-d-Y")
+					':date_created'		=>	date("Y-m-d")
 				)
 			);
 			if(isset($result))

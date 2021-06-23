@@ -80,7 +80,7 @@ if(isset($_POST['btn_action']))
 					':sports_id'	    =>	$_POST["sports_id"],
 					':athletes_id'		=>	$_SESSION['athletes_id'],
 					':award'	    	=>	$_POST["award"],
-					':date_created'		=>	date("m-d-Y")
+					':date_created'		=>	date("Y-m-d")
 				)
 			);
 			if(isset($result))

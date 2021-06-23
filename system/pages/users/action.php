@@ -68,7 +68,7 @@ if(isset($_POST['btn_action']))
 					':user_last'		=>	ucfirst(trim($_POST["user_last"])),
 					':user_first'		=>	ucfirst(trim($_POST["user_first"])),
 					':user_mi'			=>	ucfirst(trim($_POST["user_mi"])),
-					':date_created'		=>	date("m-d-Y")
+					':date_created'		=>	date("Y-m-d")
 				)
 			);
 			if(isset($result))

@@ -48,7 +48,7 @@ if(isset($_POST['btn_action']))
 					':details'			=>	ucfirst(trim($_POST["details"])),
 					':type'				=>	ucfirst(trim($_POST["type"])),
 					':date'				=>	trim($_POST["date"]),
-					':date_created'		=>	date("m-d-Y")
+					':date_created'		=>	date("Y-m-d")
 				)
 			);
 			if(isset($result))

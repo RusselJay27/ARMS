@@ -84,7 +84,7 @@ if(isset($_POST['btn_action']))
 					':email'			=>	trim($_POST["email"]),
 					':password'			=>	password_hash(trim($_POST["password"]), PASSWORD_DEFAULT),
 					':image'			=>	$path,
-					':date_created'		=>	date("m-d-Y")
+					':date_created'		=>	date("Y-m-d")
 				)
 			);
 			if(isset($result))

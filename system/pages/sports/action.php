@@ -52,7 +52,7 @@ if(isset($_POST['btn_action']))
 					':category'		=>	$_POST["category"],
 					':sports_name'	=>	ucfirst(trim($_POST["sports_name"])),
 					':details'		=>	ucfirst(trim($_POST["details"])),
-					':date_created'	=>	date("m-d-Y")
+					':date_created'		=>	date("Y-m-d")
 				)
 			);
 			if(isset($result))

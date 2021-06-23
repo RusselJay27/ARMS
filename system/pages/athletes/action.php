@@ -93,7 +93,7 @@ if(isset($_POST['btn_action']))
 				':varsity'			=>	trim($_POST["varsity"]),
 				':class_a'			=>	trim($_POST["class_a"]),
 				':image'			=>	$path,
-				':date_created'		=>	date("m-d-Y")
+				':date_created'		=>	date("Y-m-d")
 				)
 			);
 			if(isset($result))
@@ -281,13 +281,19 @@ if(isset($_POST['btn_action']))
 		foreach($result as $row)
 		{
 			//date in mm/dd/yyyy format; or it can be in other formats as well
+			// $birthDate = $row['birthdate'];
+			// //explode the date to get month, day and year
+			// $birthDate = explode("/", $birthDate);
+			// //get age from date or birthdate
+			// $age = (date("md", date("U", mktime(0, 0, 0, $birthDate[0], $birthDate[1], $birthDate[2]))) > date("md")
+			// ? ((date("Y") - $birthDate[2]) - 1)
+			// : (date("Y") - $birthDate[2])); //$age
+
 			$birthDate = $row['birthdate'];
-			//explode the date to get month, day and year
-			$birthDate = explode("/", $birthDate);
-			//get age from date or birthdate
-			$age = (date("md", date("U", mktime(0, 0, 0, $birthDate[0], $birthDate[1], $birthDate[2]))) > date("md")
-			? ((date("Y") - $birthDate[2]) - 1)
-			: (date("Y") - $birthDate[2])); //$age
+			$date = new DateTime($birthDate);
+			$now = new DateTime();
+			$interval = $now->diff($date);
+			$age = $interval->y;
 			$output .= '
 			<tr>
 				<td colspan="2">

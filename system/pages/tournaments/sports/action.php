@@ -43,7 +43,7 @@ if(isset($_POST['btn_action']))
 				array(
 					':sports_id'	    =>	trim($_POST["sports_id"]),
 					':tournaments_id'	=>	$_SESSION['tournaments_id'],
-					':date_created'		=>	date("m-d-Y")
+					':date_created'		=>	date("Y-m-d")
 				)
 			);
 			if(isset($result))

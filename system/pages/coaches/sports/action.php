@@ -42,8 +42,8 @@ if(isset($_POST['btn_action']))
 			$result = $statement->execute(
 				array(
 					':sports_id'	    =>	trim($_POST["sports_id"]),
-					':coaches_id'	=>	$_SESSION['coaches_id'],
-					':date_created'		=>	date("m-d-Y")
+					':coaches_id'		=>	$_SESSION['coaches_id'],
+					':date_created'		=>	date("Y-m-d")
 				)
 			);
 			if(isset($result))

@@ -19,6 +19,48 @@ $_SESSION['coaches_fullname'] = '';
 $_SESSION['athletes_id'] ='';
 $_SESSION['athletes_fullname'] ='';
 
+
+    $query = "SELECT * FROM tournaments";
+		$statement = $connect->prepare($query);
+		$statement->execute();
+		$result = $statement->fetchAll();
+		foreach($result as $row)
+		{	
+      // Set timezone
+      date_default_timezone_set('Asia/Singapore');
+        
+      // Create 
+      $timezone_object = date_default_timezone_get();
+        
+      // Compare the timezone with ini-set timezone
+      if (strcmp($timezone_object, ini_get('date.timezone'))){
+          //echo 'Script timezone differs from ini-set timezone.';
+      } else {
+          //echo 'Script timezone and ini-set timezone match.';
+      }
+      $now = time(); // or your date as well
+      $your_date = strtotime($row['date']);
+      $datediff = $now - $your_date;
+      $days = round($datediff / (60 * 60 * 24));
+      if ($days < 1){
+        //echo 'active ';
+        //echo $days.' - ey';
+      }
+      else{
+        $query1 = "
+        UPDATE tournaments 
+        SET tournaments_status = 'Inactive'
+        WHERE tournaments_id = :tournaments_id
+        ";
+        $statement1 = $connect->prepare($query1);
+        $statement1->execute(
+          array(
+            ':tournaments_id'		=>	$row["tournaments_id"]
+          )
+        );
+      }
+		}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -226,12 +268,13 @@ $_SESSION['athletes_fullname'] ='';
 
               <div class="form-group">
                         <label>Date Event *</label>
-                          <div class="input-group date" id="dates" data-target-input="nearest">
-                              <input type="text" class="form-control datetimepicker-input" data-target="#dates" name="date" id="date" required/>
+                          <input type="date" class="form-control" name="date" id="date" min="<?php echo date("Y-m-d");?>" required/>
+                          <!-- <div class="input-group date" id="dates" data-target-input="nearest">
+                              <input type="date" class="form-control datetimepicker-input" data-target="#dates" name="date" id="date" min="2020-06-22" required/>
                               <div class="input-group-append" data-target="#dates" data-toggle="datetimepicker">
                                   <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                               </div>
-                          </div>
+                          </div> -->
                       </div>
 
     				</div>
@@ -301,28 +344,28 @@ $_SESSION['athletes_fullname'] ='';
       })
     });
     
-    $(document).on('click', '.status', function(){
-      var tournaments_id = $(this).attr('id');
-      var status = $(this).data("status");
-      var btn_action = 'status';
-      if(confirm("Are you sure you want to change status?"))
-      {
-        $.ajax({
-          url:"action.php",
-          method:"POST",
-          data:{tournaments_id:tournaments_id, status:status, btn_action:btn_action},
-          success:function(data)
-          {
-            $('#alert_action').fadeIn().html('<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i>'+data+'</div>');
-            tournamentsdataTable.ajax.reload();
-          }
-        })
-      }
-      else
-      {
-        return false;
-      }
-    });
+    // $(document).on('click', '.status', function(){
+    //   var tournaments_id = $(this).attr('id');
+    //   var status = $(this).data("status");
+    //   var btn_action = 'status';
+    //   if(confirm("Are you sure you want to change status?"))
+    //   {
+    //     $.ajax({
+    //       url:"action.php",
+    //       method:"POST",
+    //       data:{tournaments_id:tournaments_id, status:status, btn_action:btn_action},
+    //       success:function(data)
+    //       {
+    //         $('#alert_action').fadeIn().html('<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i>'+data+'</div>');
+    //         tournamentsdataTable.ajax.reload();
+    //       }
+    //     })
+    //   }
+    //   else
+    //   {
+    //     return false;
+    //   }
+    // });
 
     $(document).on('click', '.delete', function(){
       var tournaments_id = $(this).attr('id');

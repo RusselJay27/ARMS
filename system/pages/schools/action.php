@@ -51,7 +51,7 @@ if(isset($_POST['btn_action']))
 					':street'	    =>	ucfirst(trim($_POST["street"])),
 					':barangay'	    =>	ucfirst(trim($_POST["barangay"])),
 					':city'	    	=>	ucfirst(trim($_POST["city"])),
-					':date_created'	=>	date("m-d-Y")
+					':date_created'	=>	date("Y-m-d")
 				)
 			);
 			if(isset($result))
