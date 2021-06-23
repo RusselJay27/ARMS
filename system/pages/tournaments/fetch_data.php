@@ -56,15 +56,16 @@ foreach($result as $row)
 	$sub_array[] = $row['type'];
 	$sub_array[] = $row['date'];
 	$sub_array[] = $row['date_created'];
-
-	if($row['tournaments_status'] == 'Active')
+ 	$status = '';
+	if($row["tournaments_status"] == 'Active')
 	{
-	$sub_array[] = '<button type="button" name="status" id="'.$row["tournaments_id"].'" class="btn btn-success  btn-flat btn-xs status" data-status="'.$row["tournaments_status"].'">Active</button>';
+		$status = ' <p class="text-success">Active</p>';
 	}
 	else
 	{
-	$sub_array[] = '<button type="button" name="status" id="'.$row["tournaments_id"].'" class="btn btn-info  btn-flat btn-xs status" data-status="'.$row["tournaments_status"].'">Inactive</button>';
+		$status = ' <p class="text-danger">Inactive</p>';
 	}
+	$sub_array[] = $status;
 	$sub_array[] = '<button type="button" name="update" id="'.$row["tournaments_id"].'" class="btn btn-warning  btn-flat btn-xs update">Update</button>';
 
 	$sub_array[] = '<button type="button" name="delete" id="'.$row["tournaments_id"].'" class="btn btn-danger  btn-flat btn-xs delete">Delete</button>';
