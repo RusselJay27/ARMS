@@ -12,6 +12,34 @@ $_SESSION['coaches_fullname'] = '';
 $_SESSION['athletes_id'] ='';
 $_SESSION['athletes_fullname'] ='';
 
+    $query = "SELECT * FROM tournaments";
+		$statement = $connect->prepare($query);
+		$statement->execute();
+		$result = $statement->fetchAll();
+		foreach($result as $row)
+		{	
+      $now = time(); // or your date as well
+      $your_date = strtotime($row['date']);
+      $datediff = $now - $your_date;
+      $days = round($datediff / (60 * 60 * 24));
+      if ($days < 2){
+        //echo 'active ';
+        //echo $days.' - ey';
+      }
+      else{
+        $query1 = "
+        UPDATE tournaments 
+        SET tournaments_status = 'Inactive'
+        WHERE tournaments_id = :tournaments_id
+        ";
+        $statement1 = $connect->prepare($query1);
+        $statement1->execute(
+          array(
+            ':tournaments_id'		=>	$row["tournaments_id"]
+          )
+        );
+      }
+		}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -186,7 +214,6 @@ $_SESSION['athletes_fullname'] ='';
             <div class="small-box bg-info">
               <div class="inner">
                 <h3><?php echo count_athletes($connect);?></h3>
-
                 <p>Athletes/Students</p>
               </div>
               <div class="icon">
@@ -201,7 +228,6 @@ $_SESSION['athletes_fullname'] ='';
             <div class="small-box bg-success">
               <div class="inner">
                 <h3><?php echo count_users_dashboard($connect);?></h3>
-
                 <p>User Registrations</p>
               </div>
               <div class="icon">
@@ -216,7 +242,6 @@ $_SESSION['athletes_fullname'] ='';
             <div class="small-box bg-warning">
               <div class="inner">
                 <h3><?php echo count_tournaments($connect);?></h3>
-
                 <p>Tournaments/Competitions</p>
               </div>
               <div class="icon">
@@ -242,54 +267,42 @@ $_SESSION['athletes_fullname'] ='';
           </div>
           <!-- ./col -->
         </div>
-        <!-- /.row -->
-        <div class="row">
-          <div class="col-lg-12">
-            <!-- elementary (7-11): local, highschool(12-16): national, international nakabase sa coach  -->
-            <div class="card"> 
-              <div class="card-header border-0">
-                <h3 class="card-title">Tournament</h3>
-                <div class="card-tools">
-                  <div class="row">
-                    <div class="col-6">
-                      <div class="form-group">
-                        <select name="tournaments_id" id="tournaments_id" class="form-control" required>
-                          <option value="">Select Tournament</option>
-                          <?php echo fill_tournaments_active_list($connect) ?> 
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <div class="form-group">
-                        <select name="sports_id" id="sports_id" class="form-control" required>
-                          <option value="">Select Sport</option>
-                        </select>
-                      </div>
-                    </div>
+        
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+    <section class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12">
+
+                <div class="card">
+                  <div class="card-header border-0">
+                    <h3 class="card-title">List of Tournaments and Athletes</h3>
+                  </div>
+                  <div class="card-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                      <thead>
+                      <tr>
+                        <th>Previous Award</th>
+                        <th>Coach</th>
+                        <th>Athlete</th>
+                        <th>Sports</th>
+                        <th>Tournament</th>
+                        <th>Date Event</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
-              <div class="card-body table-responsive p-0">
-                <table id="tournament" class="table table-striped table-valign-middle">
-                  <thead>
-                  <tr>
-                    <th>Athlete</th>
-                    <th>Coach</th>
-                    <th>Accept</th>
-                    <th>Decline</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td colspan="4" style="text-align: center">No data found.</td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
             </div>
-            <!-- /.card -->
           </div>
+        </section>
 
+        <section class="content">
           <div class="col-lg-12">
             
             <div class="card">
@@ -322,16 +335,8 @@ $_SESSION['athletes_fullname'] ='';
                   </tbody>
                 </table>
               </div>
-            </div>
-            <!-- /.card -->
           </div>
-
-          <!-- /.col-md-6 -->
-        </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+        </section>
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
@@ -375,6 +380,19 @@ $_SESSION['athletes_fullname'] ='';
 <script src="../plugins/summernote/summernote-bs4.min.js"></script>
 <!-- overlayScrollbars -->
 <script src="../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../plugins/jszip/jszip.min.js"></script>
+<script src="../plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../dist/js/adminlte.js"></script>
 <!-- AdminLTE for demo purposes -->
@@ -384,43 +402,43 @@ $_SESSION['athletes_fullname'] ='';
 
 <script>
 $(document).ready(function(){
-      $('#tournaments_id').change(function(){  
-          if ($('#tournaments_id').val() == ''){
-            var btn_action = 'tournament_clear';
-            $.ajax({  
-                  url:"action.php",  
-                  method:"POST",  
-                  data:{ btn_action:btn_action},  
-                  success:function(data){  
-                    $('#tournament').html(data);  
-                  }  
-            });  
-          }
-          var tournaments_id = $(this).val();  
-          var btn_action = 'tournament_change';
-          $.ajax({  
-            url:"action.php",  
-            method:"POST",  
-            data:{tournaments_id:tournaments_id, btn_action:btn_action},  
-            success:function(data){  
-              $('#sports_id').html(data);  
-            }  
-          });  
-      });  
+      // $('#tournaments_id').change(function(){  
+      //     if ($('#tournaments_id').val() == ''){
+      //       var btn_action = 'tournament_clear';
+      //       $.ajax({  
+      //             url:"action.php",  
+      //             method:"POST",  
+      //             data:{ btn_action:btn_action},  
+      //             success:function(data){  
+      //               $('#tournament').html(data);  
+      //             }  
+      //       });  
+      //     }
+      //     var tournaments_id = $(this).val();  
+      //     var btn_action = 'tournament_change';
+      //     $.ajax({  
+      //       url:"action.php",  
+      //       method:"POST",  
+      //       data:{tournaments_id:tournaments_id, btn_action:btn_action},  
+      //       success:function(data){  
+      //         $('#sports_id').html(data);  
+      //       }  
+      //     });  
+      // });  
 
-      $('#sports_id').change(function(){  
-          var sports_id = $(this).val();  
-          var tournaments_id = $('#tournaments_id').val(); 
-          var btn_action = 'sports_change';
-          $.ajax({  
-                url:"action.php",  
-                method:"POST",  
-                data:{sports_id:sports_id, tournaments_id:tournaments_id, btn_action:btn_action},  
-                success:function(data){  
-                  $('#tournament').html(data);  
-                }  
-          });  
-      });   
+      // $('#sports_id').change(function(){  
+      //     var sports_id = $(this).val();  
+      //     var tournaments_id = $('#tournaments_id').val(); 
+      //     var btn_action = 'sports_change';
+      //     $.ajax({  
+      //           url:"action.php",  
+      //           method:"POST",  
+      //           data:{sports_id:sports_id, tournaments_id:tournaments_id, btn_action:btn_action},  
+      //           success:function(data){  
+      //             $('#tournament').html(data);  
+      //           }  
+      //     });  
+      // });   
 
       $('#ranking_tournament_id').change(function(){  
           var ranking_tournament_id = $(this).val();  
@@ -438,50 +456,67 @@ $(document).ready(function(){
  }); 
  
  $(function () {
-    $(document).on('click', '.accept', function(){
-      var id = $(this).attr('id');
-      var sports_id = $('#sports_id').val();  
-      var tournaments_id = $('#tournaments_id').val(); 
-      var btn_action = 'accept';
-      if(confirm("Are you sure you want to accept this athlete?"))
-      {
-        $.ajax({
-          url:"action.php",
-          method:"POST",
-          data:{id:id, sports_id:sports_id, tournaments_id:tournaments_id, btn_action:btn_action},
-          success:function(data)
-          {
-            $('#tournament').html(data);  
-          }
-        })
-      }
-      else
-      {
-        return false;
-      }
+    var tournamentsdataTable = $('#example1').DataTable({
+      "responsive": true, "lengthChange": true, "autoWidth": false,
+      "processing":true,
+      "serverSide":true,
+      "order":[],
+      "ajax":{
+        url:"fetch_data.php",
+        type:"POST"
+      },
+      "columnDefs":[
+        {
+          "targets":[0],
+          "orderable":false,
+        },
+      ],
+      "pageLength": 10, 
     });
-    $(document).on('click', '.decline', function(){
-      var id = $(this).attr('id');
-      var sports_id = $('#sports_id').val();  
-      var tournaments_id = $('#tournaments_id').val(); 
-      var btn_action = 'decline';
-      if(confirm("Are you sure you want to decline this athlete?"))
-      {
-        $.ajax({
-          url:"action.php",
-          method:"POST",
-          data:{id:id, sports_id:sports_id, tournaments_id:tournaments_id, btn_action:btn_action},
-          success:function(data)
-          {
-            $('#tournament').html(data); 
-          }
-        })
-      }
-      else
-      {
-        return false;
-      }
-    });
+    // $(document).on('click', '.accept', function(){
+    //   var id = $(this).attr('id');
+    //   var sports_id = $('#sports_id').val();  
+    //   var tournaments_id = $('#tournaments_id').val(); 
+    //   var btn_action = 'accept';
+    //   if(confirm("Are you sure you want to accept this athlete?"))
+    //   {
+    //     $.ajax({
+    //       url:"action.php",
+    //       method:"POST",
+    //       data:{id:id, sports_id:sports_id, tournaments_id:tournaments_id, btn_action:btn_action},
+    //       success:function(data)
+    //       {
+    //         $('#tournament').html(data);  
+    //       }
+    //     })
+    //   }
+    //   else
+    //   {
+    //     return false;
+    //   }
+    // });
+    // $(document).on('click', '.decline', function(){
+    //   var id = $(this).attr('id');
+    //   var sports_id = $('#sports_id').val();  
+    //   var tournaments_id = $('#tournaments_id').val(); 
+    //   var btn_action = 'decline';
+    //   if(confirm("Are you sure you want to decline this athlete?"))
+    //   {
+    //     $.ajax({
+    //       url:"action.php",
+    //       method:"POST",
+    //       data:{id:id, sports_id:sports_id, tournaments_id:tournaments_id, btn_action:btn_action},
+    //       success:function(data)
+    //       {
+    //         $('#tournament').html(data); 
+    //       }
+    //     })
+    //   }
+    //   else
+    //   {
+    //     return false;
+    //   }
+    // });
  });
 </script>
 </body>
